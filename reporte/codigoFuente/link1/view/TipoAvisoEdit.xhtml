@@ -1,0 +1,141 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoAviso" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{tipoAvisoHome.managed ? 'Edit' : 'Add'} Tipo aviso</f:facet>
+
+
+            <s:decorate id="idTipoAvisoField" template="layout/edit.xhtml">
+                <ui:define name="label">Id tipo aviso</ui:define>
+                <h:inputText id="idTipoAviso"
+                       required="true"
+                       disabled="#{tipoAvisoHome.managed}"
+                          value="#{tipoAvisoHome.instance.idTipoAviso}">
+                    <a:support event="onblur" reRender="idTipoAvisoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="definicionTipoAvisoField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion tipo aviso</ui:define>
+                <h:inputTextarea id="definicionTipoAviso"
+                               cols="80"
+                               rows="3"
+                           required="true"
+                              value="#{tipoAvisoHome.instance.definicionTipoAviso}"/>
+            </s:decorate>
+
+
+            <s:decorate id="nombreTipoAvisoField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre tipo aviso</ui:define>
+                <h:inputText id="nombreTipoAviso"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{tipoAvisoHome.instance.nombreTipoAviso}">
+                    <a:support event="onblur" reRender="nombreTipoAvisoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{tipoAvisoHome.persist}"
+                       disabled="#{!tipoAvisoHome.wired}"
+                       rendered="#{!tipoAvisoHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{tipoAvisoHome.update}"
+                       rendered="#{tipoAvisoHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{tipoAvisoHome.remove}"
+                      immediate="true"
+                       rendered="#{tipoAvisoHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TipoAviso.xhtml"
+                rendered="#{tipoAvisoHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty tipoAvisoFrom ? 'TipoAvisoList' : tipoAvisoFrom}.xhtml"
+                rendered="#{!tipoAvisoHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Avisos">
+        <h:form styleClass="association" id="avisosChildren">
+
+            <h:outputText value="There are no avisos associated with this tipoAviso."
+                       rendered="#{empty tipoAvisoHome.avisos}"/>
+
+            <rich:dataTable value="#{tipoAvisoHome.avisos}"
+                           var="_aviso"
+                      rendered="#{not empty tipoAvisoHome.avisos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="avisosTable">
+                <rich:column sortBy="#{_aviso.idAviso}">
+                    <f:facet name="header">Id aviso</f:facet>
+                    <h:outputText value="#{_aviso.idAviso}"/>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.fechaCreacionAviso}">
+                    <f:facet name="header">Fecha creacion aviso</f:facet>
+                    <h:outputText value="#{_aviso.fechaCreacionAviso}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.textoAviso}">
+                    <f:facet name="header">Texto aviso</f:facet>
+                    <h:outputText value="#{_aviso.textoAviso}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{tipoAvisoHome.managed}" id="avisos">
+        <div class="actionButtons">
+            <s:button id="addaviso"
+                   value="Add aviso"
+                    view="/AvisoEdit.xhtml"
+             propagation="none">
+                 <f:param name="tipoAvisoIdTipoAviso"
+                         value="#{tipoAvisoHome.instance.idTipoAviso}"/>
+                 <f:param name="avisoFrom" value="TipoAviso"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

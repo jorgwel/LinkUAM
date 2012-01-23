@@ -1,0 +1,48 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+
+        <p:resources/>
+        </head>
+        <body>
+        <p:growl id="msg" globalOnly="true"/>
+
+
+        <p:panel>
+            <h:form>
+                <h:panelGrid columns="1">
+                    <s:graphicImage value="#{levantaArchivos.imagen}"
+                                    alt="[thumbnail of profile image]"
+                                    id="imagenRaw">
+
+                        <s:transformImageSize width="299" height="209" maintainRatio="false"/>
+
+                    </s:graphicImage>
+
+                    <h:outputText value="#{levantaArchivos.sizeImagen}" id="size"/>
+
+                    <p:fileUpload fileUploadListener="#{levantaArchivos.manejaSubida}" auto="true"
+                                  allowTypes="*.jpg;*.png;*.gif;*.JPG;*.PNG;*.GIF;" description="Images" id="subirArchivo"
+                                  update="imagenRaw msg @this size" label="SUBIR IMAGEN"
+                                  sizeLimit="35000000"
+                                  />
+                    
+                </h:panelGrid>
+
+            </h:form>
+        </p:panel>
+
+        </body>
+    </html>
+
+</f:view>

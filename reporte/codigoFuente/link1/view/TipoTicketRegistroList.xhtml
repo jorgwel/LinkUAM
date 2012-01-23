@@ -1,0 +1,155 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoTicketRegistroSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="TipoTicketRegistro Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Descripcion tipo ticket registro</ui:define>
+                <h:inputText id="descripcionTipoTicketRegistro" value="#{tipoTicketRegistroList.tipoTicketRegistro.descripcionTipoTicketRegistro}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Nombre tipo ticket registro</ui:define>
+                <h:inputText id="nombreTipoTicketRegistro" value="#{tipoTicketRegistroList.tipoTicketRegistro.nombreTipoTicketRegistro}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{tipoTicketRegistroList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/TipoTicketRegistroList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">TipoTicketRegistro Search Results (#{empty tipoTicketRegistroList.resultList ? 0 : (tipoTicketRegistroList.paginated ? tipoTicketRegistroList.resultCount : tipoTicketRegistroList.resultList.size)})</f:facet>
+    <div class="results" id="tipoTicketRegistroList">
+
+    <h:outputText value="The tipoTicketRegistro search returned no results."
+               rendered="#{empty tipoTicketRegistroList.resultList}"/>
+
+    <rich:dataTable id="tipoTicketRegistroList"
+                var="_tipoTicketRegistro"
+              value="#{tipoTicketRegistroList.resultList}"
+           rendered="#{not empty tipoTicketRegistroList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{tipoTicketRegistroList}"/>
+                    <ui:param name="propertyLabel" value="Id tipo ticket registro"/>
+                    <ui:param name="propertyPath" value="tipoTicketRegistro.idTipoTicketRegistro"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_tipoTicketRegistro.idTipoTicketRegistro}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{tipoTicketRegistroList}"/>
+                    <ui:param name="propertyLabel" value="Descripcion tipo ticket registro"/>
+                    <ui:param name="propertyPath" value="tipoTicketRegistro.descripcionTipoTicketRegistro"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_tipoTicketRegistro.descripcionTipoTicketRegistro}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{tipoTicketRegistroList}"/>
+                    <ui:param name="propertyLabel" value="Nombre tipo ticket registro"/>
+                    <ui:param name="propertyPath" value="tipoTicketRegistro.nombreTipoTicketRegistro"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_tipoTicketRegistro.nombreTipoTicketRegistro}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'TipoTicketRegistro' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="tipoTicketRegistroViewId">
+                <f:param name="tipoTicketRegistroIdTipoTicketRegistro"
+                        value="#{_tipoTicketRegistro.idTipoTicketRegistro}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/TipoTicketRegistroEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="tipoTicketRegistroEdit"
+                rendered="#{empty from}">
+                <f:param name="tipoTicketRegistroIdTipoTicketRegistro"
+                        value="#{_tipoTicketRegistro.idTipoTicketRegistro}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/TipoTicketRegistroList.xhtml"
+            rendered="#{tipoTicketRegistroList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/TipoTicketRegistroList.xhtml"
+            rendered="#{tipoTicketRegistroList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{tipoTicketRegistroList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/TipoTicketRegistroList.xhtml"
+            rendered="#{tipoTicketRegistroList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{tipoTicketRegistroList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/TipoTicketRegistroList.xhtml"
+            rendered="#{tipoTicketRegistroList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{tipoTicketRegistroList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/TipoTicketRegistroEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create tipoTicketRegistro">
+            <f:param name="tipoTicketRegistroIdTipoTicketRegistro"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

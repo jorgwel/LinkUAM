@@ -1,0 +1,44 @@
+Notas al pie
+Núm.	Pág.	Acción
+---1	0	a.-Innovar significa "Mudar o alterar algo, introduciendo novedades."\cite[rae].
+
+---2	0	a.-Emprender significa "Acometer y comenzar una obra, un negocio, un empeño, especialmente si encierran dificultad o peligro."\cite[rae].
+
+---4	4	a.-PyME significa "Empresa mercantil, industrial, etc., compuesta por un número reducido de trabajadores, y con un moderado volumen de facturaci\'on"\cite[rae].
+
+---7	9	a.-Agregar referencia a la W3C en la sección referencias.
+		b.-Citarla en la nota al pie.
+
+---8	10	a.-Agregar referencia a oracle(o un libro) en la sección referencias.
+---		b.-Citarla en la nota al pie.
+
+9,10,	11	a.-Agregar referencias a recurso de modelo cliente-servidor, java, JSF, PostgreSQL(o libros) en la sección referencias.
+11,12		b.-Citarlas en la nota al pie.
+
+--12	12	a.-Agregar referencia a debian(o un libro) en la sección referencias.
+		b.-Citarla en la nota al pie.
+
+--Poner los proyectos en la secci\'on de referencias .
+
+--Poner a todas las referencias "nulas" como una sola.
+
+--Modificación del PT01
+
+--Ordenar las citas
+
+---Citas modificar para que concuerde
+[2] Instituto Tecnológico Autónomo de México (ITAM), "El papel de las universidades" http://biblioteca.itam.mx/estudios/estudio/letras39-40/texto10/sec_2.html
+	**Se agregó una linea del escrito
+[7] Jairo Edgardo Arias Durán, Resumen del artículo "Desarrollo de la Cultura Emprendedora" http://www.emplenet.org.co/roce/documentos/desarrollo%20de%20la%20cultura%20emprendedora.pdf
+[8] Annelissie Arrázola M., "EMPRENDEDURISMO" http://produccionintelectual.nur.edu/archivos/emprendedurismo.pdf
+
+
+[9] Pilar Pérez Hernández, Rubén Oliver Espinoza, Humberto Merritt Tapia, Alejandro Márquez, "El emprendedor en México: ingenio vs innovación" http://www.oei.es/memoriasctsi/mesa12/m12p25.pdf
+
+
+
+
+
+
+
+

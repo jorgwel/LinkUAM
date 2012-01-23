@@ -1,0 +1,149 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoTicketRegistro" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{tipoTicketRegistroHome.managed ? 'Edit' : 'Add'} Tipo ticket registro</f:facet>
+
+
+            <s:decorate id="idTipoTicketRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Id tipo ticket registro</ui:define>
+                <h:inputText id="idTipoTicketRegistro"
+                       required="true"
+                       disabled="#{tipoTicketRegistroHome.managed}"
+                          value="#{tipoTicketRegistroHome.instance.idTipoTicketRegistro}">
+                    <a:support event="onblur" reRender="idTipoTicketRegistroField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="descripcionTipoTicketRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion tipo ticket registro</ui:define>
+                <h:inputText id="descripcionTipoTicketRegistro"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{tipoTicketRegistroHome.instance.descripcionTipoTicketRegistro}">
+                    <a:support event="onblur" reRender="descripcionTipoTicketRegistroField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreTipoTicketRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre tipo ticket registro</ui:define>
+                <h:inputText id="nombreTipoTicketRegistro"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{tipoTicketRegistroHome.instance.nombreTipoTicketRegistro}">
+                    <a:support event="onblur" reRender="nombreTipoTicketRegistroField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{tipoTicketRegistroHome.persist}"
+                       disabled="#{!tipoTicketRegistroHome.wired}"
+                       rendered="#{!tipoTicketRegistroHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{tipoTicketRegistroHome.update}"
+                       rendered="#{tipoTicketRegistroHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{tipoTicketRegistroHome.remove}"
+                      immediate="true"
+                       rendered="#{tipoTicketRegistroHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TipoTicketRegistro.xhtml"
+                rendered="#{tipoTicketRegistroHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty tipoTicketRegistroFrom ? 'TipoTicketRegistroList' : tipoTicketRegistroFrom}.xhtml"
+                rendered="#{!tipoTicketRegistroHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Ticket registros">
+        <h:form styleClass="association" id="ticketRegistrosChildren">
+
+            <h:outputText value="There are no ticketRegistros associated with this tipoTicketRegistro."
+                       rendered="#{empty tipoTicketRegistroHome.ticketRegistros}"/>
+
+            <rich:dataTable value="#{tipoTicketRegistroHome.ticketRegistros}"
+                           var="_ticketRegistro"
+                      rendered="#{not empty tipoTicketRegistroHome.ticketRegistros}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="ticketRegistrosTable">
+                <rich:column sortBy="#{_ticketRegistro.idTicketRegistro}">
+                    <f:facet name="header">Id ticket registro</f:facet>
+                    <h:outputText value="#{_ticketRegistro.idTicketRegistro}"/>
+                </rich:column>
+                <rich:column sortBy="#{_ticketRegistro.fechaTicketRegistro}">
+                    <f:facet name="header">Fecha ticket registro</f:facet>
+                    <h:outputText value="#{_ticketRegistro.fechaTicketRegistro}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ticketRegistro.fechaTicketUsado}">
+                    <f:facet name="header">Fecha ticket usado</f:facet>
+                    <h:outputText value="#{_ticketRegistro.fechaTicketUsado}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ticketRegistro.textoTicketRegistro}">
+                    <f:facet name="header">Texto ticket registro</f:facet>
+                    <h:outputText value="#{_ticketRegistro.textoTicketRegistro}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{tipoTicketRegistroHome.managed}" id="ticketRegistros">
+        <div class="actionButtons">
+            <s:button id="addticketRegistro"
+                   value="Add ticketRegistro"
+                    view="/TicketRegistroEdit.xhtml"
+             propagation="none">
+                 <f:param name="tipoTicketRegistroIdTipoTicketRegistro"
+                         value="#{tipoTicketRegistroHome.instance.idTipoTicketRegistro}"/>
+                 <f:param name="ticketRegistroFrom" value="TipoTicketRegistro"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,2987 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoPanelControl.xhtml">
+
+
+    <ui:define name="body">
+        <p:layoutUnit header="#{messages['idea.titulodetalle']}" id="center"
+                      position="center" style="text-align:center;"
+                      scrollable="true" width="300"
+                      >
+            <p:growl id="msg" life="6000"/>
+            <h:outputText 
+                value=
+                "#{messages['panelcontrol.bienvenido']}#{' '}#{usuario.nickUsuario}"
+                style="font-size: 17pt !important;color: gray !important"
+                />
+
+
+
+
+            <p:tabView effect="opacity" effectDuration="fast">
+                <p:tab title="#{messages['panelcontrol.administrador']}" rendered="#{s:hasRole('ADMINISTRADOR')}">
+                    <p:tabView effect="opacity" effectDuration="fast" >
+                        <p:tab title="#{messages['panelcontrol.administrador.servicios']}" >
+                            <s:div
+                                style=
+                                "text-align: center !important;"
+                                >
+                                <p:ajaxStatus style="margin-bottom: 25px !important;width: 350px ">
+                                    <f:facet name="start">
+                                        <s:div>
+
+                                            <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                            <h:outputText
+                                                value="#{messages['general.ajax.trabajando']}"
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important;"
+                                                />
+                                        </s:div>
+                                    </f:facet>
+
+                                    <f:facet name="complete">
+                                        <h:outputText
+                                            value="#{messages['general.ajax.hecho']}"
+                                            style=
+                                            "font-size: 10pt !important;
+                                            font-weight: bold !important;
+                                            color: gray !important"
+                                            />
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </s:div>
+
+                            <h:form prependId="false">
+
+                                <h:panelGrid
+                                    style=
+                                    "text-align: left !important;
+                                    width: 450px !important"
+                                    columns="2"
+                                    >
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- SERVICIO DE CORREO -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.correo']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.correo.activar']}"
+                                            action="#{controladorServicios.modificarEstado('correo',true)}"
+                                            rendered="#{!controladorServicios.correo}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarCorreo "
+                                            id="botonActivarCorreo"
+                                            update="botonActivarCorreo botonDesactivarCorreo @form"
+                                            />
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.correo.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('correo',false)}"
+                                            rendered="#{controladorServicios.correo}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarCorreo "
+                                            id="botonDesactivarCorreo"
+                                            update="botonDesactivarCorreo botonActivarCorreo @form"
+                                            />
+
+                                    </h:panelGrid>                                    
+
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- SERVICIO ACTIVADOR DE PREGUNTAS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.preguntas']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.activar']}"
+                                            action="#{controladorServicios.modificarEstado('preguntas',true)}"
+                                            rendered="#{!controladorServicios.preguntas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarPreguntas "
+                                            id="botonActivarPreguntas"
+                                            update="botonActivarPreguntas botonDesactivarPreguntas @form"
+                                            />
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('preguntas',false)}"
+                                            rendered="#{controladorServicios.preguntas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarPreguntas "
+                                            id="botonDesactivarPreguntas"
+                                            update="botonDesactivarPreguntas botonActivarPreguntas @form"
+                                            />
+
+                                    </h:panelGrid>
+
+
+
+
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- SERVICIO ACTIVADOR DE RESPUESTAS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.respuestas']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.activar']}"
+                                            action="#{controladorServicios.modificarEstado('respuestas',true)}"
+                                            rendered="#{!controladorServicios.respuestas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarRespuestas "
+                                            id="botonActivarRespuestas"
+                                            update="botonActivarRespuestas botonDesactivarRespuestas @form"
+                                            />
+
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('respuestas',false)}"
+                                            rendered="#{controladorServicios.respuestas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarRespuestas "
+                                            id="botonDesactivarRespuestas"
+                                            update="botonDesactivarRespuestas botonActivarRespuestas @form"
+                                            />
+
+                                    </h:panelGrid>
+
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- SERVICIO ACTIVADOR DE BITÁCORAS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.bitacoras']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.activar']}"
+                                            action="#{controladorServicios.modificarEstado('bitacoras',true)}"
+                                            rendered="#{!controladorServicios.bitacoras}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarBitacoras "
+                                            id="botonActivarBitacoras"
+                                            update="botonActivarBitacoras botonDesactivarBitacoras @form"
+                                            />
+
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('bitacoras',false)}"
+                                            rendered="#{controladorServicios.bitacoras}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarBitacoras "
+                                            id="botonDesactivarBitacoras"
+                                            update="botonDesactivarBitacoras botonActivarBitacoras @form"
+                                            />
+
+                                    </h:panelGrid>
+
+
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- SERVICIO ACTIVADOR DE IDEAS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.ideas']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.activar']}"
+                                            action="#{controladorServicios.modificarEstado('ideas',true)}"
+                                            rendered="#{!controladorServicios.ideas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarIdeas "
+                                            id="botonActivarIdeas"
+                                            update="botonActivarIdeas botonDesactivarIdeas @form"
+                                            />
+
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('ideas',false)}"
+                                            rendered="#{controladorServicios.ideas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarIdeas "
+                                            id="botonDesactivarIdeas"
+                                            update="botonDesactivarIdeas botonActivarIdeas @form"
+                                            />
+
+                                    </h:panelGrid>
+
+
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- SERVICIO CARGADOR DE TWEETS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.tweets']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.activar']}"
+                                            action="#{controladorServicios.modificarEstado('tweets',true)}"
+                                            rendered="#{!controladorServicios.tweets}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarTweets "
+                                            id="botonActivarTweets"
+                                            update="botonActivarTweets botonDesactivarTweets @form"
+                                            />
+
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('tweets',false)}"
+                                            rendered="#{controladorServicios.tweets}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarTweets "
+                                            id="botonDesactivarTweets"
+                                            update="botonDesactivarTweets botonActivarTweets @form"
+                                            />
+
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- SERVICIO CARGADOR DE FOTOS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.fotosusuarios']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.activar']}"
+                                            action="#{controladorServicios.modificarEstado('fotosUsuarios',true)}"
+                                            rendered="#{!controladorServicios.fotosUsuarios}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarFotosUsuarios "
+                                            id="botonActivarFotosUsuarios"
+                                            update="botonActivarFotosUsuarios botonDesactivarFotosUsuarios @form"
+                                            />
+
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('fotosUsuarios',false)}"
+                                            rendered="#{controladorServicios.fotosUsuarios}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarFotosUsuarios "
+                                            id="botonDesactivarFotosUsuarios"
+                                            update="botonDesactivarFotosUsuarios botonActivarFotosUsuarios @form"
+                                            />
+
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- SERVICIO CARGADOR DE OTRAS IDEAS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.otrasideas']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.activar']}"
+                                            action="#{controladorServicios.modificarEstado('otrasIdeas',true)}"
+                                            rendered="#{!controladorServicios.otrasIdeas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarOtrasIdeas "
+                                            id="botonActivarOtrasIdeas"
+                                            update="botonActivarOtrasIdeas botonDesactivarOtrasIdeas @form"
+                                            />
+
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('otrasIdeas',false)}"
+                                            rendered="#{controladorServicios.otrasIdeas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarOtrasIdeas "
+                                            id="botonDesactivarOtrasIdeas"
+                                            update="botonDesactivarOtrasIdeas botonActivarOtrasIdeas @form"
+                                            />
+
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- SERVICIO REGISTRADOR DE VISITAS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.visitas']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.activar']}"
+                                            action="#{controladorServicios.modificarEstado('visitas',true)}"
+                                            rendered="#{!controladorServicios.visitas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarVisitas "
+                                            id="botonActivarVisitas"
+                                            update="botonActivarVisitas botonDesactivarVisitas @form"
+                                            />
+
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('visitas',false)}"
+                                            rendered="#{controladorServicios.visitas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarVisitas "
+                                            id="botonDesactivarVisitas"
+                                            update="botonDesactivarVisitas botonActivarVisitas @form"
+                                            />
+
+                                    </h:panelGrid>
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+
+
+                                        <!-- SERVICIO REGISTRADOR DE VISITAS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.servicios.estadisticas']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.activar']}"
+                                            action="#{controladorServicios.modificarEstado('estadisticas',true)}"
+                                            rendered="#{!controladorServicios.estadisticas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonDesactivarEstadisticas "
+                                            id="botonActivarEstadisticas"
+                                            update="botonActivarEstadisticas botonDesactivarEstadisticas @form"
+                                            />
+
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.servicios.desactivar']}"
+                                            action="#{controladorServicios.modificarEstado('estadisticas',false)}"
+                                            rendered="#{controladorServicios.estadisticas}"
+                                            styleClass="botonnaranja"
+                                            process="@this botonActivarEstadisticas "
+                                            id="botonDesactivarEstadisticas"
+                                            update="botonDesactivarEstadisticas botonActivarEstadisticas @form"
+                                            />
+
+
+
+
+                                    </h:panelGrid>
+                                </h:panelGrid>
+
+                            </h:form>
+
+
+
+                        </p:tab>
+
+                        <p:tab title="#{messages['panelcontrol.administrador.disparadoreventos']}" >
+
+
+                            <h:form prependId="false">
+
+                                <h:panelGrid
+                                    style=
+                                    "text-align: left !important;"
+                                    columns="3"
+                                    >
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- CARGADOR DE FRASES -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.disparadoreventos.frases']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.disparadoreventos.recargar']}"
+                                            action="#{activadorEventos.fraseRegistrada}"
+                                            styleClass="botonnaranja"
+                                            id="botonRecargarFrases"
+                                            process="@this botonRecargarFrases "
+                                            />
+                                    </h:panelGrid>
+
+                                    <p:ajaxStatus style="margin-bottom: 25px !important;width: 350px ">
+                                        <f:facet name="start">
+                                            <s:div>
+
+                                                <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                                <h:outputText
+                                                    value="#{messages['general.ajax.trabajando']}"
+                                                    style=
+                                                    "font-size: 10pt !important;
+                                                    font-weight: bold !important;
+                                                    color: gray !important;"
+                                                    />
+                                            </s:div>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText
+                                                value="#{messages['general.ajax.hecho']}"
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important"
+                                                />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- CARGADOR DE INSTITUCIONES -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.disparadoreventos.instituciones']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.disparadoreventos.recargar']}"
+                                            action="#{activadorEventos.institucionRegistrada}"
+                                            styleClass="botonnaranja"
+                                            id="botonRecargarInstitucion"
+                                            process="@this botonRecargarInstitucion "
+                                            />
+                                    </h:panelGrid>
+                                    <p:ajaxStatus style="margin-bottom: 25px !important;width: 350px ">
+                                        <f:facet name="start">
+                                            <s:div>
+                                                <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                                <h:outputText
+                                                    value="#{messages['general.ajax.trabajando']}"
+                                                    style=
+                                                    "font-size: 10pt !important;
+                                                    font-weight: bold !important;
+                                                    color: gray !important"
+                                                    />
+                                            </s:div>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText
+                                                value="#{messages['general.ajax.hecho']}"
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important"
+                                                />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+
+
+
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- CARGADOR DE TIPOS DE IDEA -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.disparadoreventos.tiposdeidea']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.disparadoreventos.recargar']}"
+                                            action="#{activadorEventos.tipoIdeaRegistrado}"
+                                            styleClass="botonnaranja"
+                                            id="botonRecargarTiposDeIdea"
+                                            process="@this botonRecargarTiposDeIdea "
+                                            />
+                                    </h:panelGrid>
+                                    <p:ajaxStatus style="margin-bottom: 25px !important;width: 350px ">
+                                        <f:facet name="start">
+                                            <s:div>
+                                                <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                                <h:outputText
+                                                    value="#{messages['general.ajax.trabajando']}"
+                                                    style=
+                                                    "font-size: 10pt !important;
+                                                    font-weight: bold !important;
+                                                    color: gray !important"
+                                                    />
+                                            </s:div>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText
+                                                value="#{messages['general.ajax.hecho']}"
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important"
+                                                />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+
+
+
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 350px !important">
+                                        <!-- CARGADOR DE VISTAS -->
+                                        <h:outputText
+                                            value="#{messages['panelcontrol.administrador.disparadoreventos.vistas']}"
+                                            style=
+                                            "font-size: 13pt !important;
+                                            font-weight: bold !important"
+                                            />
+                                    </h:panelGrid>
+
+                                    <h:panelGrid style="margin-bottom: 25px !important;width: 220px !important">
+                                        <p:commandLink
+                                            value=
+                                            "#{messages['panelcontrol.administrador.disparadoreventos.recargar']}"
+                                            action="#{activadorEventos.vistaRegistrada}"
+                                            styleClass="botonnaranja"
+                                            id="botonRecargarVistas"
+                                            process="@this botonRecargarVistas "
+                                            />
+                                    </h:panelGrid>
+                                    <p:ajaxStatus style="margin-bottom: 25px !important;width: 350px ">
+                                        <f:facet name="start">
+                                            <s:div>
+                                                <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                                <h:outputText
+                                                    value="#{messages['general.ajax.trabajando']}"
+                                                    style=
+                                                    "font-size: 10pt !important;
+                                                    font-weight: bold !important;
+                                                    color: gray !important"
+                                                    />
+                                            </s:div>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText
+                                                value="#{messages['general.ajax.hecho']}"
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important"
+                                                />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+
+                                </h:panelGrid>
+
+                            </h:form>
+
+
+
+                        </p:tab>
+
+                        <p:tab title="#{messages['panelcontrol.administrador.preguntas']}" >
+                            <h:outputText
+                                value=
+                                "#{messages['panelcontrol.administrador.preguntas.intro']}"
+                                style=
+                                "font-size: 12pt !important;
+                                font-weight: bold !important"
+                                />
+                            <p:ajaxStatus>
+                                <f:facet name="start">
+                                    <h:panelGrid>
+                                        <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                        <h:outputText
+                                            value="#{messages['general.ajax.trabajando']}"
+                                            style=
+                                            "font-size: 10pt !important;
+                                            font-weight: bold !important;
+                                            color: gray !important"
+                                            />
+                                    </h:panelGrid>
+                                </f:facet>
+
+                                <f:facet name="complete">
+                                    <h:outputText
+                                        value="#{messages['general.ajax.hecho']}"
+                                        style=
+                                        "font-size: 10pt !important;
+                                        font-weight: bold !important;
+                                        color: gray !important"
+                                        />
+                                </f:facet>
+                            </p:ajaxStatus>
+                            <h:form id="formPreguntasNoAprobadas" prependId="false">
+
+                                <p:dataTable
+                                    value="#{preguntasNoAprobadas.resultList}"
+                                    var="_pregunta"
+                                    rows="6" paginator="true"
+                                    paginatorPosition="both"
+                                    paginatorTemplate=
+                                    "{CurrentPageReport}
+                                    {FirstPageLink}
+                                    {PreviousPageLink}
+                                    {PageLinks}
+                                    {NextPageLink}
+                                    {LastPageLink}"
+                                    paginatorAlwaysVisible="false"
+                                    emptyMessage=
+                                    "#{messages['panelcontrol.administrador.preguntas.nohaypreguntas']}"
+                                    style="text-align: left !important"
+                                    >
+                                    <p:column width="400">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.preguntas.textopregunta']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:outputText
+                                            value=
+                                            "#{_pregunta.preguntaPregunta}"
+                                            />
+
+                                    </p:column>
+
+                                    <p:column width="130">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.preguntas.nombreusuariopregunta']}"
+                                                style=
+                                                "font-weight: bold !important"
+                                                />
+                                        </f:facet>
+
+                                        <p:commandLink
+                                            value="#{_pregunta.usuarioByUsuarioPreguntaId.nickUsuario}"
+                                            title=
+                                            "#{messages['panelcontrol.administrador.rescatarusuarios.verusuario']}"
+                                            onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarDatosUsuario.seam?usuarioIdUsuario=#{_pregunta.usuarioByUsuarioPreguntaId.idUsuario}',651, 510)"
+                                            style="width: 160px !important"
+                                            />
+                                    </p:column>
+
+
+                                    <p:column width="400">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.preguntas.aprobarpregunta']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:panelGrid columns="3">
+
+                                            <h:panelGrid>
+                                                <s:link
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.preguntas.veridea']}"
+                                                    style="padding: 1px !important"
+                                                    view="/IdeaDetalle.seam?ideaIdIdea=#{_pregunta.idea.idIdea}"
+                                                    target="_blank"
+                                                    />
+                                            </h:panelGrid>
+                                            <h:panelGrid style="width: 140px !important">
+
+                                                <p:commandLink
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.preguntas.aprobarpregunta']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 1px !important"
+                                                    id="botonaprobarpregunta"
+                                                    onclick="discriminadorSAU='preguntaAprobada';activarPregunta(#{_pregunta.idPregunta})"
+                                                    type="button"
+                                                    process="@this"
+                                                    />
+
+                                            </h:panelGrid>
+
+                                            <h:panelGrid style="width: 180px !important">
+                                                <p:commandButton
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.pregunta.desaprobarpregunta']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 0px !important;;width: 177px !important"
+                                                    id="botondesaprobarpregunta"
+                                                    onclick="discriminadorSAU='preguntaDesechada';desecharPregunta(#{_pregunta.idPregunta})"
+                                                    type="button"
+                                                    process="@this"
+                                                    image="trash"
+                                                    />
+                                            </h:panelGrid>
+
+                                        </h:panelGrid>
+
+
+                                    </p:column>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="#{messages['panelcontrol.administrador.respuestas']}" >
+                            <h:outputText
+                                value=
+                                "#{messages['panelcontrol.administrador.respuestas.intro']}"
+                                style=
+                                "font-size: 12pt !important;
+                                font-weight: bold !important"
+                                />
+                            <p:ajaxStatus>
+                                <f:facet name="start">
+                                    <h:panelGrid>
+                                        <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                        <h:outputText
+                                            value="#{messages['general.ajax.trabajando']}"
+                                            style=
+                                            "font-size: 10pt !important;
+                                            font-weight: bold !important;
+                                            color: gray !important"
+                                            />
+                                    </h:panelGrid>
+                                </f:facet>
+
+                                <f:facet name="complete">
+                                    <h:outputText
+                                        value="#{messages['general.ajax.hecho']}"
+                                        style=
+                                        "font-size: 10pt !important;
+                                        font-weight: bold !important;
+                                        color: gray !important"
+                                        />
+                                </f:facet>
+                            </p:ajaxStatus>
+                            <h:form id="formRespuestasNoAprobadas" prependId="false">
+
+                                <p:dataTable
+                                    value="#{respuestasNoAprobadas.resultList}"
+                                    var="_respuesta"
+                                    rows="6" paginator="true"
+                                    paginatorPosition="both"
+                                    paginatorTemplate=
+                                    "{CurrentPageReport}
+                                    {FirstPageLink}
+                                    {PreviousPageLink}
+                                    {PageLinks}
+                                    {NextPageLink}
+                                    {LastPageLink}"
+                                    paginatorAlwaysVisible="false"
+                                    emptyMessage=
+                                    "#{messages['panelcontrol.administrador.respuestas.nohayrespuestas']}"
+                                    style="text-align: left !important"
+                                    >
+
+
+                                    <p:column width="400">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.respuestas.textorespuesta']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:outputText
+                                            value=
+                                            "#{_respuesta.respuestaPregunta}"
+                                            />
+
+                                    </p:column>
+
+                                    <p:column width="130">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.respuestas.nombreusuariorespuesta']}"
+                                                style=
+                                                "font-weight: bold !important"
+                                                />
+                                        </f:facet>
+
+                                        <p:commandLink
+                                            value="#{_respuesta.usuarioByUsuarioRespuestaId.nickUsuario}"
+                                            title=
+                                            "#{messages['panelcontrol.administrador.rescatarusuarios.verusuario']}"
+                                            onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarDatosUsuario.seam?usuarioIdUsuario=#{_respuesta.usuarioByUsuarioRespuestaId.idUsuario}',651, 510)"
+                                            style="width: 160px !important"
+
+                                            />
+
+                                    </p:column>
+
+                                    <p:column width="400">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.respuestas.aprobarrespuesta']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+
+                                        <h:panelGrid columns="3">
+
+                                            <h:panelGrid>
+                                                <s:link
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.preguntas.veridea']}"
+                                                    style="padding: 1px !important"
+                                                    view="/IdeaDetalle.seam?ideaIdIdea=#{_respuesta.idea.idIdea}"
+                                                    target="_blank"
+                                                    />
+                                            </h:panelGrid>
+                                            <h:panelGrid style="width: 137px !important">
+
+                                                <p:commandLink
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.respuestas.aprobarrespuesta']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 1px !important"
+                                                    id="botonaprobarrespuesta"
+                                                    onclick="discriminadorSAU='respuestaAprobada';activarRespuesta(#{_respuesta.idPregunta})"
+                                                    type="button"
+                                                    process="@this"
+                                                    />
+
+                                            </h:panelGrid>
+
+                                            <h:panelGrid style="width: 180px !important">
+                                                <p:commandButton
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.respuestas.desaprobarrespuesta']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 0px !important;width: 190px !important"
+                                                    id="botondesaprobarrespuesta"
+                                                    onclick="discriminadorSAU='respuestaDesechada';desecharRespuesta(#{_respuesta.idPregunta})"
+                                                    type="button"
+                                                    process="@this"
+                                                    image="trash"
+                                                    />
+                                            </h:panelGrid>
+
+                                        </h:panelGrid>
+
+                                    </p:column>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="#{messages['panelcontrol.administrador.bitacoras']}" >
+                            <h:outputText
+                                value=
+                                "#{messages['panelcontrol.administrador.bitacoras.intro']}"
+                                style=
+                                "font-size: 12pt !important;
+                                font-weight: bold !important"
+                                />
+                            <p:ajaxStatus>
+                                <f:facet name="start">
+                                    <h:panelGrid>
+                                        <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                        <h:outputText
+                                            value="#{messages['general.ajax.trabajando']}"
+                                            style=
+                                            "font-size: 10pt !important;
+                                            font-weight: bold !important;
+                                            color: gray !important"
+                                            />
+                                    </h:panelGrid>
+                                </f:facet>
+
+                                <f:facet name="complete">
+                                    <h:outputText
+                                        value="#{messages['general.ajax.hecho']}"
+                                        style=
+                                        "font-size: 10pt !important;
+                                        font-weight: bold !important;
+                                        color: gray !important"
+                                        />
+                                </f:facet>
+                            </p:ajaxStatus>
+                            <h:form id="formBitacorasNoAprobadas" prependId="false">
+
+                                <p:dataTable
+                                    value="#{bitacorasNoAprobadas.resultList}"
+                                    var="_bitacora"
+                                    rows="6" paginator="true"
+                                    paginatorPosition="both"
+                                    paginatorTemplate=
+                                    "{CurrentPageReport}
+                                    {FirstPageLink}
+                                    {PreviousPageLink}
+                                    {PageLinks}
+                                    {NextPageLink}
+                                    {LastPageLink}"
+                                    paginatorAlwaysVisible="false"
+                                    emptyMessage=
+                                    "#{messages['panelcontrol.administrador.bitacoras.nohaybitacoras']}"
+                                    style="text-align: left !important"
+                                    >
+
+
+                                    <p:column width="400">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.bitacoras.textobitacora']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:outputText
+                                            value=
+                                            "#{_bitacora.descripcionBitacora}"
+                                            />
+
+                                    </p:column>
+                                    <p:column width="130">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.bitacoras.nombreusuariobitacora']}"
+                                                style=
+                                                "font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <p:commandLink
+                                            value="#{_bitacora.usuario.nickUsuario}"
+                                            title=
+                                            "#{messages['panelcontrol.administrador.rescatarusuarios.verusuario']}"
+                                            onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarDatosUsuario.seam?usuarioIdUsuario=#{_bitacora.usuario.idUsuario}',651, 510)"
+                                            style="width: 160px !important"
+
+                                            />
+
+                                    </p:column>
+                                    <p:column width="400">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.bitacoras.aprobarbitacora']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:panelGrid columns="3">
+
+                                            <h:panelGrid>
+                                                <s:link
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.preguntas.veridea']}"
+                                                    style="padding: 1px !important"
+                                                    view="/IdeaDetalle.seam?ideaIdIdea=#{_bitacora.idea.idIdea}"
+                                                    target="_blank"
+                                                    />
+                                            </h:panelGrid>
+                                            <h:panelGrid style="width: 130px !important">
+                                                <p:commandLink
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.bitacoras.aprobarbitacora']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 1px !important"
+                                                    id="botonaprobarbitacora"
+                                                    onclick="discriminadorSAU='bitacoraAprobada';activarBitacora(#{_bitacora.idBitacora})"
+                                                    type="button"
+                                                    process="@this"
+                                                    />
+                                            </h:panelGrid>
+                                            <h:panelGrid style="width: 180px !important">
+                                                <p:commandButton
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.bitacoras.desaprobarbitacora']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 0px !important;padding-left: 11px !important;width: 180px !important"
+                                                    id="botondesaprobarbitacora"
+                                                    onclick="discriminadorSAU='bitacoraDesechada';desecharBitacora(#{_bitacora.idBitacora})"
+                                                    type="button"
+                                                    process="@this"
+                                                    image="trash"
+                                                    />
+                                            </h:panelGrid>
+
+                                        </h:panelGrid>
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="#{messages['panelcontrol.administrador.ideas']}" >
+                            <h:outputText
+                                value=
+                                "#{messages['panelcontrol.administrador.ideas.intro']}"
+                                style=
+                                "font-size: 12pt !important;
+                                font-weight: bold !important"
+                                />
+                            <p:ajaxStatus>
+                                <f:facet name="start">
+                                    <h:panelGrid>
+                                        <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                        <h:outputText
+                                            value="#{messages['general.ajax.trabajando']}"
+                                            style=
+                                            "font-size: 10pt !important;
+                                            font-weight: bold !important;
+                                            color: gray !important"
+                                            />
+                                    </h:panelGrid>
+                                </f:facet>
+
+                                <f:facet name="complete">
+                                    <h:outputText
+                                        value="#{messages['general.ajax.hecho']}"
+                                        style=
+                                        "font-size: 10pt !important;
+                                        font-weight: bold !important;
+                                        color: gray !important"
+                                        />
+                                </f:facet>
+                            </p:ajaxStatus>
+                            <h:form id="formIdeasNoAprobadas" prependId="false">
+
+                                <p:dataTable
+                                    value="#{ideasNoAprobadas.resultList}"
+                                    var="_idea"
+                                    rows="6" paginator="true"
+                                    paginatorPosition="both"
+                                    paginatorTemplate=
+                                    "{CurrentPageReport}
+                                    {FirstPageLink}
+                                    {PreviousPageLink}
+                                    {PageLinks}
+                                    {NextPageLink}
+                                    {LastPageLink}"
+                                    paginatorAlwaysVisible="false"
+                                    emptyMessage=
+                                    "#{messages['panelcontrol.administrador.ideas.nohayideas']}"
+                                    style="text-align: left !important"
+                                    >
+                                    <p:column width="400">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.ideas.textoidea']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:outputText
+                                            value=
+                                            "#{_idea.tituloIdea}"
+                                            />
+
+                                    </p:column>
+                                    <p:column width="130">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.ideas.nombreusuarioidea']}"
+                                                style=
+                                                "font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <p:commandLink
+                                            value="#{_idea.usuario.nickUsuario}"
+                                            title=
+                                            "#{messages['panelcontrol.administrador.rescatarusuarios.verusuario']}"
+                                            onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarDatosUsuario.seam?usuarioIdUsuario=#{_idea.usuario.idUsuario}',651, 510)"
+                                            style="width: 160px !important"
+                                            />
+
+                                    </p:column>
+
+
+                                    <p:column width="350">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.ideas.ideaporaprobar']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:panelGrid columns="3">
+                                            <h:panelGrid>
+                                                <s:link
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.preguntas.veridea']}"
+                                                    style="padding: 1px !important"
+                                                    view="/IdeaDetalle.seam?ideaIdIdea=#{_idea.idIdea}"
+                                                    target="_blank"
+                                                    />
+                                            </h:panelGrid>
+
+                                            <h:panelGrid style="width: 100px !important">
+                                                <p:commandLink
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.ideas.aprobaridea']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 1px !important;"
+                                                    id="botonaprobaridea"
+                                                    onclick="discriminadorSAU='ideaAprobada';activarIdea(#{_idea.idIdea})"
+                                                    type="button"
+                                                    process="@this"
+                                                    />
+                                            </h:panelGrid>
+
+                                            <h:panelGrid style="width: 160px !important">
+                                                <p:commandLink
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.ideas.rechazaridea']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 0px !important;padding-left: 4px !important"
+                                                    id="botondesaprobaridea"
+                                                    onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/CapturaMensajeMandarAEdicion.seam?ideaIdIdea=#{_idea.idIdea}',410, 300)"
+                                                    type="button"
+                                                    process="@this"
+                                                    />
+
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </p:tab>
+                        <p:tab title="#{messages['panelcontrol.administrador.reportes']}" >
+                            <h:outputText
+                                value=
+                                "#{messages['panelcontrol.administrador.reportes.intro']}"
+                                style=
+                                "font-size: 12pt !important;
+                                font-weight: bold !important"
+                                />
+                            <p:ajaxStatus>
+                                <f:facet name="start">
+                                    <h:panelGrid>
+                                        <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                        <h:outputText
+                                            value="#{messages['general.ajax.trabajando']}"
+                                            style=
+                                            "font-size: 10pt !important;
+                                            font-weight: bold !important;
+                                            color: gray !important"
+                                            />
+                                    </h:panelGrid>
+                                </f:facet>
+
+                                <f:facet name="complete">
+                                    <h:outputText
+                                        value="#{messages['general.ajax.hecho']}"
+                                        style=
+                                        "font-size: 10pt !important;
+                                        font-weight: bold !important;
+                                        color: gray !important"
+                                        />
+                                </f:facet>
+                            </p:ajaxStatus>
+                            <h:form id="formReportes" prependId="false">
+
+                                <p:dataTable
+                                    value="#{listaTodasReporteAbuso.resultList}"
+                                    var="_reporte"
+                                    style="text-align: left !important"
+                                    rows="7" paginator="true"
+                                    paginatorPosition="both"
+                                    paginatorTemplate=
+                                    "{CurrentPageReport}
+                                    {FirstPageLink}
+                                    {PreviousPageLink}
+                                    {PageLinks}
+                                    {NextPageLink}
+                                    {LastPageLink}"
+                                    paginatorAlwaysVisible="false"
+                                    emptyMessage=
+                                    "#{messages['panelcontrol.administrador.reportes.nohayreportes']}"
+                                    >
+
+                                    <p:column width="300">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.reportes.notareporteabuso']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:outputText
+                                            value=
+                                            "#{_reporte.notaReporteAbuso}"
+                                            />
+
+                                    </p:column>
+                                    <p:column width="165">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.reportes.idea']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:panelGrid columns="2">
+                                            <h:panelGrid style="width: 50px !important">
+                                                <s:link
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.preguntas.veridea']}"
+                                                    style="padding: 1px !important"
+                                                    view="/IdeaDetalle.seam?ideaIdIdea=#{_reporte.idea.idIdea}"
+                                                    target="_blank"
+                                                    />
+                                            </h:panelGrid>
+
+                                            <h:panelGrid style="width: 145px !important">
+                                                <p:commandLink
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.servicios.reportes.suspenderidea']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 1px !important; width: 140px !important"
+                                                    id="botonsuspenderidea"
+                                                    onclick="discriminadorSAU='ideaSuspendida';suspenderIdea(#{_reporte.idea.idIdea})"
+                                                    type="button"
+                                                    process="@this"
+
+                                                    />
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                    </p:column>
+
+
+                                    <p:column width="200">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.reportes.usario']}"
+                                                style=
+                                                "font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:panelGrid columns="2">
+                                            <h:panelGrid style="width: 60px !important">
+                                                <p:commandLink
+                                                    value="#{_reporte.idea.usuario.nickUsuario}"
+                                                    title=
+                                                    "#{messages['panelcontrol.administrador.rescatarusuarios.verusuario']}"
+                                                    onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarDatosUsuario.seam?usuarioIdUsuario=#{_reporte.idea.usuario.idUsuario}',651, 510)"
+                                                    style="width: 160px !important"
+
+                                                    />
+
+                                            </h:panelGrid>
+
+
+                                            <h:panelGrid style="width:170px !important">
+                                                <p:commandLink
+                                                    value=
+                                                    "#{messages['panelcontrol.administrador.servicios.reportes.suspenderusuario']}"
+                                                    styleClass="botonnaranja"
+                                                    style="padding: 1px !important"
+                                                    id="botonsuspenderusuario"
+                                                    onclick="discriminadorSAU='usuarioSuspendido';suspenderUsuario(#{_reporte.idea.usuario.idUsuario}, #{_reporte.idReporteAbuso})"
+                                                    type="button"
+                                                    process="@this"
+                                                    />
+
+
+
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                    </p:column>
+                                    <p:column width="100">
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.administrador.reportes.desecharreporte']}"
+                                                style="font-weight: bold !important"
+                                                />
+                                        </f:facet>
+                                        <h:panelGrid style="width: 130px !important">
+                                            <p:commandButton
+                                                value=
+                                                "     #{messages['panelcontrol.administrador.reportes.desechar']}"
+                                                styleClass="botonnaranja"
+                                                style="padding: 0px !important;padding-left: 0px !important;width: 110px !important"
+                                                id="botondesecharreporte"
+                                                onclick="discriminadorSAU='reporteDesechado';desecharReporteAbuso(#{_reporte.idReporteAbuso})"
+                                                type="button"
+                                                process="@this"
+                                                image="trash"
+                                                />
+
+
+
+                                        </h:panelGrid>
+                                    </p:column>
+                                </p:dataTable>
+
+                            </h:form>
+                        </p:tab>
+
+                        <p:tab title="#{messages['panelcontrol.administrador.papelera']}" rendered="#{s:hasRole('ADMINISTRADOR')}">
+                            <p:tabView effect="opacity" effectDuration="fast" >
+                                <p:tab title="#{messages['panelcontrol.administrador.papelera.usuarios']}" >
+                                    <h:outputText
+                                        value=
+                                        "#{messages['panelcontrol.administrador.rescatarusuarios.intro']}"
+                                        style=
+                                        "font-size: 12pt !important;
+                                        font-weight: bold !important"
+                                        />
+                                    <p:ajaxStatus>
+                                        <f:facet name="start">
+                                            <h:panelGrid>
+                                                <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                                <h:outputText
+                                                    value="#{messages['general.ajax.trabajando']}"
+                                                    style=
+                                                    "font-size: 10pt !important;
+                                                    font-weight: bold !important;
+                                                    color: gray !important"
+                                                    />
+                                            </h:panelGrid>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText
+                                                value="#{messages['general.ajax.hecho']}"
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important"
+                                                />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+                                    <h:form id="formRescatarUsuarios" prependId="false">
+
+
+                                        <p:dataTable
+                                            value="#{usuariosSuspendidos.resultList}"
+                                            var="_usuario"
+                                            rows="6" paginator="true"
+                                            paginatorPosition="both"
+                                            paginatorTemplate=
+                                            "{CurrentPageReport}
+                                            {FirstPageLink}
+                                            {PreviousPageLink}
+                                            {PageLinks}
+                                            {NextPageLink}
+                                            {LastPageLink}"
+                                            paginatorAlwaysVisible="false"
+                                            emptyMessage=
+                                            "#{messages['panelcontrol.administrador.rescatarusuarios.nohayusuarios']}"
+                                            style="text-align: left !important"
+                                            >
+                                            <p:column width="95">
+                                                <f:facet name="header">
+                                                    <h:outputText
+                                                        value=
+                                                        "#{messages['panelcontrol.administrador.rescatarusuarios.nickusuarioidea']}"
+                                                        style=
+                                                        "font-weight: bold !important"
+                                                        />
+                                                </f:facet>
+                                                <h:outputText
+                                                    value=
+                                                    "#{_usuario.nickUsuario}"
+                                                    style=
+                                                    "font-size: 12pt !important;
+                                                    font-weight: bold !important"
+                                                    />
+
+                                            </p:column>
+                                            <p:column width="200">
+                                                <f:facet name="header">
+                                                    <h:outputText
+                                                        value=
+                                                        "#{messages['panelcontrol.administrador.rescatarusuarios.nombrecompleto']}"
+                                                        style="font-weight: bold !important"
+                                                        />
+                                                </f:facet>
+                                                <h:outputText
+                                                    value=
+                                                    "#{_usuario.nombreUsuario}#{''}#{_usuario.apellidoPaternoUsuario}#{''}#{_usuario.apellidoMaternoUsuario}"
+                                                    />
+
+                                            </p:column>
+
+                                            <p:column width="500">
+                                                <f:facet name="header">
+                                                    <h:outputText
+                                                        value=
+                                                        "#{messages['panelcontrol.administrador.rescatarusuarios.usuarioporrescatar']}"
+                                                        style="font-weight: bold !important"
+                                                        />
+                                                </f:facet>
+
+                                                <h:panelGrid columns="3" style="width: 500px !important">
+
+                                                    <h:panelGrid style="width: 130px ">
+
+                                                        <p:commandLink
+                                                            value="#{_usuario.nickUsuario}"
+                                                            title=
+                                                            "#{messages['panelcontrol.administrador.rescatarusuarios.verusuario']}"
+                                                            onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarDatosUsuario.seam?usuarioIdUsuario=#{_usuario.idUsuario}',651, 510)"
+                                                            style="width: 160px !important"
+                                                            />
+
+
+                                                    </h:panelGrid>
+                                                    <h:panelGrid style="width: 137px !important">
+
+                                                        <p:commandLink
+                                                            value=
+                                                            "#{messages['panelcontrol.administrador.rescatarusuarios.rescatarusuario']}"
+                                                            styleClass="botonnaranja"
+                                                            style="padding: 1px !important"
+                                                            id="botonrescatarusuario"
+                                                            onclick="discriminadorSAU='usuarioRescatado';rescatarUsuario(#{_usuario.idUsuario})"
+                                                            type="button"
+                                                            process="@this"
+                                                            />
+
+                                                    </h:panelGrid>
+
+                                                    <h:panelGrid style="width: 180px !important">
+
+                                                        <p:commandButton
+                                                            value=
+                                                            "#{messages['panelcontrol.administrador.rescatarusuarios.desecharusuario']}"
+                                                            styleClass="botonnaranja"
+                                                            style="padding: 0px !important;padding-left: 11px !important;width: 180px !important"
+                                                            id="botondesecharusuario"
+                                                            onclick="discriminadorSAU='usuarioDesechado';desecharUsuario(#{_usuario.idUsuario})"
+                                                            type="button"
+                                                            process="@this"
+                                                            image="trash"
+                                                            />
+                                                    </h:panelGrid>
+
+                                                </h:panelGrid>
+
+
+                                            </p:column>
+
+                                        </p:dataTable>
+
+
+                                    </h:form>
+                                </p:tab>
+                                <p:tab title="#{messages['panelcontrol.administrador.papelera.ideas']}" >
+                                    <h:outputText
+                                        value=
+                                        "#{messages['panelcontrol.administrador.rescatarideas.intro']}"
+                                        style=
+                                        "font-size: 12pt !important;
+                                        font-weight: bold !important"
+                                        />
+                                    <p:ajaxStatus>
+                                        <f:facet name="start">
+                                            <h:panelGrid>
+                                                <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                                <h:outputText
+                                                    value="#{messages['general.ajax.trabajando']}"
+                                                    style=
+                                                    "font-size: 10pt !important;
+                                                    font-weight: bold !important;
+                                                    color: gray !important"
+                                                    />
+                                            </h:panelGrid>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText
+                                                value="#{messages['general.ajax.hecho']}"
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important"
+                                                />
+                                        </f:facet>
+                                        <f:facet name="error">
+                                            <h:outputText
+                                                value="#{messages['general.ajax.hecho']}ERROR!!"
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important"
+                                                />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+                                    <h:form id="formRescatarIdeas" prependId="false">
+                                        <p:dataTable
+                                            value="#{ideasSuspendidas.resultList}"
+                                            var="_idea"
+                                            rows="6" paginator="true"
+                                            paginatorPosition="both"
+                                            paginatorTemplate=
+                                            "{CurrentPageReport}
+                                            {FirstPageLink}
+                                            {PreviousPageLink}
+                                            {PageLinks}
+                                            {NextPageLink}
+                                            {LastPageLink}"
+                                            paginatorAlwaysVisible="false"
+                                            emptyMessage=
+                                            "#{messages['panelcontrol.administrador.rescatarideas.nohayideas']}"
+                                            style="text-align: left !important"
+                                            >
+
+
+                                            <p:column width="350">
+                                                <f:facet name="header">
+                                                    <h:outputText
+                                                        value=
+                                                        "#{messages['panelcontrol.administrador.ideas.textoidea']}"
+                                                        style="font-weight: bold !important"
+                                                        />
+                                                </f:facet>
+                                                <h:outputText
+                                                    value=
+                                                    "#{_idea.tituloIdea}"
+                                                    />
+
+                                            </p:column>
+                                            <p:column width="130">
+                                                <f:facet name="header">
+                                                    <h:outputText
+                                                        value=
+                                                        "#{messages['panelcontrol.administrador.ideas.nombreusuarioidea']}"
+                                                        style=
+                                                        "font-weight: bold !important"
+                                                        />
+                                                </f:facet>
+
+                                                <p:commandLink
+                                                    value="#{_idea.usuario.nickUsuario}"
+                                                    title=
+                                                    "#{messages['panelcontrol.administrador.rescatarusuarios.verusuario']}"
+                                                    onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarDatosUsuario.seam?usuarioIdUsuario=#{_idea.usuario.idUsuario}',651, 510)"
+                                                    style="width: 160px !important"
+
+                                                    />
+
+
+                                            </p:column>
+
+                                            <p:column width="400">
+                                                <f:facet name="header">
+                                                    <h:outputText
+                                                        value=
+                                                        "#{messages['panelcontrol.administrador.rescatarideas.ideaporrescatar']}"
+                                                        style="font-weight: bold !important"
+                                                        />
+                                                </f:facet>
+
+                                                <h:panelGrid columns="3" style="width: 400px !important">
+
+                                                    <h:panelGrid style="width: 130px ">
+                                                        <s:link
+                                                            value=
+                                                            "#{messages['panelcontrol.administrador.rescatarideas.verideasuspendida']}"
+                                                            style="padding: 1px !important"
+                                                            view="/IdeaDetalle.seam?ideaIdIdea=#{_idea.idIdea}"
+                                                            target="_blank"
+                                                            />
+                                                    </h:panelGrid>
+                                                    <h:panelGrid style="width: 137px !important">
+                                                        <p:commandLink
+                                                            value=
+                                                            "#{messages['panelcontrol.administrador.rescatarideas.rescataridea']}"
+                                                            styleClass="botonnaranja"
+                                                            style="padding: 1px !important"
+                                                            id="botonrescataridea"
+                                                            onclick="discriminadorSAU='ideaRescatada';rescatarIdea(#{_idea.idIdea})"
+                                                            type="button"
+                                                            process="@this"
+                                                            />
+
+                                                    </h:panelGrid>
+
+                                                    <h:panelGrid style="width: 180px !important">
+                                                        <p:commandButton
+                                                            value=
+                                                            "#{messages['panelcontrol.administrador.rescatarideas.desecharidea']}"
+                                                            styleClass="botonnaranja"
+                                                            style="padding: 1px !important"
+                                                            id="botondesecharidea"
+                                                            onclick="discriminadorSAU='ideaDesechada';desecharIdea(#{_idea.idIdea})"
+                                                            type="button"
+                                                            process="@this"
+                                                            image="trash"
+                                                            />
+                                                    </h:panelGrid>
+
+                                                </h:panelGrid>
+
+
+                                            </p:column>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        </p:dataTable>
+                                    </h:form>
+                                </p:tab>
+        <!--                        <p:tab title="#{messages['panelcontrol.administrador.papelera.preguntas']}" >
+                                    <h:outputText
+                                        value=
+                                        "#{messages['panelcontrol.administrador.rescatarideas.intro']}"
+                                        style=
+                                        "font-size: 12pt !important;
+                                        font-weight: bold !important"
+                                        />
+                                    <h:form id="formRescatarPreguntas" prependId="false">
+
+                                    </h:form>
+                                </p:tab>
+                                <p:tab title="#{messages['panelcontrol.administrador.papelera.respuestas']}" >
+                                    <h:form id="formRescatarRespuestas" prependId="false">
+
+                                    </h:form>
+                                </p:tab>
+                                <p:tab title="#{messages['panelcontrol.administrador.papelera.bitacoras']}" >
+                                    <h:form id="formRescatarBitacoras" prependId="false">
+
+                                    </h:form>
+                                </p:tab>-->
+                            </p:tabView>
+                        </p:tab>
+
+                    </p:tabView>
+                </p:tab>
+
+                <p:tab title="#{messages['panelcontrol.ideas']}">
+                    <s:div rendered="#{preguntasDeUsuarioSinResponder.resultList.size>0}"
+                           >
+                        <h:form>
+                            <h:panelGrid columns="2">
+                                <p:panel
+                                    widgetVar="textopreguntaspendientes"
+                                    style=
+                                    "border: 0px !important;
+                                    text-align: right !important"
+                                    >
+
+                                    <p:effect type="pulsate" event="load" id="textopreguntaspendientes"/>
+                                    <h:outputText
+                                        value=
+                                        "#{messages['panelcontrol.ideas.preguntaspendientes']}"
+                                        style=
+                                        "font-size: 16pt !important;
+                                        color: gray !important"
+                                        >
+
+                                    </h:outputText>
+                                </p:panel>
+                                <p:panel
+                                    style=
+                                    "border: 0px !important;
+                                    text-align: left !important">
+                                    <h:outputText
+                                        value=
+                                        "#{' '}#{messages['panelcontrol.preguntas.quierescontestar']}#{' '}"
+                                        style=
+                                        "font-size: 16pt !important;
+                                        color: gray !important"
+                                        />
+
+                                    <p:commandButton
+                                        value="#{messages['panelcontrol.preguntas.contestar']}"
+                                        styleClass="ui-button botonnaranja"
+                                        title=
+                                        "#{messages['panelcontrol.preguntas.contestar']}"
+                                        onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarPreguntas.seam?usuarioIdUsuario=#{usuario.idUsuario}',880, 600)"
+                                        style="width: 200px !important"
+                                        />
+
+
+                                    <!--                            style=
+                                                                "margin: 0px !important;
+                                                                padding: 0px !important;"-->
+
+                                </p:panel>
+                            </h:panelGrid>
+                        </h:form>
+
+                    </s:div>
+                    <p:tabView effect="opacity" effectDuration="fast" >
+                        <p:tab title="#{messages['panelcontrol.ideas.creadas']}" >
+
+                            <p:ajaxStatus>
+                                <f:facet name="start">
+                                    <h:panelGrid>
+                                        <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                        <h:outputText
+                                            value="#{messages['general.ajax.trabajando']}"
+                                            style=
+                                            "font-size: 10pt !important;
+                                            font-weight: bold !important;
+                                            color: gray !important"
+                                            />
+                                    </h:panelGrid>
+                                </f:facet>
+
+                                <f:facet name="complete">
+                                    <h:outputText
+                                        value="#{messages['general.ajax.hecho']}"
+                                        style=
+                                        "font-size: 10pt !important;
+                                        font-weight: bold !important;
+                                        color: gray !important"
+                                        />
+                                </f:facet>
+                            </p:ajaxStatus>
+                            <p:dataTable
+                                value="#{ideasDeUsuarioAprobadas.resultList}" var="_idea"
+                                rows="5" paginator="true" paginatorPosition="both"
+                                paginatorTemplate=
+                                "{CurrentPageReport}
+                                {FirstPageLink}
+                                {PreviousPageLink}
+                                {PageLinks}
+                                {NextPageLink}
+                                {LastPageLink}"
+                                paginatorAlwaysVisible="false"
+                                emptyMessage="#{messages['panelcontrol.nohayideas']}"
+                                >
+
+
+
+
+                                <p:column  sortBy="#{_idea.tituloIdea}" width="300">
+                                    <f:facet name="header">
+                                        #{messages['panelcontrol.ideas.descripcion']}
+                                    </f:facet>
+                                    <f:facet name="style">
+                                        text-align: left !important
+                                    </f:facet>
+                                    <!--                                    border-color: transparent;-->
+                                    <s:link
+                                        style=
+                                        "text-align: left !important;
+                                        width: 500px !important"
+                                        view="/IdeaDetalle.seam"
+                                        target="_blank"
+                                        >
+                                        <f:param
+                                            name="ideaIdIdea"
+                                            value="#{_idea.idIdea}"
+                                            />
+                                        <f:param
+                                            name="cameFrom"
+                                            value="/BuscarIdea.seam" />
+
+                                        <h:panelGrid
+                                            columns="1"
+                                            style=
+                                            "text-align: left !important;
+                                            width: 300px !important"
+                                            >
+
+                                            <h:graphicImage
+                                                value=
+                                                "/img/ideas/small/principal/#{_idea.nombreImagen}"
+                                                width="70px"
+                                                height="49px"
+                                                />
+                                            <h:outputText
+                                                value=
+                                                "#{_idea.tituloIdea}"
+                                                style=
+                                                "font-size: 9pt;
+                                                font-weight: bold;
+                                                text-align: left !important;
+                                                font-family: 'Arial Narrow', sans-serif;
+                                                border: 2pt;
+                                                width: 300px !important"
+                                                />
+
+                                        </h:panelGrid>
+                                    </s:link>
+                                </p:column>
+
+
+                                <p:column sortBy="#{_idea.seguidors.size}" width="80">
+                                    <f:facet name="header">
+                                        #{messages['panelcontrol.seguidores']}
+                                    </f:facet>
+                                    <h:outputText
+                                        value="#{_idea.seguidors.size}"
+                                        style=
+                                        "font-size: 9pt;font-weight: bold;
+                                        text-align: left !important"
+                                        />
+                                </p:column>
+                                <p:column width="80"
+                                          sortBy="#{_idea.integrantes.size}"
+                                          >
+                                    <f:facet name="header">
+                                        #{messages['panelcontrol.participantes']}
+
+                                    </f:facet>
+                                    <h:outputText
+                                        value="#{_idea.integrantes.size}"
+                                        style=
+                                        "font-size: 9pt;font-weight: bold;
+                                        text-align: left !important"
+                                        />
+                                </p:column>
+                                <p:column sortBy="#{_idea.fechaCreacionIdea}" width="80">
+                                    <f:facet name="header">
+                                        #{messages['panelcontrol.ideas.creada']}
+                                    </f:facet>
+                                    <h:outputText
+                                        value="#{_idea.fechaCreacionIdea}"
+                                        style=
+                                        "font-size: 9pt;font-weight: bold;
+                                        text-align: left !important"
+                                        >
+                                        <f:convertDateTime
+                                            locale="es"
+                                            pattern="dd'-'MMM'-'yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column  width="220">
+                                    <f:facet name="header">
+                                        #{messages['panelcontrol.ideas.quequiereshacer']}
+                                    </f:facet>
+
+                                    <h:panelGrid columns="5">
+                                        <h:form>
+                                            <!--                                            <p:commandButton
+                                                                                            image="pencil"
+                                                                                            style=
+                                                                                            "margin: 0px !important;
+                                                                                            padding: 0px !important;
+                                                                                            height: 27px !important;
+                                                                                            width: 27px !important;"
+                                                                                            styleClass="button white bigrounded"
+                                                                                            title=
+                                                                                            "#{messages['panelcontrol.ideas.acciones.editar']}"
+                                                                                            />-->
+                                            <p:commandButton
+                                                image="seguidores"
+                                                style=
+                                                "margin: 0px !important;
+                                                padding: 0px !important;
+                                                height: 27px !important;
+                                                width: 27px !important;"
+                                                styleClass="button white bigrounded"
+                                                title=
+                                                "#{messages['panelcontrol.ideas.acciones.seguidores']}"
+                                                onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarSeguidores.seam?ideaIdIdea=#{_idea.idIdea}',650, 530)"
+                                                />
+
+                                            <p:commandButton
+                                                image="participantes"
+                                                style=
+                                                "margin: 0px !important;
+                                                padding: 0px !important;
+                                                height: 27px !important;
+                                                width: 27px !important;"
+                                                styleClass="button white bigrounded"
+                                                title=
+                                                "#{messages['panelcontrol.ideas.acciones.participantes']}"
+                                                onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarParticipaciones.seam?ideaIdIdea=#{_idea.idIdea}',880, 500)"
+                                                />
+
+                                            <p:commandButton
+                                                image="bitacora"                                                
+                                                style=
+                                                "margin: 0px !important;
+                                                padding: 0px !important;
+                                                height: 27px !important;
+                                                width: 27px !important;"
+                                                styleClass="button white bigrounded"
+                                                title=
+                                                "#{messages['panelcontrol.ideas.acciones.bitacora']}"
+                                                onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/ActualizarBitacora.seam?ideaIdIdea=#{_idea.idIdea}',430, 300)"
+                                                process="@none"
+                                                />
+                                        </h:form>
+
+                                    </h:panelGrid>
+
+
+
+                                </p:column>
+
+                                <p:column>
+
+                                    <h:panelGrid
+                                        columns="2"
+                                        title=
+                                        "#{messages['panelcontrol.ideas.acciones.activadesactiva']}">
+
+                                        <h:selectBooleanCheckbox
+                                            style="text-align: right !important"
+                                            value="#{_idea.activa}"
+                                            onchange="discriminadorSAU='cambioEstatusIdea';cambiarEstatusDeIdea(#{_idea.idIdea})"
+                                            />
+                                        <!--value="{ideaHome.ideaActiva(_idea.idIdea)}"-->
+                                        <h:panelGrid columns="1">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.ideas.acciones.activaidea']}"
+                                                style=
+                                                "text-align: left !important;
+                                                font-weight: bold"
+                                                />
+                                            <h:outputText
+                                                value=
+                                                "#{messages['panelcontrol.ideas.acciones.activa']}"
+                                                style=
+                                                "text-align: left !important;
+                                                font-weight: bold"
+                                                />
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+
+                                </p:column>
+                            </p:dataTable>
+
+
+
+                            <!-- DIALOGO QUE AVISA SOBRE CAMBIO DE ESTATUS EN LAS IDEAS -->
+                            <p:dialog id="dialogoExitoCambioEstatusIdea"
+                                      header=
+                                      "#{messages['panelcontrol.ideas.acciones.cambiosrealizados']}"
+                                      widgetVar="dialogoExitoCambioEstatusIdea"
+                                      width="400"
+                                      height="300"
+                                      styleClass="backdialogo"
+                                      showEffect="clip"
+                                      hideEffect="explode"
+                                      zindex="2000"
+                                      >
+                                <s:div style="height: 85px !important"/>
+                                <h:outputText
+                                    value=
+                                    "#{messages['panelcontrol.ideas.estatuscambiadoexito']}"
+                                    style=
+                                    "font-size: 11pt;
+                                    font-weight: bold;
+                                    margin-top: 15px !important"
+                                    />
+
+                                <h:form style="margin-top: 20px !important">
+                                    <p:commandLink
+                                        value="#{messages['panelcontrol.dialogo.aceptar']}"
+                                        onclick="dialogoExitoCambioEstatusIdea.hide();"
+                                        styleClass="botonnaranja"
+                                        ajax="true"
+                                        style="margin-top: 11px !important"
+                                        />
+                                </h:form>
+                            </p:dialog>
+                            <p:draggable for="dialogoExitoCambioEstatusIdea" containment="parent" />
+                            <p:dialog id="dialogoError"
+                                      header=
+                                      "#{messages['panelcontrol.dialogo.error']}"
+                                      widgetVar="dialogoError"
+                                      width="400"
+                                      height="300">
+                                <h:outputText
+                                    value=
+                                    "#{messages['panelcontrol.dialogo.error.texto']}"
+                                    style="font-size: 11pt;font-weight: bold"
+                                    />
+
+                                <h:form>
+                                    <p:commandLink
+                                        value="#{messages['panelcontrol.dialogo.aceptar']}"
+                                        onclick="dialogoError.hide();"
+                                        styleClass="botonnaranja"
+                                        ajax="true"
+                                        style="margin-top: 11px !important"
+                                        />
+                                </h:form>
+
+                            </p:dialog>
+                            <!-- DIALOGO QUE PIDE LOGUEARSE PRIMERO -->
+                            <p:dialog id="dialogoLogin"
+                                      header=
+                                      "#{messages['idea.dialogologin.logueateprimero']}"
+                                      widgetVar="dialogoLogin"
+                                      styleClass="backdialogo"
+                                      width="400"
+                                      height="300"
+                                      showEffect="clip"
+                                      hideEffect="explode"
+                                      >
+                                <s:div style="height: 80px !important"/>
+                                <h:outputText
+                                    value=
+                                    "#{messages['idea.dialogologin.logueateprimero.detalle']}"
+                                    styleClass="textodialogo"
+                                    />
+                                <h:form
+                                    style=
+                                    "margin-top: 15px !important;
+                                    margin-bottom: 15px !important"
+                                    >
+                                    <p:commandLink
+                                        value="#{messages['idea.dialogologin.iralogin']}"
+                                        action="#{sessionActions.goToLoginAndSaveCurrentPage}" ajax="false"
+                                        styleClass="botonnaranja"
+                                        />
+                                    <p:commandLink
+                                        value="#{messages['idea.dialogologin.boton.cancelar']}"
+                                        onclick="dialogoLogin.hide();"
+                                        styleClass="botonnaranja"
+                                        />
+                                </h:form>
+                            </p:dialog>
+                            <!-- DIALOGO QUE PERMITE CAPTURAR EL TEXTO PARA
+                            ACTUALIZAR LA BITÁCORA -->
+                            <p:dialog
+                                id="dialogoBitacora"
+                                header="#{messages['panelcontrol.actualizarbitacora']}"
+                                widgetVar="dialogoBitacora"
+                                resizable="false"
+                                styleClass="backdialogo"
+                                width="400"
+                                height="300"
+                                showEffect="clip"
+                                hideEffect="explode"
+                                position="center"
+                                zindex="3000"
+                                >
+                                <s:div style="height: 15px !important"/>
+                                <h:form prependId="false"
+                                        style=
+                                        "margin-top: 15px !important;
+                                        margin-bottom: 15px !important"
+                                        >
+
+
+                                    <h:panelGrid 
+                                        columns="2"
+                                        style="margin-bottom:10px"
+                                        >
+                                        <p:message for="inputTextoBitacora">
+                                            <p:effect type="pulsate" event="load">
+                                                <f:param name="mode" value="'show'" />
+                                            </p:effect>
+                                        </p:message>
+
+                                        <s:span id="counterTextoBitacora"
+                                                style="font-size: 17pt;
+                                                color: gray"
+                                                >
+                                            #{seamSizeColumna.pregunta}
+                                            #{' '}
+                                            #{messages['idea.contador.caracteresmax']}
+                                        </s:span>
+
+                                        <h:outputText
+                                            value="#{idea.idIdea}#{messages['panelcontrol.escribetextodebitacora']}#{ideaHome.instance.tituloIdea}"
+                                            styleClass="textodialogo"
+                                            />
+                                        <p:outputPanel id="outputTextAreaBitacora">
+                                            <h:inputTextarea
+                                                required="true"
+                                                rows="5"
+                                                value="#{bitacoraHome.instance.descripcionBitacora}"
+                                                id="inputTextoBitacora"
+                                                onkeypress=
+                                                "javascript:actualizarContador(this,'counterTextoBitacora')"
+                                                >
+                                                <s:validate/>
+                                            </h:inputTextarea>
+                                        </p:outputPanel>
+
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton
+                                            id="botonActualizarBitacora"
+                                            value="#{messages['idea.pregunta.enviar']}"
+                                            action="#{bitacoraHome.actualizar()}"
+                                            oncomplete="manejaRespuestaDePregunta(xhr, status, args)"
+                                            styleClass=" ui-button botonnaranja"
+                                            />
+                                        <p:commandButton
+                                            id="botonCerrarBitacora"
+                                            value="#{messages['idea.boton.cerrar']}"
+                                            onclick=
+                                            "dialogoBitacora.hide();"
+                                            styleClass=" ui-button botonnaranja"
+                                            />
+
+                                    </h:panelGrid>
+
+                                </h:form>
+                            </p:dialog>
+                            <p:draggable for="dialogoBitacora" containment="parent" />
+                        </p:tab>
+                        <script>
+                        function manejaRespuestaDeActualizarBitacora(xhr, status, args){
+                            alert(3);
+                            dialogoBitacora.show();
+                            dialogoBitacora.hide();
+
+                            if(args.respuesta == 'notLoggedIn'){
+                                dialogoLogin.show();
+                            }else if(args.respuesta== 'loggedIn'){
+                                dialogoBitacora.show();
+                            }else if(args.respuesta == 'preguntahecha'){
+                                dialogoYaActualizasteBitacora.show();
+                            }
+//                            else{
+//                                //dialogoError.show();
+//                            }
+                        }
+                        </script>
+                        <p:tab
+                            title=
+                            "#{messages['panelcontrol.ideas.siguiendo']}"
+                            >
+
+                            <h:form prependId="false">
+
+                                <p:dataTable
+                                    value="#{ideasSeguidasPorUsuario.resultList}" var="_idea"
+                                    rows="5" paginator="true" paginatorPosition="both"
+                                    paginatorTemplate=
+                                    "{CurrentPageReport}
+                                    {FirstPageLink}
+                                    {PreviousPageLink}
+                                    {PageLinks}
+                                    {NextPageLink}
+                                    {LastPageLink}"
+                                    paginatorAlwaysVisible="false"
+                                    emptyMessage="#{messages['panelcontrol.nohayideas.seguidas']}"
+                                    >
+
+
+
+
+                                    <p:column  sortBy="#{_idea.tituloIdea}" width="300">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.ideas.descripcion']}
+                                        </f:facet>
+                                        <f:facet name="style">
+                                            text-align: left !important
+                                        </f:facet>
+                                        <!--                                    border-color: transparent;-->
+                                        <s:link
+                                            style=
+                                            "text-align: left !important;
+                                            width: 500px !important"
+                                            view="/IdeaDetalle.seam"
+                                            target="_blank"
+                                            >
+                                            <f:param
+                                                name="ideaIdIdea"
+                                                value="#{_idea.idIdea}"
+                                                />
+                                            <f:param
+                                                name="cameFrom"
+                                                value="/BuscarIdea.seam" />
+
+                                            <h:panelGrid
+                                                columns="1"
+                                                style=
+                                                "text-align: left !important;
+                                                width: 300px !important"
+                                                >
+
+                                                <h:graphicImage
+                                                    value=
+                                                    "/img/ideas/small/principal/#{_idea.nombreImagen}"
+                                                    width="70px"
+                                                    height="49px"
+                                                    />
+                                                <h:outputText
+                                                    value=
+                                                    "#{_idea.tituloIdea}"
+                                                    style=
+                                                    "font-size: 9pt;
+                                                    font-weight: bold;
+                                                    text-align: left !important;
+                                                    font-family: 'Arial Narrow', sans-serif;
+                                                    border: 2pt;
+                                                    width: 300px !important"
+                                                    />
+
+                                            </h:panelGrid>
+                                        </s:link>
+                                    </p:column>
+
+
+                                    <p:column sortBy="#{_idea.seguidors.size}" width="80">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.seguidores']}
+                                        </f:facet>
+                                        <h:outputText
+                                            value="#{_idea.seguidors.size}"
+                                            style=
+                                            "font-size: 9pt;font-weight: bold;
+                                            text-align: left !important"
+                                            />
+                                    </p:column>
+                                    <p:column width="80"
+                                              sortBy="#{_idea.integrantes.size}"
+                                              >
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.participantes']}
+
+                                        </f:facet>
+                                        <h:outputText
+                                            value="#{_idea.integrantes.size}"
+                                            style=
+                                            "font-size: 9pt;font-weight: bold;
+                                            text-align: left !important"
+                                            />
+                                    </p:column>
+<!--                                    <p:column sortBy="#{_idea.fechaCreacionIdea}" width="80">
+                                        <f:facet name="header">
+                                    #{messages['panelcontrol.ideas.creada']}
+                                </f:facet>
+                                <h:outputText
+                                    value="#{_idea.fechaCreacionIdea}"
+                                    style=
+                                    "font-size: 9pt;font-weight: bold;
+                                    text-align: left !important"
+                                    >
+                                    <f:convertDateTime
+                                        locale="es"
+                                        pattern="dd'-'MMM'-'yyyy" />
+                                </h:outputText>
+                            </p:column>-->
+                                    <p:column width="80">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.ideas.autor']}
+                                        </f:facet>
+                                        <p:commandLink
+                                            value="#{_idea.usuario.nickUsuario}"
+                                            title=
+                                            "#{messages['panelcontrol.administrador.rescatarusuarios.verusuario']}"
+                                            onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarDatosUsuario.seam?usuarioIdUsuario=#{_idea.usuario.idUsuario}',651, 510)"
+                                            style="width: 160px !important"
+                                            />
+                                    </p:column>
+                                    <p:column  width="360" rendered="#{false}">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.dejardeseguir']}
+                                        </f:facet>
+
+                                        <h:panelGrid columns="5">
+
+                                            <p:commandButton
+                                                image="eliminar"
+                                                style=
+                                                "margin: 0px !important;
+                                                padding: 0px !important;
+                                                height: 27px !important;
+                                                width: 27px !important;"
+                                                styleClass="button white bigrounded"
+                                                title=
+                                                "#{messages['panelcontrol.dejardeseguir']}"
+                                                />
+
+                                        </h:panelGrid>
+
+
+
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </p:tab>
+                        <p:tab
+                            title=
+                            "#{messages['panelcontrol.ideas.participando']}"
+                            >
+
+                            <h:form prependId="false">
+
+                                <p:dataTable
+                                    value="#{canicasDeUsuario.resultList}" var="_canica"
+                                    rows="5" paginator="true" paginatorPosition="both"
+                                    paginatorTemplate=
+                                    "{CurrentPageReport}
+                                    {FirstPageLink}
+                                    {PreviousPageLink}
+                                    {PageLinks}
+                                    {NextPageLink}
+                                    {LastPageLink}"
+                                    paginatorAlwaysVisible="false"
+                                    emptyMessage="#{messages['panelcontrol.nohayideas.participadas']}"
+                                    >
+
+
+
+
+                                    <p:column  sortBy="#{_canica.necesidad.idea.tituloIdea}" width="330">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.ideas.descripcion']}
+                                        </f:facet>
+                                        <f:facet name="style">
+                                            text-align: left !important
+                                        </f:facet>
+                                        <!--                                    border-color: transparent;-->
+                                        <s:link
+                                            style=
+                                            "text-align: left !important;
+                                            width: 500px !important"
+                                            view="/IdeaDetalle.seam"
+                                            target="_blank"
+                                            >
+                                            <f:param
+                                                name="ideaIdIdea"
+                                                value="#{_canica.necesidad.idea.idIdea}"
+                                                />
+                                            <f:param
+                                                name="cameFrom"
+                                                value="/BuscarIdea.seam" />
+
+                                            <h:panelGrid
+                                                columns="1"
+                                                style=
+                                                "text-align: left !important;
+                                                width: 300px !important"
+                                                >
+
+                                                <h:graphicImage
+                                                    value=
+                                                    "/img/ideas/small/principal/#{_canica.necesidad.idea.nombreImagen}"
+                                                    width="70px"
+                                                    height="49px"
+                                                    />
+                                                <h:outputText
+                                                    value=
+                                                    "#{_canica.necesidad.idea.tituloIdea}"
+                                                    style=
+                                                    "font-size: 9pt;
+                                                    font-weight: bold;
+                                                    text-align: left !important;
+                                                    font-family: 'Arial Narrow', sans-serif;
+                                                    border: 2pt;
+                                                    width: 300px !important"
+                                                    />
+
+                                            </h:panelGrid>
+                                        </s:link>
+                                    </p:column>
+
+                                    <p:column width="350">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.participandoen']}
+                                        </f:facet>
+                                        <h:panelGrid style="text-align: left !important">
+                                            <h:outputText
+                                                value="#{_canica.necesidad.descripcionNecesidad}"
+                                                style=
+                                                "font-size: 9pt;font-weight: bold;
+                                                text-align: left !important"
+                                                />
+                                        </h:panelGrid>
+                                    </p:column>
+
+
+<!--                                    <p:column sortBy="#{_canica.necesidad.idea.fechaCreacionIdea}" width="100">
+                                        <f:facet name="header">
+                                    #{messages['panelcontrol.ideas.creada']}
+                                </f:facet>
+                                <h:outputText
+                                    value="#{_canica.necesidad.idea.fechaCreacionIdea}"
+                                    style=
+                                    "font-size: 9pt;font-weight: bold;
+                                    text-align: left !important"
+                                    >
+                                    <f:convertDateTime
+                                        locale="es"
+                                        pattern="dd'-'MMM'-'yyyy" />
+                                </h:outputText>
+                            </p:column>-->
+                                    <p:column width="80">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.ideas.autor']}
+                                        </f:facet>
+                                        <p:commandLink
+                                            value="#{_canica.necesidad.idea.usuario.nickUsuario}"
+                                            title=
+                                            "#{messages['panelcontrol.administrador.rescatarusuarios.verusuario']}"
+                                            onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/MostrarDatosUsuario.seam?usuarioIdUsuario=#{_canica.necesidad.idea.usuario.idUsuario}',651, 510)"
+                                            style="width: 160px !important"
+                                            />
+                                    </p:column>
+                                    <p:column  width="160" rendered="#{false}">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.dejardeparticipar']}
+                                        </f:facet>
+
+                                        <h:panelGrid columns="5">
+
+                                            <p:commandButton
+                                                image="eliminar"
+                                                style=
+                                                "margin: 0px !important;
+                                                padding: 0px !important;
+                                                height: 27px !important;
+                                                width: 27px !important;"
+                                                styleClass="button white bigrounded"
+                                                title=
+                                                "#{messages['panelcontrol.dejardeparticipar']}"
+                                                />
+
+                                        </h:panelGrid>
+
+
+
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </p:tab>
+                        <p:tab
+                            title=
+                            "#{messages['panelcontrol.ideasrechazadas']}"
+                            >
+
+                            <h:form prependId="false">
+
+                                <p:dataTable
+                                    value="#{ideasDeUsuarioAvisoEnEdicion.resultList}" var="_avisoIdeaEdicion"
+                                    rows="5" paginator="true" paginatorPosition="both"
+                                    paginatorTemplate=
+                                    "{CurrentPageReport}
+                                    {FirstPageLink}
+                                    {PreviousPageLink}
+                                    {PageLinks}
+                                    {NextPageLink}
+                                    {LastPageLink}"
+                                    paginatorAlwaysVisible="false"
+                                    emptyMessage="#{messages['panelcontrol.nohayideas.participadas']}"
+                                    >
+
+
+
+
+                                    <p:column  sortBy="#{_avisoIdeaEdicion.idea.tituloIdea}" width="330">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.ideasrechazadas.idea.descripcion']}
+                                        </f:facet>
+                                        <f:facet name="style">
+                                            text-align: left !important
+                                        </f:facet>
+                                        <!--                                    border-color: transparent;-->
+                                        <s:link
+                                            style=
+                                            "text-align: left !important;
+                                            width: 500px !important"
+                                            view="/IdeaDetalle.seam"
+                                            target="_blank"
+                                            >
+                                            <f:param
+                                                name="ideaIdIdea"
+                                                value="#{_avisoIdeaEdicion.idea.idIdea}"
+                                                />
+
+
+                                            <h:panelGrid
+                                                columns="1"
+                                                style=
+                                                "text-align: left !important;
+                                                width: 300px !important"
+                                                >
+
+                                                <h:graphicImage
+                                                    value=
+                                                    "/img/ideas/small/principal/#{_avisoIdeaEdicion.idea.nombreImagen}"
+                                                    width="70px"
+                                                    height="49px"
+                                                    />
+                                                <h:outputText
+                                                    value=
+                                                    "#{_avisoIdeaEdicion.idea.tituloIdea}"
+                                                    style=
+                                                    "font-size: 9pt;
+                                                    font-weight: bold;
+                                                    text-align: left !important;
+                                                    font-family: 'Arial Narrow', sans-serif;
+                                                    border: 2pt;
+                                                    width: 300px !important"
+                                                    />
+
+                                            </h:panelGrid>
+                                        </s:link>
+                                    </p:column>
+
+                                    <p:column width="450">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.ideasrechazadas.mensaje.descripcion']}
+                                        </f:facet>
+                                        <h:panelGrid style="text-align: left !important">
+                                            <h:outputText
+                                                value="#{_avisoIdeaEdicion.textoAviso}"
+                                                style=
+                                                "font-size: 9pt;font-weight: bold;
+                                                text-align: left !important"
+                                                />
+                                        </h:panelGrid>
+                                    </p:column>
+
+
+
+                                    <p:column width="200" rendered="#{false}">
+                                        <f:facet name="header">
+                                            #{messages['panelcontrol.ideasrechazadas.acciones.descripcion']}
+                                        </f:facet>
+                                        <p:commandButton
+                                            image="pencil"
+                                            style=
+                                            "margin: 0px !important;
+                                            padding: 0px !important;
+                                            height: 27px !important;
+                                            width: 27px !important;"
+                                            styleClass="button white bigrounded"
+                                            title=
+                                            "#{messages['panelcontrol.ideasrechazadas.acciones.editaridea']}"                                            
+                                            process="@none"
+                                            />
+                                        <p:commandButton
+                                            image="trash"
+                                            style=
+                                            "margin: 0px !important;
+                                            padding: 0px !important;
+                                            height: 27px !important;
+                                            width: 27px !important;"
+                                            styleClass="button white bigrounded"
+                                            title=
+                                            "#{messages['panelcontrol.ideasrechazadas.acciones.eliminar']}"
+                                            process="@none"
+                                            />
+                                    </p:column>
+
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </p:tab>
+                    </p:tabView>
+                </p:tab>
+                <p:tab title="#{messages['panelcontrol.datosusuario']}" >
+                    <!--
+                    Tab de datos de usuario
+                    -->
+                    <h:panelGrid columns="2" style="text-align: left !important">
+                        <h:panelGrid>
+                            <p:graphicImage value="/img/users/big/#{usuario.nombreImagenUsuario}"/>
+                        </h:panelGrid>
+
+                        <h:panelGrid
+                            columns="2"
+                            style="text-align: left !important"
+                            >
+                            <h:outputText
+                                value="#{messages['panelcontrol.usuario.nombre']}"
+                                style="font-size: 14pt;font-weight: bold;"
+                                />
+                            <h:outputText
+                                value="#{usuario.nombreUsuario}#{' '}#{usuario.apellidoPaternoUsuario}#{' '}#{usuario.apellidoMaternoUsuario}"
+                                style=
+                                "font-size: 14pt;
+                                font-weight: bold;
+                                color: gray;
+                                text-align: left !important"
+                                />
+
+
+
+                            <h:outputText
+                                value="#{messages['panelcontrol.usuario.fecha']}"
+                                style="font-size: 14pt;font-weight: bold"
+                                />
+                            <h:outputText
+                                value="#{usuario.fechaIngresoUsuario}"
+                                style=
+                                "font-size: 14pt;
+                                font-weight: bold;
+                                color: gray;
+                                text-align: left !important"
+                                />
+
+
+
+                            <h:outputText
+                                value="#{messages['panelcontrol.usuario.institucion']}"
+                                style="font-size: 14pt;font-weight: bold"
+                                />
+
+                            <h:panelGrid columns="2">
+                                <p:graphicImage
+                                    value=
+                                    "/img/instituciones/big/#{usuario.institucion.nombreImagenInstitucion}"
+                                    />
+                                <h:outputText
+                                    value=
+                                    "#{usuario.institucion.nombreInstitucion}"
+                                    style=
+                                    "font-size: 14pt;
+                                    font-weight: bold;
+                                    color: gray;
+                                    text-align: left !important"
+                                    />
+                            </h:panelGrid>
+
+
+
+
+
+                            <h:outputText
+                                value="#{messages['panelcontrol.usuario.calificacion']}"
+                                style="font-size: 14pt;font-weight: bold"
+                                />
+
+
+                            <h:outputText
+                                value="#{usuario.calificacionUsuario}"
+                                style=
+                                "font-size: 14pt;
+                                font-weight: bold;
+                                color: gray;
+                                text-align: left !important"
+                                />
+
+                            <h:outputText
+                                value="#{messages['panelcontrol.usuario.estatus']}"
+                                style="font-size: 14pt;font-weight: bold"
+                                />
+                            <h:outputText
+                                value="#{messages['panelcontrol.usuario.estatus.'.concat(usuario.estatusUsuario.nombreEstatusUsuario)]}"
+                                style=
+                                "font-size: 14pt;
+                                font-weight: bold;
+                                color: gray;
+                                text-align: left !important"
+                                />
+
+                            <h:outputText
+                                value="#{messages['panelcontrol.usuario.temasinteres']}"
+                                style="font-size: 14pt;font-weight: bold"
+                                />
+                            <p:dataList 
+                                value=
+                                "#{usuario.miembroComunidads.{miembro|miembro.comunidad}}"
+                                var="_comunidad"
+                                >
+                                <h:outputText 
+                                    value="#{messages['comunidad.'.concat(_comunidad.nombreComunidad)]}"
+                                    />
+                            </p:dataList>
+
+                            <h:outputText
+                                value=""
+                                />
+
+
+                            <!--                            <h:form>
+                                                            <p:commandLink
+                                                                value=
+                                                                "#{messages['panelcontrol.usuario.editar']}"
+                                                                styleClass="botonnaranja"
+                                                                />
+                                                        </h:form>-->
+
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+
+
+                </p:tab>
+
+                <p:tab title="#{messages['panelcontrol.avisospendientes']}" >
+                    <p:panel header="#{messages['panelcontrol.misavisospendientes']}">
+                        <h:outputText
+                            value=
+                            "#{messages['panelcontrol.enconstruccion']}"
+                            style=
+                            "font-size: 17pt !important;
+                            font-weight: bold !important"
+                            />
+                    </p:panel>
+                </p:tab>
+
+
+            </p:tabView>
+            <p:dialog id="dialogoPreguntaActivada"
+                      header=
+                      "#{messages['panelcontrol.administrador.preguntas.preguntaaprobada']}"
+                      widgetVar="dialogoPreguntaActivada"
+                      styleClass="backdialogo"
+                      width="400"
+                      height="300"
+                      showEffect="clip"
+                      hideEffect="explode"
+                      >
+                <s:div style="height: 80px !important"/>
+                <h:outputText
+                    value=
+                    "#{messages['panelcontrol.administrador.preguntas.preguntaaprobada']}"
+                    styleClass="textodialogo"
+                    />
+                <h:form
+                    style=
+                    "margin-top: 15px !important;
+                    margin-bottom: 15px !important"
+                    >
+                    <p:commandLink
+                        value="#{messages['idea.boton.aceptar']}"
+                        onclick=
+                        "dialogoPreguntaActivada.hide();"
+                        styleClass="botonnaranja"
+                        />
+                </h:form>
+            </p:dialog>
+            <script type="text/javascript">
+                        function manejaRespuestaDeActivarIdea(xhr, status, args) {
+                                if(args.respuesta=='preguntaactivada') {
+                                        dialogoPreguntaActivada.show();
+                                } else{
+                                        dialogoError.show();
+                                }
+                        }
+
+
+                        function manejaRespuestaDePregunta(xhr, status, args){
+
+                            if(args.respuesta == 'ideanoencontrada'){
+                                dialogoPregunta.hide();
+                                dialogoError.show();
+                            }else if(args.respuesta == 'notLoggedIn'){
+                                dialogoPregunta.hide();
+                                dialogoPreguntaLogin.show();
+                            }else if(args.respuesta== 'loggedIn'){
+                                dialogoPregunta.show();
+                            }else if(args.respuesta == 'preguntahecha'){
+                                dialogoPregunta.hide();
+                                dialogoYaPreguntaste.show();
+                            }else{
+                                dialogoPregunta.hide();
+                                dialogoError.show();
+                            }
+                        }
+            </script>
+        </p:layoutUnit>
+    </ui:define>
+
+    <!-- DEFINIENDO LA PLANTILLA DEL BREADCRUMB (MENÚ JERÁRQUICO) -->
+    <!--    <ui:define name="breadcrumb">
+            <h:form>
+                <p:breadCrumb style="width: 1088px !important;">
+                    <p:menuitem url="/Home.seam"
+                                value="Página principal de LinkUAM"
+                                />
+                    <p:menuitem
+                        url="/Home.seam"
+                        value="Página principal"
+                        style="text-decoration: none !important;
+                        height: 18px;
+                        padding-left: 2px !important;
+                        padding-right: 2px !important;
+                        font-size: 10pt"
+                        />
+                    <p:menuitem
+                        url="/Home.seam"
+                        value="Visión y Misión de LinkUAM"
+                        style="text-decoration: none !important;
+                        height: 18px;
+                        padding-left: 2px !important;
+                        padding-right: 2px !important;
+                        font-size: 10pt"
+                        />
+                    <p:menuitem
+                        url="/Home.seam"
+                        value="Licencia de LinkUAM"
+                        style="text-decoration: none !important;
+                        height: 18px;
+                        padding-left: 2px !important;
+                        padding-right: 2px !important;
+                        font-size: 10pt"
+                        />
+                    <p:menuitem
+                        url="/Home.seam"
+                        value="¿Quién es LinkUAM?"
+                        style="text-decoration: none !important;
+                        height: 18px;
+                        padding-left: 2px !important;
+                        padding-right: 2px !important;
+                        font-size: 10pt"
+                        />
+                    <p:menuitem
+                        url="/Home.seam"
+                        value="¿Quién usa LinkUAM?"
+                        style="text-decoration: none !important;
+                        height: 18px;
+                        padding-left: 2px !important;
+                        padding-right: 2px !important;
+                        font-size: 10pt"
+                        />
+
+                    <p:menuitem
+                        url="/Home.seam"
+                        value="Estadísticas"
+                        style="text-decoration: none !important;
+                        height: 18px;
+                        padding-left: 2px !important;
+                        padding-right: 2px !important;
+                        font-size: 10pt"
+                        />
+                    <p:menuitem
+                        url="/Home.seam"
+                        value="Fallas conocidas"
+                        styleClass="black"
+                        style="text-decoration: none !important;
+                        height: 18px;
+                        padding-left: 2px !important;
+                        padding-right: 2px !important;
+                        font-size: 10pt;color: orange !important;"
+                        />
+                </p:breadCrumb>
+            </h:form>
+        </ui:define>-->
+
+</ui:composition>

@@ -1,0 +1,412 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Invitacion Details</f:facet>
+
+        <s:decorate id="idInvitacion" template="layout/display.xhtml">
+            <ui:define name="label">Id invitacion</ui:define>
+            <h:outputText value="#{invitacionHome.instance.idInvitacion}"/>
+        </s:decorate>
+
+        <s:decorate id="correoUsuarioInvitacion" template="layout/display.xhtml">
+            <ui:define name="label">Correo usuario invitacion</ui:define>
+            <h:outputText value="#{invitacionHome.instance.correoUsuarioInvitacion}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaRegistroInvitacion" template="layout/display.xhtml">
+            <ui:define name="label">Fecha registro invitacion</ui:define>
+            <h:outputText value="#{invitacionHome.instance.fechaRegistroInvitacion}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="fechaUsuarioRegistradoInvitacion" template="layout/display.xhtml">
+            <ui:define name="label">Fecha usuario registrado invitacion</ui:define>
+            <h:outputText value="#{invitacionHome.instance.fechaUsuarioRegistradoInvitacion}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="textoInvitacion" template="layout/display.xhtml">
+            <ui:define name="label">Texto invitacion</ui:define>
+            <h:outputText value="#{invitacionHome.instance.textoInvitacion}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/InvitacionEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty invitacionFrom ? 'InvitacionList' : invitacionFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Envios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="enviosChildren">
+
+        <h:outputText value="There are no envios associated with this invitacion."
+                   rendered="#{empty invitacionHome.envios}"/>
+
+        <rich:dataTable value="#{invitacionHome.envios}"
+                       var="_envio"
+                  rendered="#{not empty invitacionHome.envios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="enviosTable">
+            <rich:column sortBy="#{_envio.idEnvio}">
+                <f:facet name="header">Id envio</f:facet>
+                <h:outputText value="#{_envio.idEnvio}"/>
+            </rich:column>
+            <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                <f:facet name="header">Fecha envio envio</f:facet>
+                <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                <f:facet name="header">Fecha registro envio</f:facet>
+                <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                <f:facet name="header">Numero intentos envio</f:facet>
+                <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectenvio"
+                     value="Select"
+                      view="/Envio.xhtml">
+                    <f:param name="envioIdEnvio"
+                            value="#{_envio.idEnvio}"/>
+                    <f:param name="envioFrom" value="Invitacion"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add envio"
+                view="/EnvioEdit.xhtml">
+            <f:param name="invitacionIdInvitacion"
+                    value="#{invitacionHome.instance.idInvitacion}"/>
+            <f:param name="envioFrom" value="Invitacion"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Estatus invitacion</h:panelGroup>
+        </f:facet>
+    <div class="association" id="estatusInvitacionParent">
+
+        <h:outputText value="There is no estatusInvitacion associated with this invitacion."
+                   rendered="#{invitacionHome.instance.estatusInvitacion == null}"/>
+
+        <rich:dataTable var="_estatusInvitacion"
+                   value="#{invitacionHome.instance.estatusInvitacion}"
+                rendered="#{invitacionHome.instance.estatusInvitacion != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusInvitacionTable">
+            <h:column>
+                <f:facet name="header">Id estatus invitacion</f:facet>
+                <h:outputText value="#{_estatusInvitacion.idEstatusInvitacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion estatus invitacion</f:facet>
+                <h:outputText value="#{_estatusInvitacion.descripcionEstatusInvitacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus invitacion</f:facet>
+                <h:outputText value="#{_estatusInvitacion.nombreEstatusInvitacion}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewestatusInvitacion"
+                     value="View"
+                      view="/EstatusInvitacion.xhtml">
+                    <f:param name="estatusInvitacionIdEstatusInvitacion"
+                           value="#{_estatusInvitacion.idEstatusInvitacion}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Ticket registro</h:panelGroup>
+        </f:facet>
+    <div class="association" id="ticketRegistroParent">
+
+        <h:outputText value="There is no ticketRegistro associated with this invitacion."
+                   rendered="#{invitacionHome.instance.ticketRegistro == null}"/>
+
+        <rich:dataTable var="_ticketRegistro"
+                   value="#{invitacionHome.instance.ticketRegistro}"
+                rendered="#{invitacionHome.instance.ticketRegistro != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ticketRegistroTable">
+            <h:column>
+                <f:facet name="header">Id ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.idTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ticket registro id estatus ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.estatusTicketRegistro.idEstatusTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.fechaTicketRegistro}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ticket usado</f:facet>
+                <h:outputText value="#{_ticketRegistro.fechaTicketUsado}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Texto ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.textoTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo ticket registro id tipo ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.tipoTicketRegistro.idTipoTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_ticketRegistro.usuario.idUsuario}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewticketRegistro"
+                     value="View"
+                      view="/TicketRegistro.xhtml">
+                    <f:param name="ticketRegistroIdTicketRegistro"
+                           value="#{_ticketRegistro.idTicketRegistro}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuario by usuario invitado id</h:panelGroup>
+        </f:facet>
+    <div class="association" id="usuarioByUsuarioInvitadoIdParent">
+
+        <h:outputText value="There is no usuarioByUsuarioInvitadoId associated with this invitacion."
+                   rendered="#{invitacionHome.instance.usuarioByUsuarioInvitadoId == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{invitacionHome.instance.usuarioByUsuarioInvitadoId}"
+                rendered="#{invitacionHome.instance.usuarioByUsuarioInvitadoId != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioByUsuarioInvitadoIdTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewusuario"
+                     value="View"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioIdUsuario"
+                           value="#{_usuario.idUsuario}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuario by usuario invitante id</h:panelGroup>
+        </f:facet>
+    <div class="association" id="usuarioByUsuarioInvitanteIdParent">
+
+        <h:outputText value="There is no usuarioByUsuarioInvitanteId associated with this invitacion."
+                   rendered="#{invitacionHome.instance.usuarioByUsuarioInvitanteId == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{invitacionHome.instance.usuarioByUsuarioInvitanteId}"
+                rendered="#{invitacionHome.instance.usuarioByUsuarioInvitanteId != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioByUsuarioInvitanteIdTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewusuario"
+                     value="View"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioIdUsuario"
+                           value="#{_usuario.idUsuario}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

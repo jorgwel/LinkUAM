@@ -1,0 +1,87 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+
+        <p:resources/>
+        </head>
+        <body>
+        <h:form prependId="false">
+
+            <p:dataTable var="car" value="#{tableBean.cars}" paginator="true" rows="10">
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Model" />
+                    </f:facet>
+                    <h:outputText value="#{car.model}" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Year" />
+                    </f:facet>
+                    <h:outputText value="#{car.year}" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Manufacturer" />
+                    </f:facet>
+                    <h:outputText value="#{car.manufacturer}" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Color" />
+                    </f:facet>
+                    <h:outputText value="#{car.color}" />
+                </p:column>
+
+                <p:column >
+                    <p:commandButton update="display" oncomplete="carDialog.show()"
+                                     image="ui-icon ui-icon-search">
+                        <f:setPropertyActionListener value="#{car}"
+                                                     target="#{tableBean.selectedCar}" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:dialog header="Car Detail" widgetVar="carDialog" resizable="false"
+                      width="200" showEffect="explode" hideEffect="explode">
+
+                <h:panelGrid id="display" columns="2" cellpadding="4">
+
+                    <f:facet name="header">
+                        <p:graphicImage value="/img/acciones/#{tableBean.selectedCar.manufacturer}.png"/>
+                    </f:facet>
+
+                    <h:outputText value="Model:" />
+                    <h:outputText value="#{tableBean.selectedCar.model}" />
+
+                    <h:outputText value="Year:" />
+                    <h:outputText value="#{tableBean.selectedCar.year}" />
+
+                    <h:outputText value="Manufacturer:" />
+                    <h:outputText value="#{tableBean.selectedCar.manufacturer}" />
+
+                    <h:outputText value="Color:" />
+                    <h:outputText value="#{tableBean.selectedCar.color}" />
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>  
+        </body>
+    </html>
+
+</f:view>

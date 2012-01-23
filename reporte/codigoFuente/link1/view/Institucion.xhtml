@@ -1,0 +1,237 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Institucion Details</f:facet>
+
+        <s:decorate id="idInstitucion" template="layout/display.xhtml">
+            <ui:define name="label">Id institucion</ui:define>
+            <h:outputText value="#{institucionHome.instance.idInstitucion}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcionInstitucion" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion institucion</ui:define>
+            <h:outputText value="#{institucionHome.instance.descripcionInstitucion}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreImagenInstitucion" template="layout/display.xhtml">
+            <ui:define name="label">Nombre imagen institucion</ui:define>
+            <h:outputText value="#{institucionHome.instance.nombreImagenInstitucion}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreInstitucion" template="layout/display.xhtml">
+            <ui:define name="label">Nombre institucion</ui:define>
+            <h:outputText value="#{institucionHome.instance.nombreInstitucion}"/>
+        </s:decorate>
+
+        <s:decorate id="urlInstitucion" template="layout/display.xhtml">
+            <ui:define name="label">Url institucion</ui:define>
+            <h:outputText value="#{institucionHome.instance.urlInstitucion}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/InstitucionEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty institucionFrom ? 'InstitucionList' : institucionFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuarios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="usuariosChildren">
+
+        <h:outputText value="There are no usuarios associated with this institucion."
+                   rendered="#{empty institucionHome.usuarios}"/>
+
+        <rich:dataTable value="#{institucionHome.usuarios}"
+                       var="_usuario"
+                  rendered="#{not empty institucionHome.usuarios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="usuariosTable">
+            <rich:column sortBy="#{_usuario.idUsuario}">
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.apellidoMaternoUsuario}">
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.apellidoPaternoUsuario}">
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.calificacionUsuario}">
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.contrasenaUsuario}">
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.fechaFinUsuario}">
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.fechaIngresoUsuario}">
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.fechaNacimientoUsuario}">
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.nickUsuario}">
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.nombreImagenUsuario}">
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.nombreUsuario}">
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.sexoUsuario}">
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectusuario"
+                     value="Select"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioIdUsuario"
+                            value="#{_usuario.idUsuario}"/>
+                    <f:param name="usuarioFrom" value="Institucion"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add usuario"
+                view="/UsuarioEdit.xhtml">
+            <f:param name="institucionIdInstitucion"
+                    value="#{institucionHome.instance.idInstitucion}"/>
+            <f:param name="usuarioFrom" value="Institucion"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Visitas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="visitasChildren">
+
+        <h:outputText value="There are no visitas associated with this institucion."
+                   rendered="#{empty institucionHome.visitas}"/>
+
+        <rich:dataTable value="#{institucionHome.visitas}"
+                       var="_visita"
+                  rendered="#{not empty institucionHome.visitas}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="visitasTable">
+            <rich:column sortBy="#{_visita.idVisita}">
+                <f:facet name="header">Id visita</f:facet>
+                <h:outputText value="#{_visita.idVisita}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.coordenadaGeograficaLatitudVisita}">
+                <f:facet name="header">Coordenada geografica latitud visita</f:facet>
+                <h:outputText value="#{_visita.coordenadaGeograficaLatitudVisita}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.coordenadaGeograficaLongitudVisita}">
+                <f:facet name="header">Coordenada geografica longitud visita</f:facet>
+                <h:outputText value="#{_visita.coordenadaGeograficaLongitudVisita}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.direccionIpVisita}">
+                <f:facet name="header">Direccion ip visita</f:facet>
+                <h:outputText value="#{_visita.direccionIpVisita}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.fechaFinVisita}">
+                <f:facet name="header">Fecha fin visita</f:facet>
+                <h:outputText value="#{_visita.fechaFinVisita}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_visita.fechaInicioVisita}">
+                <f:facet name="header">Fecha inicio visita</f:facet>
+                <h:outputText value="#{_visita.fechaInicioVisita}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_visita.limiteFinal}">
+                <f:facet name="header">Limite final</f:facet>
+                <h:outputText value="#{_visita.limiteFinal}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.limiteInicial}">
+                <f:facet name="header">Limite inicial</f:facet>
+                <h:outputText value="#{_visita.limiteInicial}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.sesionid}">
+                <f:facet name="header">Sesionid</f:facet>
+                <h:outputText value="#{_visita.sesionid}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.textoABuscar}">
+                <f:facet name="header">Texto a buscar</f:facet>
+                <h:outputText value="#{_visita.textoABuscar}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectvisita"
+                     value="Select"
+                      view="/Visita.xhtml">
+                    <f:param name="visitaIdVisita"
+                            value="#{_visita.idVisita}"/>
+                    <f:param name="visitaFrom" value="Institucion"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add visita"
+                view="/VisitaEdit.xhtml">
+            <f:param name="institucionIdInstitucion"
+                    value="#{institucionHome.instance.idInstitucion}"/>
+            <f:param name="visitaFrom" value="Institucion"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

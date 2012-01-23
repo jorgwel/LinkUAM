@@ -1,0 +1,593 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="visita" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{visitaHome.managed ? 'Edit' : 'Add'} Visita</f:facet>
+
+
+            <s:decorate id="idVisitaField" template="layout/edit.xhtml">
+                <ui:define name="label">Id visita</ui:define>
+                <h:inputText id="idVisita"
+                       required="true"
+                       disabled="#{visitaHome.managed}"
+                          value="#{visitaHome.instance.idVisita}">
+                    <a:support event="onblur" reRender="idVisitaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="coordenadaGeograficaLatitudVisitaField" template="layout/edit.xhtml">
+                <ui:define name="label">Coordenada geografica latitud visita</ui:define>
+                <h:inputText id="coordenadaGeograficaLatitudVisita"
+                          value="#{visitaHome.instance.coordenadaGeograficaLatitudVisita}">
+                    <a:support event="onblur" reRender="coordenadaGeograficaLatitudVisitaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="coordenadaGeograficaLongitudVisitaField" template="layout/edit.xhtml">
+                <ui:define name="label">Coordenada geografica longitud visita</ui:define>
+                <h:inputText id="coordenadaGeograficaLongitudVisita"
+                          value="#{visitaHome.instance.coordenadaGeograficaLongitudVisita}">
+                    <a:support event="onblur" reRender="coordenadaGeograficaLongitudVisitaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="direccionIpVisitaField" template="layout/edit.xhtml">
+                <ui:define name="label">Direccion ip visita</ui:define>
+                <h:inputText id="direccionIpVisita"
+                       required="true"
+                           size="40"
+                      maxlength="40"
+                          value="#{visitaHome.instance.direccionIpVisita}">
+                    <a:support event="onblur" reRender="direccionIpVisitaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="fechaFinVisitaField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha fin visita</ui:define>
+                <rich:calendar id="fechaFinVisita"
+                          value="#{visitaHome.instance.fechaFinVisita}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="fechaInicioVisitaField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha inicio visita</ui:define>
+                <rich:calendar id="fechaInicioVisita"
+                       required="true"
+                          value="#{visitaHome.instance.fechaInicioVisita}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+
+
+            <s:decorate id="limiteFinalField" template="layout/edit.xhtml">
+                <ui:define name="label">Limite final</ui:define>
+                <h:inputText id="limiteFinal"
+                          value="#{visitaHome.instance.limiteFinal}">
+                    <a:support event="onblur" reRender="limiteFinalField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="limiteInicialField" template="layout/edit.xhtml">
+                <ui:define name="label">Limite inicial</ui:define>
+                <h:inputText id="limiteInicial"
+                          value="#{visitaHome.instance.limiteInicial}">
+                    <a:support event="onblur" reRender="limiteInicialField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="sesionidField" template="layout/edit.xhtml">
+                <ui:define name="label">Sesionid</ui:define>
+                <h:inputText id="sesionid"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{visitaHome.instance.sesionid}">
+                    <a:support event="onblur" reRender="sesionidField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="textoABuscarField" template="layout/edit.xhtml">
+                <ui:define name="label">Texto a buscar</ui:define>
+                <h:inputText id="textoABuscar"
+                           size="100"
+                      maxlength="100"
+                          value="#{visitaHome.instance.textoABuscar}">
+                    <a:support event="onblur" reRender="textoABuscarField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{visitaHome.persist}"
+                       disabled="#{!visitaHome.wired}"
+                       rendered="#{!visitaHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{visitaHome.update}"
+                       rendered="#{visitaHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{visitaHome.remove}"
+                      immediate="true"
+                       rendered="#{visitaHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Visita.xhtml"
+                rendered="#{visitaHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty visitaFrom ? 'VisitaList' : visitaFrom}.xhtml"
+                rendered="#{!visitaHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Estatus ayuda recursos humanos">
+    <div class="association" id="estatusAyudaRecursosHumanosParent">
+
+        <h:outputText value="There is no estatusAyudaRecursosHumanos associated with this visita."
+                   rendered="#{visitaHome.instance.estatusAyudaRecursosHumanos == null}"/>
+
+        <rich:dataTable var="_estatusAyudaRecursosHumanos"
+                   value="#{visitaHome.instance.estatusAyudaRecursosHumanos}"
+                rendered="#{visitaHome.instance.estatusAyudaRecursosHumanos != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusAyudaRecursosHumanosTable">
+            <h:column>
+                <f:facet name="header">Id estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_estatusAyudaRecursosHumanos.idEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_estatusAyudaRecursosHumanos.definicionEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_estatusAyudaRecursosHumanos.nombreEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{visitaHome.instance.estatusAyudaRecursosHumanos != null ? 'changeParentestatusAyudaRecursosHumanos' : 'selectParentestatusAyudaRecursosHumanos'}" value="#{visitaHome.instance.estatusAyudaRecursosHumanos != null ? 'Change' : 'Select'} estatusAyudaRecursosHumanos"
+                       view="/EstatusAyudaRecursosHumanosList.xhtml">
+                <f:param name="from" value="VisitaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Idea">
+    <div class="association" id="ideaParent">
+
+        <h:outputText value="There is no idea associated with this visita."
+                   rendered="#{visitaHome.instance.idea == null}"/>
+
+        <rich:dataTable var="_idea"
+                   value="#{visitaHome.instance.idea}"
+                rendered="#{visitaHome.instance.idea != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ideaTable">
+            <h:column>
+                <f:facet name="header">Id idea</f:facet>
+                <h:outputText value="#{_idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Activa</f:facet>
+                <h:outputText value="#{_idea.activa}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion idea</f:facet>
+                <h:outputText value="#{_idea.calificacionIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido idea</f:facet>
+                <h:outputText value="#{_idea.contenidoIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda monetaria id estatus ayuda monetaria</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaMonetaria.idEstatusAyudaMonetaria}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda recursos humanos id estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaRecursosHumanos.idEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus idea id estatus idea</f:facet>
+                <h:outputText value="#{_idea.estatusIdea.idEstatusIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha creacion idea</f:facet>
+                <h:outputText value="#{_idea.fechaCreacionIdea}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lugar id lugar</f:facet>
+                <h:outputText value="#{_idea.lugar.idLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen</f:facet>
+                <h:outputText value="#{_idea.nombreImagen}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Resumen idea</f:facet>
+                <h:outputText value="#{_idea.resumenIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titulo idea</f:facet>
+                <h:outputText value="#{_idea.tituloIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_idea.usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos negativos idea</f:facet>
+                <h:outputText value="#{_idea.votosNegativosIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos positivos idea</f:facet>
+                <h:outputText value="#{_idea.votosPositivosIdea}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{visitaHome.instance.idea != null ? 'changeParentidea' : 'selectParentidea'}" value="#{visitaHome.instance.idea != null ? 'Change' : 'Select'} idea"
+                       view="/IdeaList.xhtml">
+                <f:param name="from" value="VisitaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Institucion">
+    <div class="association" id="institucionParent">
+
+        <h:outputText value="There is no institucion associated with this visita."
+                   rendered="#{visitaHome.instance.institucion == null}"/>
+
+        <rich:dataTable var="_institucion"
+                   value="#{visitaHome.instance.institucion}"
+                rendered="#{visitaHome.instance.institucion != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="institucionTable">
+            <h:column>
+                <f:facet name="header">Id institucion</f:facet>
+                <h:outputText value="#{_institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion institucion</f:facet>
+                <h:outputText value="#{_institucion.descripcionInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen institucion</f:facet>
+                <h:outputText value="#{_institucion.nombreImagenInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre institucion</f:facet>
+                <h:outputText value="#{_institucion.nombreInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Url institucion</f:facet>
+                <h:outputText value="#{_institucion.urlInstitucion}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{visitaHome.instance.institucion != null ? 'changeParentinstitucion' : 'selectParentinstitucion'}" value="#{visitaHome.instance.institucion != null ? 'Change' : 'Select'} institucion"
+                       view="/InstitucionList.xhtml">
+                <f:param name="from" value="VisitaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Pregunta">
+    <div class="association" id="preguntaParent">
+
+        <h:outputText value="There is no pregunta associated with this visita."
+                   rendered="#{visitaHome.instance.pregunta == null}"/>
+
+        <rich:dataTable var="_pregunta"
+                   value="#{visitaHome.instance.pregunta}"
+                rendered="#{visitaHome.instance.pregunta != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="preguntaTable">
+            <h:column>
+                <f:facet name="header">Id pregunta</f:facet>
+                <h:outputText value="#{_pregunta.idPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus pregunta id estatus pregunta</f:facet>
+                <h:outputText value="#{_pregunta.estatusPregunta.idEstatusPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha creacion pregunta</f:facet>
+                <h:outputText value="#{_pregunta.fechaCreacionPregunta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin pregunta</f:facet>
+                <h:outputText value="#{_pregunta.fechaFinPregunta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Idea id idea</f:facet>
+                <h:outputText value="#{_pregunta.idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Pregunta pregunta</f:facet>
+                <h:outputText value="#{_pregunta.preguntaPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Respuesta pregunta</f:facet>
+                <h:outputText value="#{_pregunta.respuestaPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario by usuario pregunta id id usuario</f:facet>
+                <h:outputText value="#{_pregunta.usuarioByUsuarioPreguntaId.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario by usuario respuesta id id usuario</f:facet>
+                <h:outputText value="#{_pregunta.usuarioByUsuarioRespuestaId.idUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{visitaHome.instance.pregunta != null ? 'changeParentpregunta' : 'selectParentpregunta'}" value="#{visitaHome.instance.pregunta != null ? 'Change' : 'Select'} pregunta"
+                       view="/PreguntaList.xhtml">
+                <f:param name="from" value="VisitaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Tipo idea">
+    <div class="association" id="tipoIdeaParent">
+
+        <h:outputText value="There is no tipoIdea associated with this visita."
+                   rendered="#{visitaHome.instance.tipoIdea == null}"/>
+
+        <rich:dataTable var="_tipoIdea"
+                   value="#{visitaHome.instance.tipoIdea}"
+                rendered="#{visitaHome.instance.tipoIdea != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipoIdeaTable">
+            <h:column>
+                <f:facet name="header">Id tipo idea</f:facet>
+                <h:outputText value="#{_tipoIdea.idTipoIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion tipo idea</f:facet>
+                <h:outputText value="#{_tipoIdea.descripcionTipoIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre tipo idea</f:facet>
+                <h:outputText value="#{_tipoIdea.nombreTipoIdea}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{visitaHome.instance.tipoIdea != null ? 'changeParenttipoIdea' : 'selectParenttipoIdea'}" value="#{visitaHome.instance.tipoIdea != null ? 'Change' : 'Select'} tipoIdea"
+                       view="/TipoIdeaList.xhtml">
+                <f:param name="from" value="VisitaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Tipo visita *" labelClass="required">
+    <div class="association" id="tipoVisitaParent">
+
+        <h:outputText value="There is no tipoVisita associated with this visita."
+                   rendered="#{visitaHome.instance.tipoVisita == null}"/>
+
+        <rich:dataTable var="_tipoVisita"
+                   value="#{visitaHome.instance.tipoVisita}"
+                rendered="#{visitaHome.instance.tipoVisita != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipoVisitaTable">
+            <h:column>
+                <f:facet name="header">Id tipo visita</f:facet>
+                <h:outputText value="#{_tipoVisita.idTipoVisita}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion tipo visita</f:facet>
+                <h:outputText value="#{_tipoVisita.descripcionTipoVisita}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre tipo visita</f:facet>
+                <h:outputText value="#{_tipoVisita.nombreTipoVisita}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{visitaHome.instance.tipoVisita != null ? 'changeParenttipoVisita' : 'selectParenttipoVisita'}" value="#{visitaHome.instance.tipoVisita != null ? 'Change' : 'Select'} tipoVisita"
+                       view="/TipoVisitaList.xhtml">
+                <f:param name="from" value="VisitaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Usuario">
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this visita."
+                   rendered="#{visitaHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{visitaHome.instance.usuario}"
+                rendered="#{visitaHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{visitaHome.instance.usuario != null ? 'changeParentusuario' : 'selectParentusuario'}" value="#{visitaHome.instance.usuario != null ? 'Change' : 'Select'} usuario"
+                       view="/UsuarioList.xhtml">
+                <f:param name="from" value="VisitaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Vista *" labelClass="required">
+    <div class="association" id="vistaParent">
+
+        <h:outputText value="There is no vista associated with this visita."
+                   rendered="#{visitaHome.instance.vista == null}"/>
+
+        <rich:dataTable var="_vista"
+                   value="#{visitaHome.instance.vista}"
+                rendered="#{visitaHome.instance.vista != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="vistaTable">
+            <h:column>
+                <f:facet name="header">Id vista</f:facet>
+                <h:outputText value="#{_vista.idVista}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion vista</f:facet>
+                <h:outputText value="#{_vista.descripcionVista}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre vista</f:facet>
+                <h:outputText value="#{_vista.nombreVista}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo vista id tipo vista</f:facet>
+                <h:outputText value="#{_vista.tipoVista.idTipoVista}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{visitaHome.instance.vista != null ? 'changeParentvista' : 'selectParentvista'}" value="#{visitaHome.instance.vista != null ? 'Change' : 'Select'} vista"
+                       view="/VistaList.xhtml">
+                <f:param name="from" value="VisitaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

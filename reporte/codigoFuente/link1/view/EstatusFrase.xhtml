@@ -1,0 +1,118 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus frase Details</f:facet>
+
+        <s:decorate id="idEstatusFrase" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus frase</ui:define>
+            <h:outputText value="#{estatusFraseHome.instance.idEstatusFrase}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcionEstatusFrase" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion estatus frase</ui:define>
+            <h:outputText value="#{estatusFraseHome.instance.descripcionEstatusFrase}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusFrase" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus frase</ui:define>
+            <h:outputText value="#{estatusFraseHome.instance.nombreEstatusFrase}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusFraseEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusFraseFrom ? 'EstatusFraseList' : estatusFraseFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Frases</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="frasesChildren">
+
+        <h:outputText value="There are no frases associated with this estatusFrase."
+                   rendered="#{empty estatusFraseHome.frases}"/>
+
+        <rich:dataTable value="#{estatusFraseHome.frases}"
+                       var="_frase"
+                  rendered="#{not empty estatusFraseHome.frases}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="frasesTable">
+            <rich:column sortBy="#{_frase.idFrase}">
+                <f:facet name="header">Id frase</f:facet>
+                <h:outputText value="#{_frase.idFrase}"/>
+            </rich:column>
+            <rich:column sortBy="#{_frase.autorFrase}">
+                <f:facet name="header">Autor frase</f:facet>
+                <h:outputText value="#{_frase.autorFrase}"/>
+            </rich:column>
+            <rich:column sortBy="#{_frase.calificacionFrase}">
+                <f:facet name="header">Calificacion frase</f:facet>
+                <h:outputText value="#{_frase.calificacionFrase}"/>
+            </rich:column>
+            <rich:column sortBy="#{_frase.ocupacionAutorFrase}">
+                <f:facet name="header">Ocupacion autor frase</f:facet>
+                <h:outputText value="#{_frase.ocupacionAutorFrase}"/>
+            </rich:column>
+            <rich:column sortBy="#{_frase.textoFrase}">
+                <f:facet name="header">Texto frase</f:facet>
+                <h:outputText value="#{_frase.textoFrase}"/>
+            </rich:column>
+            <rich:column sortBy="#{_frase.votosNegativosFrase}">
+                <f:facet name="header">Votos negativos frase</f:facet>
+                <h:outputText value="#{_frase.votosNegativosFrase}"/>
+            </rich:column>
+            <rich:column sortBy="#{_frase.votosPositivosFrase}">
+                <f:facet name="header">Votos positivos frase</f:facet>
+                <h:outputText value="#{_frase.votosPositivosFrase}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectfrase"
+                     value="Select"
+                      view="/Frase.xhtml">
+                    <f:param name="fraseIdFrase"
+                            value="#{_frase.idFrase}"/>
+                    <f:param name="fraseFrom" value="EstatusFrase"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add frase"
+                view="/FraseEdit.xhtml">
+            <f:param name="estatusFraseIdEstatusFrase"
+                    value="#{estatusFraseHome.instance.idEstatusFrase}"/>
+            <f:param name="fraseFrom" value="EstatusFrase"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

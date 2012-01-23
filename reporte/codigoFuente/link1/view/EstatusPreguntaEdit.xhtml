@@ -1,0 +1,153 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusPregunta" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusPreguntaHome.managed ? 'Edit' : 'Add'} Estatus pregunta</f:facet>
+
+
+            <s:decorate id="idEstatusPreguntaField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus pregunta</ui:define>
+                <h:inputText id="idEstatusPregunta"
+                       required="true"
+                       disabled="#{estatusPreguntaHome.managed}"
+                          value="#{estatusPreguntaHome.instance.idEstatusPregunta}">
+                    <a:support event="onblur" reRender="idEstatusPreguntaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionEstatusPreguntaField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus pregunta</ui:define>
+                <h:inputText id="definicionEstatusPregunta"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusPreguntaHome.instance.definicionEstatusPregunta}">
+                    <a:support event="onblur" reRender="definicionEstatusPreguntaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreEstatusPreguntaField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus pregunta</ui:define>
+                <h:inputText id="nombreEstatusPregunta"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusPreguntaHome.instance.nombreEstatusPregunta}">
+                    <a:support event="onblur" reRender="nombreEstatusPreguntaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusPreguntaHome.persist}"
+                       disabled="#{!estatusPreguntaHome.wired}"
+                       rendered="#{!estatusPreguntaHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusPreguntaHome.update}"
+                       rendered="#{estatusPreguntaHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusPreguntaHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusPreguntaHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusPregunta.xhtml"
+                rendered="#{estatusPreguntaHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusPreguntaFrom ? 'EstatusPreguntaList' : estatusPreguntaFrom}.xhtml"
+                rendered="#{!estatusPreguntaHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Preguntas">
+        <h:form styleClass="association" id="preguntasChildren">
+
+            <h:outputText value="There are no preguntas associated with this estatusPregunta."
+                       rendered="#{empty estatusPreguntaHome.preguntas}"/>
+
+            <rich:dataTable value="#{estatusPreguntaHome.preguntas}"
+                           var="_pregunta"
+                      rendered="#{not empty estatusPreguntaHome.preguntas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="preguntasTable">
+                <rich:column sortBy="#{_pregunta.idPregunta}">
+                    <f:facet name="header">Id pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.idPregunta}"/>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.fechaCreacionPregunta}">
+                    <f:facet name="header">Fecha creacion pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.fechaCreacionPregunta}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.fechaFinPregunta}">
+                    <f:facet name="header">Fecha fin pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.fechaFinPregunta}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.preguntaPregunta}">
+                    <f:facet name="header">Pregunta pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.preguntaPregunta}"/>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.respuestaPregunta}">
+                    <f:facet name="header">Respuesta pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.respuestaPregunta}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusPreguntaHome.managed}" id="preguntas">
+        <div class="actionButtons">
+            <s:button id="addpregunta"
+                   value="Add pregunta"
+                    view="/PreguntaEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusPreguntaIdEstatusPregunta"
+                         value="#{estatusPreguntaHome.instance.idEstatusPregunta}"/>
+                 <f:param name="preguntaFrom" value="EstatusPregunta"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

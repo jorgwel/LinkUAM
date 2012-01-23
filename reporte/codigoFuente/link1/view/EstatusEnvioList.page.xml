@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="firstResult" value="#{estatusEnvioList.firstResult}"/>
+   <param name="sort" value="#{estatusEnvioList.orderColumn}"/>
+   <param name="dir" value="#{estatusEnvioList.orderDirection}"/>
+   <param name="logic" value="#{estatusEnvioList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="definicionEstatusEnvio" value="#{estatusEnvioList.estatusEnvio.definicionEstatusEnvio}"/>
+   <param name="nombreEstatusEnvio" value="#{estatusEnvioList.estatusEnvio.nombreEstatusEnvio}"/>
+
+</page>

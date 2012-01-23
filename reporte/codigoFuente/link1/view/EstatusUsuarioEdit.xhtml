@@ -1,0 +1,183 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusUsuario" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusUsuarioHome.managed ? 'Edit' : 'Add'} Estatus usuario</f:facet>
+
+
+            <s:decorate id="idEstatusUsuarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus usuario</ui:define>
+                <h:inputText id="idEstatusUsuario"
+                       required="true"
+                       disabled="#{estatusUsuarioHome.managed}"
+                          value="#{estatusUsuarioHome.instance.idEstatusUsuario}">
+                    <a:support event="onblur" reRender="idEstatusUsuarioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionEstatusUsuarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus usuario</ui:define>
+                <h:inputText id="definicionEstatusUsuario"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusUsuarioHome.instance.definicionEstatusUsuario}">
+                    <a:support event="onblur" reRender="definicionEstatusUsuarioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreEstatusUsuarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus usuario</ui:define>
+                <h:inputText id="nombreEstatusUsuario"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusUsuarioHome.instance.nombreEstatusUsuario}">
+                    <a:support event="onblur" reRender="nombreEstatusUsuarioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusUsuarioHome.persist}"
+                       disabled="#{!estatusUsuarioHome.wired}"
+                       rendered="#{!estatusUsuarioHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusUsuarioHome.update}"
+                       rendered="#{estatusUsuarioHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusUsuarioHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusUsuarioHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusUsuario.xhtml"
+                rendered="#{estatusUsuarioHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusUsuarioFrom ? 'EstatusUsuarioList' : estatusUsuarioFrom}.xhtml"
+                rendered="#{!estatusUsuarioHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Usuarios">
+        <h:form styleClass="association" id="usuariosChildren">
+
+            <h:outputText value="There are no usuarios associated with this estatusUsuario."
+                       rendered="#{empty estatusUsuarioHome.usuarios}"/>
+
+            <rich:dataTable value="#{estatusUsuarioHome.usuarios}"
+                           var="_usuario"
+                      rendered="#{not empty estatusUsuarioHome.usuarios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="usuariosTable">
+                <rich:column sortBy="#{_usuario.idUsuario}">
+                    <f:facet name="header">Id usuario</f:facet>
+                    <h:outputText value="#{_usuario.idUsuario}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.apellidoMaternoUsuario}">
+                    <f:facet name="header">Apellido materno usuario</f:facet>
+                    <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.apellidoPaternoUsuario}">
+                    <f:facet name="header">Apellido paterno usuario</f:facet>
+                    <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.calificacionUsuario}">
+                    <f:facet name="header">Calificacion usuario</f:facet>
+                    <h:outputText value="#{_usuario.calificacionUsuario}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.contrasenaUsuario}">
+                    <f:facet name="header">Contrasena usuario</f:facet>
+                    <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.fechaFinUsuario}">
+                    <f:facet name="header">Fecha fin usuario</f:facet>
+                    <h:outputText value="#{_usuario.fechaFinUsuario}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.fechaIngresoUsuario}">
+                    <f:facet name="header">Fecha ingreso usuario</f:facet>
+                    <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.fechaNacimientoUsuario}">
+                    <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                    <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.nickUsuario}">
+                    <f:facet name="header">Nick usuario</f:facet>
+                    <h:outputText value="#{_usuario.nickUsuario}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.nombreImagenUsuario}">
+                    <f:facet name="header">Nombre imagen usuario</f:facet>
+                    <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.nombreUsuario}">
+                    <f:facet name="header">Nombre usuario</f:facet>
+                    <h:outputText value="#{_usuario.nombreUsuario}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.sexoUsuario}">
+                    <f:facet name="header">Sexo usuario</f:facet>
+                    <h:outputText value="#{_usuario.sexoUsuario}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusUsuarioHome.managed}" id="usuarios">
+        <div class="actionButtons">
+            <s:button id="addusuario"
+                   value="Add usuario"
+                    view="/UsuarioEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusUsuarioIdEstatusUsuario"
+                         value="#{estatusUsuarioHome.instance.idEstatusUsuario}"/>
+                 <f:param name="usuarioFrom" value="EstatusUsuario"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

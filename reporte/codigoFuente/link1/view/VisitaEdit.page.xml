@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/VisitaList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{visitaHome.wire}"/>
+
+   <param name="visitaFrom"/>
+   <param name="visitaIdVisita" value="#{visitaHome.visitaIdVisita}"/>
+   <param name="estatusAyudaRecursosHumanosFrom"/>
+   <param name="estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos" value="#{estatusAyudaRecursosHumanosHome.estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos}"/>
+
+   <param name="ideaFrom"/>
+   <param name="ideaIdIdea" value="#{ideaHome.ideaIdIdea}"/>
+   <param name="estatusAyudaMonetariaFrom"/>
+   <param name="estatusAyudaMonetariaIdEstatusAyudaMonetaria" value="#{estatusAyudaMonetariaHome.estatusAyudaMonetariaIdEstatusAyudaMonetaria}"/>
+
+   <param name="estatusIdeaFrom"/>
+   <param name="estatusIdeaIdEstatusIdea" value="#{estatusIdeaHome.estatusIdeaIdEstatusIdea}"/>
+
+   <param name="lugarFrom"/>
+   <param name="lugarIdLugar" value="#{lugarHome.lugarIdLugar}"/>
+   <param name="tipoLugarFrom"/>
+   <param name="tipoLugarIdTipoLugar" value="#{tipoLugarHome.tipoLugarIdTipoLugar}"/>
+
+   <param name="usuarioFrom"/>
+   <param name="usuarioIdUsuario" value="#{usuarioHome.usuarioIdUsuario}"/>
+   <param name="configuracionUsuarioFrom"/>
+   <param name="configuracionUsuarioIdConfiguracionUsuario" value="#{configuracionUsuarioHome.configuracionUsuarioIdConfiguracionUsuario}"/>
+
+   <param name="estatusUsuarioFrom"/>
+   <param name="estatusUsuarioIdEstatusUsuario" value="#{estatusUsuarioHome.estatusUsuarioIdEstatusUsuario}"/>
+
+   <param name="institucionFrom"/>
+   <param name="institucionIdInstitucion" value="#{institucionHome.institucionIdInstitucion}"/>
+
+
+
+
+   <param name="preguntaFrom"/>
+   <param name="preguntaIdPregunta" value="#{preguntaHome.preguntaIdPregunta}"/>
+   <param name="estatusPreguntaFrom"/>
+   <param name="estatusPreguntaIdEstatusPregunta" value="#{estatusPreguntaHome.estatusPreguntaIdEstatusPregunta}"/>
+
+
+   <param name="tipoIdeaFrom"/>
+   <param name="tipoIdeaIdTipoIdea" value="#{tipoIdeaHome.tipoIdeaIdTipoIdea}"/>
+
+   <param name="tipoVisitaFrom"/>
+   <param name="tipoVisitaIdTipoVisita" value="#{tipoVisitaHome.tipoVisitaIdTipoVisita}"/>
+
+   <param name="vistaFrom"/>
+   <param name="vistaIdVista" value="#{vistaHome.vistaIdVista}"/>
+   <param name="tipoVistaFrom"/>
+   <param name="tipoVistaIdTipoVista" value="#{tipoVistaHome.tipoVistaIdTipoVista}"/>
+
+
+
+
+   <navigation from-action="#{visitaHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/Visita.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{visitaHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/Visita.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{visitaHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/VisitaList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

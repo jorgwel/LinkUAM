@@ -1,0 +1,102 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Tipo vista Details</f:facet>
+
+        <s:decorate id="idTipoVista" template="layout/display.xhtml">
+            <ui:define name="label">Id tipo vista</ui:define>
+            <h:outputText value="#{tipoVistaHome.instance.idTipoVista}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcionTipoVista" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion tipo vista</ui:define>
+            <h:outputText value="#{tipoVistaHome.instance.descripcionTipoVista}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreTipoVista" template="layout/display.xhtml">
+            <ui:define name="label">Nombre tipo vista</ui:define>
+            <h:outputText value="#{tipoVistaHome.instance.nombreTipoVista}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/TipoVistaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty tipoVistaFrom ? 'TipoVistaList' : tipoVistaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Vistas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="vistasChildren">
+
+        <h:outputText value="There are no vistas associated with this tipoVista."
+                   rendered="#{empty tipoVistaHome.vistas}"/>
+
+        <rich:dataTable value="#{tipoVistaHome.vistas}"
+                       var="_vista"
+                  rendered="#{not empty tipoVistaHome.vistas}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="vistasTable">
+            <rich:column sortBy="#{_vista.idVista}">
+                <f:facet name="header">Id vista</f:facet>
+                <h:outputText value="#{_vista.idVista}"/>
+            </rich:column>
+            <rich:column sortBy="#{_vista.descripcionVista}">
+                <f:facet name="header">Descripcion vista</f:facet>
+                <h:outputText value="#{_vista.descripcionVista}"/>
+            </rich:column>
+            <rich:column sortBy="#{_vista.nombreVista}">
+                <f:facet name="header">Nombre vista</f:facet>
+                <h:outputText value="#{_vista.nombreVista}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectvista"
+                     value="Select"
+                      view="/Vista.xhtml">
+                    <f:param name="vistaIdVista"
+                            value="#{_vista.idVista}"/>
+                    <f:param name="vistaFrom" value="TipoVista"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add vista"
+                view="/VistaEdit.xhtml">
+            <f:param name="tipoVistaIdTipoVista"
+                    value="#{tipoVistaHome.instance.idTipoVista}"/>
+            <f:param name="vistaFrom" value="TipoVista"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

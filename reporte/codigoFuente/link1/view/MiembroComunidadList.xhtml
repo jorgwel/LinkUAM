@@ -1,0 +1,194 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="miembroComunidadSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="MiembroComunidad Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{miembroComunidadList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/MiembroComunidadList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">MiembroComunidad Search Results (#{empty miembroComunidadList.resultList ? 0 : (miembroComunidadList.paginated ? miembroComunidadList.resultCount : miembroComunidadList.resultList.size)})</f:facet>
+    <div class="results" id="miembroComunidadList">
+
+    <h:outputText value="The miembroComunidad search returned no results."
+               rendered="#{empty miembroComunidadList.resultList}"/>
+
+    <rich:dataTable id="miembroComunidadList"
+                var="_miembroComunidad"
+              value="#{miembroComunidadList.resultList}"
+           rendered="#{not empty miembroComunidadList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{miembroComunidadList}"/>
+                    <ui:param name="propertyLabel" value="Comunidad id"/>
+                    <ui:param name="propertyPath" value="miembroComunidad.id.comunidadId"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_miembroComunidad.id.comunidadId}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{miembroComunidadList}"/>
+                    <ui:param name="propertyLabel" value="Usuario id"/>
+                    <ui:param name="propertyPath" value="miembroComunidad.id.usuarioId"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_miembroComunidad.id.usuarioId}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{miembroComunidadList}"/>
+                    <ui:param name="propertyLabel" value="Comunidad id comunidad"/>
+                    <ui:param name="propertyPath" value="miembroComunidad.comunidad.idComunidad"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_miembroComunidad.comunidad.idComunidad}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{miembroComunidadList}"/>
+                    <ui:param name="propertyLabel" value="Estatus miembro comunidad id estatus miembro comunidad"/>
+                    <ui:param name="propertyPath" value="miembroComunidad.estatusMiembroComunidad.idEstatusMiembroComunidad"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_miembroComunidad.estatusMiembroComunidad.idEstatusMiembroComunidad}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{miembroComunidadList}"/>
+                    <ui:param name="propertyLabel" value="Fecha fin miembro comunidad"/>
+                    <ui:param name="propertyPath" value="miembroComunidad.fechaFinMiembroComunidad"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_miembroComunidad.fechaFinMiembroComunidad}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{miembroComunidadList}"/>
+                    <ui:param name="propertyLabel" value="Fecha inicio miembro comunidad"/>
+                    <ui:param name="propertyPath" value="miembroComunidad.fechaInicioMiembroComunidad"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_miembroComunidad.fechaInicioMiembroComunidad}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{miembroComunidadList}"/>
+                    <ui:param name="propertyLabel" value="Usuario id usuario"/>
+                    <ui:param name="propertyPath" value="miembroComunidad.usuario.idUsuario"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_miembroComunidad.usuario.idUsuario}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'MiembroComunidad' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="miembroComunidadViewId">
+                <f:param name="miembroComunidadComunidadId"
+                        value="#{_miembroComunidad.id.comunidadId}"/>
+                <f:param name="miembroComunidadUsuarioId"
+                        value="#{_miembroComunidad.id.usuarioId}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/MiembroComunidadEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="miembroComunidadEdit"
+                rendered="#{empty from}">
+                <f:param name="miembroComunidadComunidadId"
+                        value="#{_miembroComunidad.id.comunidadId}"/>
+                <f:param name="miembroComunidadUsuarioId"
+                        value="#{_miembroComunidad.id.usuarioId}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/MiembroComunidadList.xhtml"
+            rendered="#{miembroComunidadList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/MiembroComunidadList.xhtml"
+            rendered="#{miembroComunidadList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{miembroComunidadList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/MiembroComunidadList.xhtml"
+            rendered="#{miembroComunidadList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{miembroComunidadList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/MiembroComunidadList.xhtml"
+            rendered="#{miembroComunidadList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{miembroComunidadList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/MiembroComunidadEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create miembroComunidad">
+            <f:param name="miembroComunidadComunidadId"/>
+            <f:param name="miembroComunidadUsuarioId"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

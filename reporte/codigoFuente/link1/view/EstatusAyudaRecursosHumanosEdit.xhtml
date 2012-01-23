@@ -1,0 +1,241 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusAyudaRecursosHumanos" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusAyudaRecursosHumanosHome.managed ? 'Edit' : 'Add'} Estatus ayuda recursos humanos</f:facet>
+
+
+            <s:decorate id="idEstatusAyudaRecursosHumanosField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus ayuda recursos humanos</ui:define>
+                <h:inputText id="idEstatusAyudaRecursosHumanos"
+                       required="true"
+                       disabled="#{estatusAyudaRecursosHumanosHome.managed}"
+                          value="#{estatusAyudaRecursosHumanosHome.instance.idEstatusAyudaRecursosHumanos}">
+                    <a:support event="onblur" reRender="idEstatusAyudaRecursosHumanosField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionEstatusAyudaRecursosHumanosField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus ayuda recursos humanos</ui:define>
+                <h:inputText id="definicionEstatusAyudaRecursosHumanos"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusAyudaRecursosHumanosHome.instance.definicionEstatusAyudaRecursosHumanos}">
+                    <a:support event="onblur" reRender="definicionEstatusAyudaRecursosHumanosField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreEstatusAyudaRecursosHumanosField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus ayuda recursos humanos</ui:define>
+                <h:inputText id="nombreEstatusAyudaRecursosHumanos"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusAyudaRecursosHumanosHome.instance.nombreEstatusAyudaRecursosHumanos}">
+                    <a:support event="onblur" reRender="nombreEstatusAyudaRecursosHumanosField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusAyudaRecursosHumanosHome.persist}"
+                       disabled="#{!estatusAyudaRecursosHumanosHome.wired}"
+                       rendered="#{!estatusAyudaRecursosHumanosHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusAyudaRecursosHumanosHome.update}"
+                       rendered="#{estatusAyudaRecursosHumanosHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusAyudaRecursosHumanosHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusAyudaRecursosHumanosHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusAyudaRecursosHumanos.xhtml"
+                rendered="#{estatusAyudaRecursosHumanosHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusAyudaRecursosHumanosFrom ? 'EstatusAyudaRecursosHumanosList' : estatusAyudaRecursosHumanosFrom}.xhtml"
+                rendered="#{!estatusAyudaRecursosHumanosHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Ideas">
+        <h:form styleClass="association" id="ideasChildren">
+
+            <h:outputText value="There are no ideas associated with this estatusAyudaRecursosHumanos."
+                       rendered="#{empty estatusAyudaRecursosHumanosHome.ideas}"/>
+
+            <rich:dataTable value="#{estatusAyudaRecursosHumanosHome.ideas}"
+                           var="_idea"
+                      rendered="#{not empty estatusAyudaRecursosHumanosHome.ideas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="ideasTable">
+                <rich:column sortBy="#{_idea.idIdea}">
+                    <f:facet name="header">Id idea</f:facet>
+                    <h:outputText value="#{_idea.idIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.calificacionIdea}">
+                    <f:facet name="header">Calificacion idea</f:facet>
+                    <h:outputText value="#{_idea.calificacionIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.contenidoIdea}">
+                    <f:facet name="header">Contenido idea</f:facet>
+                    <h:outputText value="#{_idea.contenidoIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.fechaCreacionIdea}">
+                    <f:facet name="header">Fecha creacion idea</f:facet>
+                    <h:outputText value="#{_idea.fechaCreacionIdea}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_idea.nombreImagen}">
+                    <f:facet name="header">Nombre imagen</f:facet>
+                    <h:outputText value="#{_idea.nombreImagen}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.resumenIdea}">
+                    <f:facet name="header">Resumen idea</f:facet>
+                    <h:outputText value="#{_idea.resumenIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.tituloIdea}">
+                    <f:facet name="header">Titulo idea</f:facet>
+                    <h:outputText value="#{_idea.tituloIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.votosNegativosIdea}">
+                    <f:facet name="header">Votos negativos idea</f:facet>
+                    <h:outputText value="#{_idea.votosNegativosIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.votosPositivosIdea}">
+                    <f:facet name="header">Votos positivos idea</f:facet>
+                    <h:outputText value="#{_idea.votosPositivosIdea}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusAyudaRecursosHumanosHome.managed}" id="ideas">
+        <div class="actionButtons">
+            <s:button id="addidea"
+                   value="Add idea"
+                    view="/IdeaEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos"
+                         value="#{estatusAyudaRecursosHumanosHome.instance.idEstatusAyudaRecursosHumanos}"/>
+                 <f:param name="ideaFrom" value="EstatusAyudaRecursosHumanos"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Visitas">
+        <h:form styleClass="association" id="visitasChildren">
+
+            <h:outputText value="There are no visitas associated with this estatusAyudaRecursosHumanos."
+                       rendered="#{empty estatusAyudaRecursosHumanosHome.visitas}"/>
+
+            <rich:dataTable value="#{estatusAyudaRecursosHumanosHome.visitas}"
+                           var="_visita"
+                      rendered="#{not empty estatusAyudaRecursosHumanosHome.visitas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="visitasTable">
+                <rich:column sortBy="#{_visita.idVisita}">
+                    <f:facet name="header">Id visita</f:facet>
+                    <h:outputText value="#{_visita.idVisita}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.coordenadaGeograficaLatitudVisita}">
+                    <f:facet name="header">Coordenada geografica latitud visita</f:facet>
+                    <h:outputText value="#{_visita.coordenadaGeograficaLatitudVisita}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.coordenadaGeograficaLongitudVisita}">
+                    <f:facet name="header">Coordenada geografica longitud visita</f:facet>
+                    <h:outputText value="#{_visita.coordenadaGeograficaLongitudVisita}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.direccionIpVisita}">
+                    <f:facet name="header">Direccion ip visita</f:facet>
+                    <h:outputText value="#{_visita.direccionIpVisita}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.fechaFinVisita}">
+                    <f:facet name="header">Fecha fin visita</f:facet>
+                    <h:outputText value="#{_visita.fechaFinVisita}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_visita.fechaInicioVisita}">
+                    <f:facet name="header">Fecha inicio visita</f:facet>
+                    <h:outputText value="#{_visita.fechaInicioVisita}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_visita.limiteFinal}">
+                    <f:facet name="header">Limite final</f:facet>
+                    <h:outputText value="#{_visita.limiteFinal}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.limiteInicial}">
+                    <f:facet name="header">Limite inicial</f:facet>
+                    <h:outputText value="#{_visita.limiteInicial}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.sesionid}">
+                    <f:facet name="header">Sesionid</f:facet>
+                    <h:outputText value="#{_visita.sesionid}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.textoABuscar}">
+                    <f:facet name="header">Texto a buscar</f:facet>
+                    <h:outputText value="#{_visita.textoABuscar}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusAyudaRecursosHumanosHome.managed}" id="visitas">
+        <div class="actionButtons">
+            <s:button id="addvisita"
+                   value="Add visita"
+                    view="/VisitaEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos"
+                         value="#{estatusAyudaRecursosHumanosHome.instance.idEstatusAyudaRecursosHumanos}"/>
+                 <f:param name="visitaFrom" value="EstatusAyudaRecursosHumanos"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

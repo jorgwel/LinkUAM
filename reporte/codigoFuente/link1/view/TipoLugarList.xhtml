@@ -1,0 +1,155 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoLugarSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="TipoLugar Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Descripcion tipo lugar</ui:define>
+                <h:inputText id="descripcionTipoLugar" value="#{tipoLugarList.tipoLugar.descripcionTipoLugar}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Nombre tipo lugar</ui:define>
+                <h:inputText id="nombreTipoLugar" value="#{tipoLugarList.tipoLugar.nombreTipoLugar}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{tipoLugarList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/TipoLugarList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">TipoLugar Search Results (#{empty tipoLugarList.resultList ? 0 : (tipoLugarList.paginated ? tipoLugarList.resultCount : tipoLugarList.resultList.size)})</f:facet>
+    <div class="results" id="tipoLugarList">
+
+    <h:outputText value="The tipoLugar search returned no results."
+               rendered="#{empty tipoLugarList.resultList}"/>
+
+    <rich:dataTable id="tipoLugarList"
+                var="_tipoLugar"
+              value="#{tipoLugarList.resultList}"
+           rendered="#{not empty tipoLugarList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{tipoLugarList}"/>
+                    <ui:param name="propertyLabel" value="Id tipo lugar"/>
+                    <ui:param name="propertyPath" value="tipoLugar.idTipoLugar"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_tipoLugar.idTipoLugar}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{tipoLugarList}"/>
+                    <ui:param name="propertyLabel" value="Descripcion tipo lugar"/>
+                    <ui:param name="propertyPath" value="tipoLugar.descripcionTipoLugar"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_tipoLugar.descripcionTipoLugar}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{tipoLugarList}"/>
+                    <ui:param name="propertyLabel" value="Nombre tipo lugar"/>
+                    <ui:param name="propertyPath" value="tipoLugar.nombreTipoLugar"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_tipoLugar.nombreTipoLugar}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'TipoLugar' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="tipoLugarViewId">
+                <f:param name="tipoLugarIdTipoLugar"
+                        value="#{_tipoLugar.idTipoLugar}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/TipoLugarEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="tipoLugarEdit"
+                rendered="#{empty from}">
+                <f:param name="tipoLugarIdTipoLugar"
+                        value="#{_tipoLugar.idTipoLugar}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/TipoLugarList.xhtml"
+            rendered="#{tipoLugarList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/TipoLugarList.xhtml"
+            rendered="#{tipoLugarList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{tipoLugarList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/TipoLugarList.xhtml"
+            rendered="#{tipoLugarList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{tipoLugarList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/TipoLugarList.xhtml"
+            rendered="#{tipoLugarList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{tipoLugarList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/TipoLugarEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create tipoLugar">
+            <f:param name="tipoLugarIdTipoLugar"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

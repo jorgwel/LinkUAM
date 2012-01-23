@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+    <param name="cameFrom"/>
+    <param name="ideaIdIdea" value="#{ideaHome.ideaIdIdea}"/>
+
+    <action execute="#{ideaHome.ideaActiva}"/>
+
+
+    <navigation from-action="#{ideaHome.ideaActiva}">
+        <rule if-outcome="false">
+            <redirect view-id="/Home.seam">
+                <message severity="ERROR">
+                    #{messages['idea.esinactiva']}
+                </message>
+            </redirect>
+        </rule>
+    </navigation>
+
+
+<!--   <navigation from-action="#{canicaHome.persist}" >
+
+        <rule if-outcome="nohayusuario" >
+            <end-conversation/>
+            <redirect view-id="/Login.seam">
+                #{messages['mx.uam.azc.link.loggedOut']}
+            </redirect>
+        </rule>
+    
+   </navigation>
+
+   -->
+</page>

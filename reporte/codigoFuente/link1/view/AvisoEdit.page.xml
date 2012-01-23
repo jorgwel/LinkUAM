@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/AvisoList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{avisoHome.wire}"/>
+
+   <param name="avisoFrom"/>
+   <param name="avisoIdAviso" value="#{avisoHome.avisoIdAviso}"/>
+   <param name="bitacoraFrom"/>
+   <param name="bitacoraIdBitacora" value="#{bitacoraHome.bitacoraIdBitacora}"/>
+   <param name="estatusBitacoraFrom"/>
+   <param name="estatusBitacoraIdEstatusBitacora" value="#{estatusBitacoraHome.estatusBitacoraIdEstatusBitacora}"/>
+
+   <param name="ideaFrom"/>
+   <param name="ideaIdIdea" value="#{ideaHome.ideaIdIdea}"/>
+   <param name="estatusAyudaMonetariaFrom"/>
+   <param name="estatusAyudaMonetariaIdEstatusAyudaMonetaria" value="#{estatusAyudaMonetariaHome.estatusAyudaMonetariaIdEstatusAyudaMonetaria}"/>
+
+   <param name="estatusAyudaRecursosHumanosFrom"/>
+   <param name="estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos" value="#{estatusAyudaRecursosHumanosHome.estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos}"/>
+
+   <param name="estatusIdeaFrom"/>
+   <param name="estatusIdeaIdEstatusIdea" value="#{estatusIdeaHome.estatusIdeaIdEstatusIdea}"/>
+
+   <param name="lugarFrom"/>
+   <param name="lugarIdLugar" value="#{lugarHome.lugarIdLugar}"/>
+   <param name="tipoLugarFrom"/>
+   <param name="tipoLugarIdTipoLugar" value="#{tipoLugarHome.tipoLugarIdTipoLugar}"/>
+
+   <param name="usuarioFrom"/>
+   <param name="usuarioIdUsuario" value="#{usuarioHome.usuarioIdUsuario}"/>
+   <param name="configuracionUsuarioFrom"/>
+   <param name="configuracionUsuarioIdConfiguracionUsuario" value="#{configuracionUsuarioHome.configuracionUsuarioIdConfiguracionUsuario}"/>
+
+   <param name="estatusUsuarioFrom"/>
+   <param name="estatusUsuarioIdEstatusUsuario" value="#{estatusUsuarioHome.estatusUsuarioIdEstatusUsuario}"/>
+
+   <param name="institucionFrom"/>
+   <param name="institucionIdInstitucion" value="#{institucionHome.institucionIdInstitucion}"/>
+
+
+
+
+   <param name="tipoBitacoraFrom"/>
+   <param name="tipoBitacoraIdTipoBitacora" value="#{tipoBitacoraHome.tipoBitacoraIdTipoBitacora}"/>
+
+
+   <param name="canicaFrom"/>
+   <param name="canicaIdCanica" value="#{canicaHome.canicaIdCanica}"/>
+   <param name="necesidadFrom"/>
+   <param name="necesidadIdNecesidad" value="#{necesidadHome.necesidadIdNecesidad}"/>
+   <param name="estatusNecesidadFrom"/>
+   <param name="estatusNecesidadIdEstatusNecesidad" value="#{estatusNecesidadHome.estatusNecesidadIdEstatusNecesidad}"/>
+
+
+
+   <param name="envioFrom"/>
+   <param name="envioIdEnvio" value="#{envioHome.envioIdEnvio}"/>
+   <param name="comunidadFrom"/>
+   <param name="comunidadIdComunidad" value="#{comunidadHome.comunidadIdComunidad}"/>
+   <param name="estatusComunidadFrom"/>
+   <param name="estatusComunidadIdEstatusComunidad" value="#{estatusComunidadHome.estatusComunidadIdEstatusComunidad}"/>
+
+
+   <param name="estatusEnvioFrom"/>
+   <param name="estatusEnvioIdEstatusEnvio" value="#{estatusEnvioHome.estatusEnvioIdEstatusEnvio}"/>
+
+   <param name="invitacionFrom"/>
+   <param name="invitacionIdInvitacion" value="#{invitacionHome.invitacionIdInvitacion}"/>
+   <param name="estatusInvitacionFrom"/>
+   <param name="estatusInvitacionIdEstatusInvitacion" value="#{estatusInvitacionHome.estatusInvitacionIdEstatusInvitacion}"/>
+
+   <param name="ticketRegistroFrom"/>
+   <param name="ticketRegistroIdTicketRegistro" value="#{ticketRegistroHome.ticketRegistroIdTicketRegistro}"/>
+   <param name="estatusTicketRegistroFrom"/>
+   <param name="estatusTicketRegistroIdEstatusTicketRegistro" value="#{estatusTicketRegistroHome.estatusTicketRegistroIdEstatusTicketRegistro}"/>
+
+   <param name="tipoTicketRegistroFrom"/>
+   <param name="tipoTicketRegistroIdTipoTicketRegistro" value="#{tipoTicketRegistroHome.tipoTicketRegistroIdTipoTicketRegistro}"/>
+
+
+
+   <param name="preguntaFrom"/>
+   <param name="preguntaIdPregunta" value="#{preguntaHome.preguntaIdPregunta}"/>
+   <param name="estatusPreguntaFrom"/>
+   <param name="estatusPreguntaIdEstatusPregunta" value="#{estatusPreguntaHome.estatusPreguntaIdEstatusPregunta}"/>
+
+
+   <param name="reporteAbusoFrom"/>
+   <param name="reporteAbusoIdReporteAbuso" value="#{reporteAbusoHome.reporteAbusoIdReporteAbuso}"/>
+   <param name="accionReporteAbusoFrom"/>
+   <param name="accionReporteAbusoIdAccionReporteAbuso" value="#{accionReporteAbusoHome.accionReporteAbusoIdAccionReporteAbuso}"/>
+
+   <param name="estatusReporteAbusoFrom"/>
+   <param name="estatusReporteAbusoIdEstatusReporteAbuso" value="#{estatusReporteAbusoHome.estatusReporteAbusoIdEstatusReporteAbuso}"/>
+
+   <param name="tipoReporteAbusoFrom"/>
+   <param name="tipoReporteAbusoIdTipoReporteAbuso" value="#{tipoReporteAbusoHome.tipoReporteAbusoIdTipoReporteAbuso}"/>
+
+
+   <param name="tipoEnvioFrom"/>
+   <param name="tipoEnvioIdTipoEnvio" value="#{tipoEnvioHome.tipoEnvioIdTipoEnvio}"/>
+
+
+   <param name="estatusAvisoFrom"/>
+   <param name="estatusAvisoIdEstatusAviso" value="#{estatusAvisoHome.estatusAvisoIdEstatusAviso}"/>
+
+   <param name="tipoAvisoFrom"/>
+   <param name="tipoAvisoIdTipoAviso" value="#{tipoAvisoHome.tipoAvisoIdTipoAviso}"/>
+
+
+
+   <navigation from-action="#{avisoHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/Aviso.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{avisoHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/Aviso.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{avisoHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/AvisoList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

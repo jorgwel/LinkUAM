@@ -1,0 +1,443 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="bitacora" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{bitacoraHome.managed ? 'Edit' : 'Add'} Bitacora</f:facet>
+
+
+            <s:decorate id="idBitacoraField" template="layout/edit.xhtml">
+                <ui:define name="label">Id bitacora</ui:define>
+                <h:inputText id="idBitacora"
+                       required="true"
+                       disabled="#{bitacoraHome.managed}"
+                          value="#{bitacoraHome.instance.idBitacora}">
+                    <a:support event="onblur" reRender="idBitacoraField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="descripcionBitacoraField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion bitacora</ui:define>
+                <h:inputTextarea id="descripcionBitacora"
+                               cols="80"
+                               rows="5"
+                           required="true"
+                              value="#{bitacoraHome.instance.descripcionBitacora}"/>
+            </s:decorate>
+
+
+
+
+            <s:decorate id="fechaBitacoraField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha bitacora</ui:define>
+                <rich:calendar id="fechaBitacora"
+                       required="true"
+                          value="#{bitacoraHome.instance.fechaBitacora}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+
+
+            <s:decorate id="tituloBitacoraField" template="layout/edit.xhtml">
+                <ui:define name="label">Titulo bitacora</ui:define>
+                <h:inputText id="tituloBitacora"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{bitacoraHome.instance.tituloBitacora}">
+                    <a:support event="onblur" reRender="tituloBitacoraField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{bitacoraHome.persist}"
+                       disabled="#{!bitacoraHome.wired}"
+                       rendered="#{!bitacoraHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{bitacoraHome.update}"
+                       rendered="#{bitacoraHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{bitacoraHome.remove}"
+                      immediate="true"
+                       rendered="#{bitacoraHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Bitacora.xhtml"
+                rendered="#{bitacoraHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty bitacoraFrom ? 'BitacoraList' : bitacoraFrom}.xhtml"
+                rendered="#{!bitacoraHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Avisos">
+        <h:form styleClass="association" id="avisosChildren">
+
+            <h:outputText value="There are no avisos associated with this bitacora."
+                       rendered="#{empty bitacoraHome.avisos}"/>
+
+            <rich:dataTable value="#{bitacoraHome.avisos}"
+                           var="_aviso"
+                      rendered="#{not empty bitacoraHome.avisos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="avisosTable">
+                <rich:column sortBy="#{_aviso.idAviso}">
+                    <f:facet name="header">Id aviso</f:facet>
+                    <h:outputText value="#{_aviso.idAviso}"/>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.fechaCreacionAviso}">
+                    <f:facet name="header">Fecha creacion aviso</f:facet>
+                    <h:outputText value="#{_aviso.fechaCreacionAviso}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.textoAviso}">
+                    <f:facet name="header">Texto aviso</f:facet>
+                    <h:outputText value="#{_aviso.textoAviso}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{bitacoraHome.managed}" id="avisos">
+        <div class="actionButtons">
+            <s:button id="addaviso"
+                   value="Add aviso"
+                    view="/AvisoEdit.xhtml"
+             propagation="none">
+                 <f:param name="bitacoraIdBitacora"
+                         value="#{bitacoraHome.instance.idBitacora}"/>
+                 <f:param name="avisoFrom" value="Bitacora"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Envios">
+        <h:form styleClass="association" id="enviosChildren">
+
+            <h:outputText value="There are no envios associated with this bitacora."
+                       rendered="#{empty bitacoraHome.envios}"/>
+
+            <rich:dataTable value="#{bitacoraHome.envios}"
+                           var="_envio"
+                      rendered="#{not empty bitacoraHome.envios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="enviosTable">
+                <rich:column sortBy="#{_envio.idEnvio}">
+                    <f:facet name="header">Id envio</f:facet>
+                    <h:outputText value="#{_envio.idEnvio}"/>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                    <f:facet name="header">Fecha envio envio</f:facet>
+                    <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                    <f:facet name="header">Fecha registro envio</f:facet>
+                    <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                    <f:facet name="header">Numero intentos envio</f:facet>
+                    <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{bitacoraHome.managed}" id="envios">
+        <div class="actionButtons">
+            <s:button id="addenvio"
+                   value="Add envio"
+                    view="/EnvioEdit.xhtml"
+             propagation="none">
+                 <f:param name="bitacoraIdBitacora"
+                         value="#{bitacoraHome.instance.idBitacora}"/>
+                 <f:param name="envioFrom" value="Bitacora"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Estatus bitacora *" labelClass="required">
+    <div class="association" id="estatusBitacoraParent">
+
+        <h:outputText value="There is no estatusBitacora associated with this bitacora."
+                   rendered="#{bitacoraHome.instance.estatusBitacora == null}"/>
+
+        <rich:dataTable var="_estatusBitacora"
+                   value="#{bitacoraHome.instance.estatusBitacora}"
+                rendered="#{bitacoraHome.instance.estatusBitacora != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusBitacoraTable">
+            <h:column>
+                <f:facet name="header">Id estatus bitacora</f:facet>
+                <h:outputText value="#{_estatusBitacora.idEstatusBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus bitacora</f:facet>
+                <h:outputText value="#{_estatusBitacora.definicionEstatusBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus bitacora</f:facet>
+                <h:outputText value="#{_estatusBitacora.nombreEstatusBitacora}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{bitacoraHome.instance.estatusBitacora != null ? 'changeParentestatusBitacora' : 'selectParentestatusBitacora'}" value="#{bitacoraHome.instance.estatusBitacora != null ? 'Change' : 'Select'} estatusBitacora"
+                       view="/EstatusBitacoraList.xhtml">
+                <f:param name="from" value="BitacoraEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Idea *" labelClass="required">
+    <div class="association" id="ideaParent">
+
+        <h:outputText value="There is no idea associated with this bitacora."
+                   rendered="#{bitacoraHome.instance.idea == null}"/>
+
+        <rich:dataTable var="_idea"
+                   value="#{bitacoraHome.instance.idea}"
+                rendered="#{bitacoraHome.instance.idea != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ideaTable">
+            <h:column>
+                <f:facet name="header">Id idea</f:facet>
+                <h:outputText value="#{_idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion idea</f:facet>
+                <h:outputText value="#{_idea.calificacionIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido idea</f:facet>
+                <h:outputText value="#{_idea.contenidoIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda monetaria id estatus ayuda monetaria</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaMonetaria.idEstatusAyudaMonetaria}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda recursos humanos id estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaRecursosHumanos.idEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus idea id estatus idea</f:facet>
+                <h:outputText value="#{_idea.estatusIdea.idEstatusIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha creacion idea</f:facet>
+                <h:outputText value="#{_idea.fechaCreacionIdea}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lugar id lugar</f:facet>
+                <h:outputText value="#{_idea.lugar.idLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen</f:facet>
+                <h:outputText value="#{_idea.nombreImagen}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Resumen idea</f:facet>
+                <h:outputText value="#{_idea.resumenIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titulo idea</f:facet>
+                <h:outputText value="#{_idea.tituloIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_idea.usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos negativos idea</f:facet>
+                <h:outputText value="#{_idea.votosNegativosIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos positivos idea</f:facet>
+                <h:outputText value="#{_idea.votosPositivosIdea}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{bitacoraHome.instance.idea != null ? 'changeParentidea' : 'selectParentidea'}" value="#{bitacoraHome.instance.idea != null ? 'Change' : 'Select'} idea"
+                       view="/IdeaList.xhtml">
+                <f:param name="from" value="BitacoraEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Tipo bitacora *" labelClass="required">
+    <div class="association" id="tipoBitacoraParent">
+
+        <h:outputText value="There is no tipoBitacora associated with this bitacora."
+                   rendered="#{bitacoraHome.instance.tipoBitacora == null}"/>
+
+        <rich:dataTable var="_tipoBitacora"
+                   value="#{bitacoraHome.instance.tipoBitacora}"
+                rendered="#{bitacoraHome.instance.tipoBitacora != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipoBitacoraTable">
+            <h:column>
+                <f:facet name="header">Id tipo bitacora</f:facet>
+                <h:outputText value="#{_tipoBitacora.idTipoBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion tipo bitacora</f:facet>
+                <h:outputText value="#{_tipoBitacora.definicionTipoBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre tipo bitacora</f:facet>
+                <h:outputText value="#{_tipoBitacora.nombreTipoBitacora}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{bitacoraHome.instance.tipoBitacora != null ? 'changeParenttipoBitacora' : 'selectParenttipoBitacora'}" value="#{bitacoraHome.instance.tipoBitacora != null ? 'Change' : 'Select'} tipoBitacora"
+                       view="/TipoBitacoraList.xhtml">
+                <f:param name="from" value="BitacoraEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Usuario *" labelClass="required">
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this bitacora."
+                   rendered="#{bitacoraHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{bitacoraHome.instance.usuario}"
+                rendered="#{bitacoraHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{bitacoraHome.instance.usuario != null ? 'changeParentusuario' : 'selectParentusuario'}" value="#{bitacoraHome.instance.usuario != null ? 'Change' : 'Select'} usuario"
+                       view="/UsuarioList.xhtml">
+                <f:param name="from" value="BitacoraEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

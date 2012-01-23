@@ -1,0 +1,293 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoBuscarTemplate.xhtml">
+
+
+    <ui:define name="body">
+        <p:layoutUnit header="#{messages['idea.titulodetalle']}" id="center"
+                      position="center" style="text-align:center;"
+                      scrollable="true" width="300"
+                      >
+            <p:growl id="msg" life="6000"/>
+
+            <h:panelGrid columns="3">
+                <h:outputText 
+                    value="#{messages['busqueda.seencontraron']}"
+                    style="font-size: 15pt !important;
+                    font-weight: bold !important"
+                    />
+                <h:outputText 
+                    value="#{' '}#{ideasEncontradas.size}"
+                    style="font-size: 15pt !important;
+                    font-weight: bold !important"
+                    />
+                <h:panelGrid
+                    columns="2"
+                    rendered="#{buscador.textoABuscar != null}"
+                    >
+                    <h:outputText
+                        value="#{' '}#{messages['busqueda.resultados']}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                    <h:outputText
+                        value="'#{buscador.textoABuscar}'"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                </h:panelGrid>
+
+                <h:panelGrid
+                    columns="3"
+                    rendered="#{buscador.idInstitucion != null}"
+                    >
+                    <h:outputText
+                        value=
+                        "#{' '}#{messages['busqueda.resultadosinstitucion']}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                    <p:graphicImage
+                        value=
+                        "/img/instituciones/big/#{institucionHome.obtenerNombreImagenInstitucion(idInstitucion)}"
+
+                        />
+                    <h:outputText
+                        value=
+                        "#{institucionHome.obtenerNombreInstitucion(idInstitucion)}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                </h:panelGrid>
+
+                <h:panelGrid
+                    columns="2"
+                    rendered="#{buscador.idTipoIdea != null}"
+                    >
+                    <h:outputText
+                        value=
+                        "#{' '}#{messages['busqueda.resultadostipoidea']}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                    <h:outputText
+                        value=
+                        "#{' '}#{messages['tipoidea.'.concat(tipoIdeaHome.obtenerNombreTipoIdea(idTipoIdea))]}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                </h:panelGrid>
+                <h:panelGrid
+                    columns="5"
+                    rendered=
+                    "#{buscador.limiteInicial != null and buscador.limiteFinal != null}"
+                    >
+                    <h:outputText
+                        value=
+                        "#{' '}#{messages['busqueda.resultadoscalificacion']}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                    <h:outputText
+                        value=
+                        "#{' '}#{buscador.limiteInicial}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                    <h:outputText
+                        value=
+                        "#{' '}#{messages['busqueda.y']}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                    <h:outputText
+                        value=
+                        "#{' '}#{buscador.limiteFinal}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                    <h:outputText
+                        value=
+                        "#{' '}#{messages['busqueda.estrellas']}"
+                        style="font-size: 15pt !important;
+                        font-weight: bold !important"
+                        />
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+            <p:dataTable
+                var="idea" value="#{ideasEncontradas}" rows="14" paginator="true"
+                paginatorPosition="both"
+                paginatorTemplate=
+                "{CurrentPageReport}
+                {FirstPageLink}
+                {PreviousPageLink}
+                {PageLinks}
+                {NextPageLink}
+                {LastPageLink}"
+                paginatorAlwaysVisible="false"
+                emptyMessage="#{messages['busqueda.sinresultados']}"
+
+                >
+
+
+
+                <p:column sortBy="#{idea.fechaCreacionIdea}" width="80">
+                    <f:facet name="header">
+                        #{messages['busqueda.fecha']}
+                    </f:facet>
+                    <h:outputText
+                        value="#{idea.fechaCreacionIdea}"
+                        style=
+                        "font-size: 9pt;font-weight: bold;
+                        text-align: left !important"
+                        >
+                        <f:convertDateTime
+                            locale="es"
+                            pattern="dd'-'MMM'-'yyyy" />
+                    </h:outputText>
+                    <hr/>
+                </p:column>
+
+                <!--             style="width:100px"-->
+                <p:column  sortBy="#{idea.tituloIdea}" width="620">
+                    <f:facet name="header">
+                        #{messages['busqueda.descripcionidea']}
+                    </f:facet>
+                    <!--                f:facet name="style">
+
+                                    /f:facet>-->
+                    <s:link
+                        style=
+                        "text-align: center !important;
+                        width: 100% !important;"
+                        view="/IdeaDetalle.seam"
+                        >
+                        <f:param
+                            name="ideaIdIdea"
+                            value="#{idea.idIdea}"
+                            />
+                        <f:param 
+                            name="cameFrom"
+                            value="/BuscarIdea.seam" />
+                        <h:panelGrid
+                            columns="2"
+                            style=
+                            "width: 620px !important;
+                            border-color: transparent;
+                            text-align: left !important"
+                            >
+                            <p:graphicImage
+                                value=
+                                "/img/ideas/small/principal/#{idea.nombreImagen}"
+                                width="100"
+                                height="70"
+                                />
+                            <h:panelGrid
+                                style=
+                                "width: 545px !important;
+                                border-color: transparent;
+                                text-align: left !important;
+                                background: white !important"
+                                >
+                                <h:outputText
+                                    value=
+                                    "#{idea.tituloIdea}"
+                                    style=
+                                    "font-size: 13pt;
+                                    width: 100% !important;
+                                    
+                                    font-family: 'Arial Narrow', sans-serif;"
+                                    />
+<!--                                <h:outputText
+                                    value=
+                                    "#{stringutils.abbreviate(idea.resumenIdea,225)}"
+                                    style="font-size: 10pt;width: 100% !important;"
+                                    />-->
+                            </h:panelGrid>
+
+                        </h:panelGrid>
+                    </s:link>
+                </p:column>
+
+                <p:column  sortBy="#{idea.calificacionIdea}" width="50">
+                    <f:facet name="header">
+                        #{messages['busqueda.puntos']}
+                    </f:facet>
+                    <h:outputText value="#{idea.calificacionIdea}" />
+                </p:column>
+                <p:column  
+                    sortBy=
+                    "#{idea.usuario.institucion.nombreImagenInstitucion}"
+                    width="60"
+                    >
+                    <f:facet name="header">
+                        #{messages['busqueda.institucion']}
+                    </f:facet>
+                    <p:graphicImage 
+                        value=
+                        "/img/instituciones/#{idea.usuario.institucion.nombreImagenInstitucion}"
+                        />
+                </p:column>
+
+
+            </p:dataTable>
+            <s:div style="height: 150px !important">
+
+            </s:div>
+            <hr/>
+            <s:div>
+                <h:form>
+                    <h:panelGrid columns="4">
+                        <h:outputText
+                            value="#{messages['home.buscar.buscarideas']}"
+                            style=
+                            "font-weight: bold;
+                            font-size: 15pt;
+                            font-family: arial, narrow;
+                            font-style:italic"
+                            />
+
+                        <h:inputText
+                            id="searchInput"
+                            style=
+                            "width: 300px;
+                            height: 25px !important;
+                            border-width:3px !important;
+                            font-size: 13pt !important;
+                            font-weight: bold"
+                            value="#{buscador.textoABuscar}"
+                            />
+
+                        <p:watermark for="searchInput" value="#{messages['home.buscar.puntopuntopunto']}" />
+
+                        <h:commandButton
+                            value="#{messages['home.buscar']}"
+                            image="detail"
+                            styleClass="botonnaranja"
+                            style=
+                            "margin-top: 0px !important;
+                            padding-top: 0px !important;
+                            width: 120px !important;
+                            height: 26px !important"
+                            
+                            action="#{buscador.buscar}"
+                            />
+<!--                        ajax="false"-->
+                    </h:panelGrid>
+                </h:form>
+            </s:div>
+        </p:layoutUnit>
+    </ui:define>
+
+
+
+
+</ui:composition>

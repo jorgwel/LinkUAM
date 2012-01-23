@@ -1,0 +1,110 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus envio Details</f:facet>
+
+        <s:decorate id="idEstatusEnvio" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus envio</ui:define>
+            <h:outputText value="#{estatusEnvioHome.instance.idEstatusEnvio}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusEnvio" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus envio</ui:define>
+            <h:outputText value="#{estatusEnvioHome.instance.definicionEstatusEnvio}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusEnvio" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus envio</ui:define>
+            <h:outputText value="#{estatusEnvioHome.instance.nombreEstatusEnvio}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusEnvioEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusEnvioFrom ? 'EstatusEnvioList' : estatusEnvioFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Envios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="enviosChildren">
+
+        <h:outputText value="There are no envios associated with this estatusEnvio."
+                   rendered="#{empty estatusEnvioHome.envios}"/>
+
+        <rich:dataTable value="#{estatusEnvioHome.envios}"
+                       var="_envio"
+                  rendered="#{not empty estatusEnvioHome.envios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="enviosTable">
+            <rich:column sortBy="#{_envio.idEnvio}">
+                <f:facet name="header">Id envio</f:facet>
+                <h:outputText value="#{_envio.idEnvio}"/>
+            </rich:column>
+            <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                <f:facet name="header">Fecha envio envio</f:facet>
+                <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                <f:facet name="header">Fecha registro envio</f:facet>
+                <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                <f:facet name="header">Numero intentos envio</f:facet>
+                <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectenvio"
+                     value="Select"
+                      view="/Envio.xhtml">
+                    <f:param name="envioIdEnvio"
+                            value="#{_envio.idEnvio}"/>
+                    <f:param name="envioFrom" value="EstatusEnvio"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add envio"
+                view="/EnvioEdit.xhtml">
+            <f:param name="estatusEnvioIdEstatusEnvio"
+                    value="#{estatusEnvioHome.instance.idEstatusEnvio}"/>
+            <f:param name="envioFrom" value="EstatusEnvio"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

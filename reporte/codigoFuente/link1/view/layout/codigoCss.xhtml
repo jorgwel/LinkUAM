@@ -1,0 +1,801 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+
+    <style>
+
+
+        /*Las cuatro siguientes declaraciones son para
+        para remover borde*/
+        .ui-layout-unit-top .ui-layout-bd {
+            border: 0;
+        }
+
+        .ui-layout-unit-bottom .ui-layout-bd {
+            border: 0;
+        }
+
+        .ui-layout-unit-left .ui-layout-bd {
+            border: 0;
+        }
+
+        .ui-layout-unit-right .ui-layout-bd {
+            border: 0;
+        }
+
+        .ui-layout-unit-center .ui-layout-bd {
+            border: 0;
+        }
+
+        /*Para cambiar el borde de un layout*/
+        .ui-layout{
+            border: none !important;
+        }
+
+
+
+        .ui-datagrid .ui-panel-titlebar{
+
+            background:transparent;
+            font-size: 13pt;
+            color: #333333;
+            border: 0pt;
+            padding: 0pt;
+
+        }
+
+        /*Tamaño global de la fuente*/
+        .ui-widget {
+            font-size: 12px !important;
+        }
+
+        /*Declaración de íconos*/
+        .trash {
+            background-image: url('#{request.contextPath}/img/trash.png') !important;
+        }
+
+        .detail {
+            background-image: url('#{request.contextPath}/img/search.png') !important;
+        }
+
+        .manoarriba {
+            background-image: url('#{request.contextPath}/img/hands/handup.png') !important;
+        }
+        .manoabajo {
+            background-image: url('#{request.contextPath}/img/hands/handdown.png') !important;
+        }
+
+
+        /* button
+---------------------------------------------- */
+        .button {
+            display: inline-block;
+            zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+            *display: inline;
+            vertical-align: baseline;
+            margin: 0 2px;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font: 14px/100% Arial, Helvetica, sans-serif;
+            padding: .5em 2em .55em;
+            text-shadow: 0 1px 1px rgba(0,0,0,.3);
+            -webkit-border-radius: .5em;
+            -moz-border-radius: .5em;
+            border-radius: .5em;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+            box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        }
+        .button:hover {
+            text-decoration: none;
+        }
+        .button:active {
+            position: relative;
+            top: 1px;
+        }
+
+        .botonnaranja, .bigrounded {
+            -webkit-border-radius: 1em;
+            -moz-border-radius: 1em;
+            border-radius: 1em;
+        }
+        .medium {
+            font-size: 12px;
+            padding: .4em 1.5em .42em;
+        }
+        .small {
+            font-size: 11px;
+            padding: .2em 1em .275em;
+        }
+
+
+        /**
+        *Boton negro
+        */
+        .black {
+            font-weight: bold !important;
+            width: 100% !important;
+            color: #d7d7d7;
+            border: solid 1px #333;
+            background: #333;
+            background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#000));
+            background: -moz-linear-gradient(top,  #666,  #000);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#666666', endColorstr='#000000');
+        }
+        .black:hover {
+            background: #000;
+            background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#000));
+            background: -moz-linear-gradient(top,  #444,  #000);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#000000');
+        }
+        .black:active {
+            color: #666;
+            background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#444));
+            background: -moz-linear-gradient(top,  #000,  #444);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#666666');
+        }
+        /* white */
+        .white {
+            color: #606060;
+            border: solid 1px #b7b7b7;
+            background: #fff;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+            background: -moz-linear-gradient(top,  #fff,  #ededed);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed');
+        }
+        .white:hover {
+            background: #ededed;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#dcdcdc));
+            background: -moz-linear-gradient(top,  #fff,  #dcdcdc);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc');
+        }
+        .white:active {
+            color: #999;
+            background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#fff));
+            background: -moz-linear-gradient(top,  #ededed,  #fff);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#ffffff');
+        }
+
+
+        /*
+        * Botón azul
+        */
+        .blue{
+            color: #d9eef7;
+            border: solid 1px #0076a3;
+            background: #0095cd;
+            background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+            background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+        }
+        .blue:hover {
+            background: #007ead;
+            background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+            background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
+        }
+        .blue:active {
+            color: #80bed6;
+            background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
+            background: -moz-linear-gradient(top,  #0078a5,  #00adee);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+        }
+
+        /**
+        * Botón amarillo
+        */
+        .yellow{
+            text-align: center;
+            color: black;
+
+            border: solid 1px #c1b60b;
+            background: #ebe620;
+            font-weight: bolder;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fef923), to(#e1c101));
+            background: -moz-linear-gradient(top,  #fef923,  #e1c101);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#fef923', endColorstr='#e1c101');
+        }
+        .yellow:hover {
+            background: #ebe620;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fef923), to(#e1c101));
+            background: -moz-linear-gradient(top,  #fef923,  #e1c101);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#fef923', endColorstr='#e1c101');
+        }
+        .yellow:active {
+            color: black;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fef923), to(#e1c101));
+            background: -moz-linear-gradient(top,  #fef923,  #e1c101);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#fef923', endColorstr='#e1c101');
+        }
+
+        /*
+        *
+        * Botón naranja
+        */
+
+        .botonnaranja, .orange{
+            text-align: center !important;
+            color: #fef4e9 !important;
+            color: white !important;
+            border: solid 1px #da7c0c !important;
+            background: #f78d1d !important;
+            font-weight: bolder !important;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fac81a), to(#f47a20)) !important;
+            background: -moz-linear-gradient(top,  #fac81a,  #f47a20) !important;
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#fac81a', endColorstr='#f47a20') !important;
+        }
+        .botonnaranja:hoover, .orange:hover {
+            background: #f47c20 !important;
+            background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015)) !important;
+            background: -moz-linear-gradient(top,  #f88e11,  #f06015) !important;
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015') !important;
+        }
+        .botonnaranja:active, .orange:active {
+            color: #fcd3a5 !important;
+            background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a)) !important;
+            background: -moz-linear-gradient(top,  #f47a20,  #faa51a) !important;
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a') !important;
+        }
+
+        .center.ui-widget{
+
+            text-align: center;
+
+        }
+
+
+        .buttontall{
+            height: 50px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .textbig.ui-button-text{
+            font-size: 17pt;
+        }
+
+        .buttonbold.ui-button-text{
+            font-weight: bolder;
+        }
+        /*.ui-panel-titlebar*/
+        .fondopaneltitulo{
+            border: none;
+            position: relative;
+            text-align: right !important;
+            background-image:url(img/fondo.png);
+            background-repeat:repeat-x;
+            -moz-border-radius: 7px !important;
+            -webkit-border-radius: 7px !important;
+            width: 100% !important;
+        }
+        table{
+            width: 100% !important;
+        }
+
+        /*Para cambiar la barra de título de un layout*/
+        .ui-layout .ui-layout-hd{
+            text-align: center;
+            font-weight: normal;
+            font-size: 13pt;
+            background: none;
+            border: none;
+            position: relative;
+            background-image:url(img/fondo_chico.png);
+            background-repeat:repeat-x;
+            -moz-border-radius: 0px;
+            -webkit-border-radius: 0px;
+
+        }
+
+        /*Para cambiar la barra de título de un datatable*/
+        .ui-datatable {
+            border: none !important;
+        }
+        .ui-datatable-data{
+            border: none !important;
+        }
+        .ui-datatable-data-liner{
+            border: none !important;
+        }
+        /*                table{
+                            border: none !important;
+                            width: 100% !important;
+                        }*/
+        .ui-datatable  th{
+
+            background: none !important;
+            border: none !important;
+            position: relative !important;
+            background-image:url(img/fondo_chico.png) !important;
+            background-repeat:repeat-x !important;
+            width: inherit !important;
+            border: none !important;
+            width: 100% !important;
+            -moz-border-radius: 0px;
+            -webkit-border-radius: 0px;
+        }
+        .ui-datatable  td{
+            border: none !important;
+            width: 100% !important;
+        }
+        table{
+            border: none !important;
+
+        }
+        .ui-menu .ui-submenu-label {
+            background: none;
+            border: none;
+            position: relative;
+            background-image:url(img/fondo_chico.png);
+            background-repeat:repeat-x;
+            -moz-border-radius: 0px;
+            -webkit-border-radius: 0px;
+        }
+        .ui-menu {
+            border: none;
+        }
+
+        /*                .ui-datatable  td{
+
+                            background: none;
+                            border: none;
+                            position: relative;
+                            background-image:url(img/fondo_chico.png);
+                            background-repeat:repeat-x;
+                        }*/
+
+
+        /*Para cambiar el fondo de las barras de un panel*/
+
+        .ui-panel .ui-panel-titlebar {
+
+            background: none;
+            border: none;
+            position: relative;
+            background-image:url(img/fondo_chico.png);
+            background-repeat:repeat-x;
+            -moz-border-radius: 0px;
+            -webkit-border-radius: 0px;
+        }
+        /*Cambiando el fondo de la barra de título de los páneles
+        */
+        /*                                .ui-panel-titlebar {
+                                            padding: 0.5em 1em 0.3em;
+                                            position: relative;
+                                            background-image:url(img/fondo.png);
+                                            background-repeat:repeat-x;
+                                        }*/
+        /*Posición del stack*/
+        /*                .pf-stack {
+                            bottom: 28px;
+                            right: 1100px;
+                        }*/
+
+        .tituloinpanel{
+
+            font-weight: bold;
+            font-size: 13pt;
+
+        }
+
+        .titulobarpanel{
+
+            font-weight: bold;
+            font-size: 15pt;
+
+        }
+
+        .tituloobjetivo{
+
+            font-weight: bold;
+            font-size: 14pt;
+
+        }
+        .tituloobjetivo{
+
+            font-weight: bold;
+            font-size: 14pt;
+
+        }
+
+        .contenidoobjetivo{
+
+            font-size: 11pt;
+
+        }
+
+        .bordecuadrado{
+            -moz-border-radius: 0px;
+            -webkit-border-radius: 0px;
+
+        }
+
+        .ui-carousel-nav.ui-widget{
+            height: 50px !important;
+        }
+
+        .ui-carousel-nav{
+            height: 50px !important;
+        }
+
+        .ui-tabs{
+            /*                    border: none !important;*/
+            border: 0px !important;
+        }
+
+        .ui-tabs-nav{
+            border: none !important;
+        }
+
+        .ui-tabs-panel{
+            border: none !important;
+            overflow : auto !important;
+        }
+        .ui-datalist-data{
+            border: none !important;
+        }
+
+        .ui-datalist-data{
+            border: none !important;
+        }
+
+
+
+        /* Cabecera/Títulos */
+        .cabeceranaranja{
+            text-align: center;
+            color: #fef4e9;
+            color: white;
+            border: solid 1px #da7c0c;
+            background: #f78d1d;
+            font-weight: bolder;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fac81a), to(#f47a20));
+            background: -moz-linear-gradient(top,  #fac81a,  #f47a20);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#fac81a', endColorstr='#f47a20');
+        }
+
+        /*                td{
+                            width: 100% !important;
+                            text-align: left !important;
+                        }*/
+
+        /*
+                        .ui-datatable-odd
+                        {
+                            background:#dedede !important;
+                        }
+
+
+                        .ui-datatable-even
+                        {
+                            background: f4f4f4 !important;
+                        }*/
+        .uamazc{
+            background-image: url('#{request.contextPath}/img/instituciones/uamazc.png') !important;
+        }
+        .uamxoc{
+            background-image: url('#{request.contextPath}/img/instituciones/uamxoc.png') !important;
+        }
+        .uamizt{
+            background-image: url('#{request.contextPath}/img/instituciones/uamizt.png') !important;
+        }
+        .uamcua{
+            background-image: url('#{request.contextPath}/img/instituciones/uamcua.png') !important;
+        }
+        .uamler{
+            background-image: url('#{request.contextPath}/img/instituciones/uamler.png') !important;
+        }
+
+        .pencil{
+            background-image: url('#{request.contextPath}/img/acciones/lapiz.png') !important;
+        }
+
+        .reportar{
+            background-image: url('#{request.contextPath}/img/reportar.png') !important;
+        }
+
+        .seguidores{
+            background-image: url('#{request.contextPath}/img/acciones/seguidores.png') !important;
+        }
+
+        .participantes{
+            background-image: url('#{request.contextPath}/img/acciones/participantes.png') !important;
+        }
+
+        .bitacora{
+            background-image: url('#{request.contextPath}/img/acciones/bitacora.png') !important;
+        }
+
+        .eliminar{
+            background-image: url('#{request.contextPath}/img/acciones/delete.png') !important;
+        }
+
+        .backdialogo{
+            background-image: url('#{request.contextPath}/img/dialogo/pushpin.png') !important;
+            background-position: bottom right !important;
+            background-repeat: no-repeat;
+            text-align: center !important
+        }
+
+        .textodialogo{
+            font-size: 11pt;
+            font-weight: bold;
+        }
+
+        .ui-button, .botonnaranja{
+            width: 155px !important;
+            font-size: 11pt !important;
+            font-weight: bold !important;
+            color: white !important;
+            padding: 6px !important;
+            text-decoration: none !important
+        }
+
+        .ui-button .ui-button-text{
+            padding: 0px !important;
+            padding-left:  0px !important;
+            padding-top:   1px !important;
+            margin: 0px !important;
+        }
+
+        .izq{
+            text-align: left !important;
+        }
+
+        .ui-tabs-nav{
+            font-size: 12pt !important;
+            font-weight: bold !important;            
+        }
+
+        /* gradient 6 */
+        .gradient6 {
+            background: #fff;
+            padding: 30px 0 30px 30px;
+            margin: 30px 0 50px;
+
+            font: bold 310%/100% "Lucida Grande", Arial, sans-serif;
+            position: relative;
+            margin: 0;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+
+            background: url(../img/gradient-dark-stripe.png) repeat-x;
+            position: absolute;
+            bottom: -0.1em;
+            display: block;
+            width: 100%;
+            height: 29px;
+        }
+        #twitter_update_list li {
+            list-style-type: none;
+        }
+        /*        #twitter_update_list span {
+                    color: #FFCC00;
+                    background: #000000;
+                }
+                #twitter_update_list span a {
+                    display: inline;
+                    color: #000000;
+                }
+                #twitter_update_list span a:hover {
+                    text-decoration: underline;
+                    color: #666666;
+                }*/
+        /* ============================================================================================================================
+        == BUBBLE WITH AN ISOCELES TRIANGLE
+        ** ============================================================================================================================ */
+
+        /* THE SPEECH BUBBLE
+        ------------------------------------------------------------------------------------------------------------------------------- */
+
+        .triangle-isosceles {
+            position:relative;
+            padding:3px;
+            margin:1em 0 1em;
+            color:#000;
+            background:#F9FFCC; /* default background for browsers without gradient support */
+            /* css3 */
+
+            -webkit-border-radius:10px;
+            -moz-border-radius:10px;
+            border-radius:10px;
+            border-color: gray;
+            border:3px;
+        }
+
+        /* Variant : for top positioned triangle
+        ------------------------------------------ */
+
+        .triangle-isosceles.top {
+            background:-webkit-gradient(linear, 0 0, 0 100%, from(#f3961c), to(#f9d835));
+            background:-moz-linear-gradient(#f3961c, #f9d835);
+            background:-o-linear-gradient(#f3961c, #f9d835);
+            background:linear-gradient(#f3961c, #f9d835);
+        }
+
+        /* Variant : for left/right positioned triangle
+        ------------------------------------------ */
+
+        .triangle-isosceles.left {
+            margin-left:0px;
+            background:#fcffe6;
+        }
+
+        /* Variant : for right positioned triangle
+        ------------------------------------------ */
+
+        .triangle-isosceles.right {
+            margin-right:0px;
+            background:#fcffe6;
+        }
+
+        /*         THE TRIANGLE
+                -------------------------------------------------------------------------------------------------------------------------------
+
+                 creates triangle
+                .triangle-isosceles:after {
+                        content:"";
+                        position:absolute;
+                        bottom:-15px;  value = - border-top-width - border-bottom-width
+                        left:50px;  controls horizontal position
+                        border-width:15px 15px 0;  vary these values to change the angle of the vertex
+                        border-style:solid;
+                        border-color:#f3961c transparent;
+                     reduce the damage in FF3.0
+                    display:block;
+                    width:0;
+                }
+
+                 Variant : top
+                ------------------------------------------
+
+                .triangle-isosceles.top:after {
+                        top:-15px;  value = - border-top-width - border-bottom-width
+                        right:50px;  controls horizontal position
+                        bottom:auto;
+                        left:auto;
+                        border-width:0 15px 15px;  vary these values to change the angle of the vertex
+                        border-color:#f3961c transparent;
+                }
+
+                 Variant : left
+                ------------------------------------------
+
+                .triangle-isosceles.left:after {
+                        top:16px;  controls vertical position
+                        left:-50px;  value = - border-left-width - border-right-width
+                        bottom:auto;
+                        border-width:10px 50px 10px 0;
+                        border-color:transparent #f3961c;
+                }
+
+                 Variant : right
+                ------------------------------------------
+
+                .triangle-isosceles.right:after {
+                        top:16px;  controls vertical position
+                        right:-50px;  value = - border-left-width - border-right-width
+                        bottom:auto;
+                    left:auto;
+                        border-width:10px 0 10px 50px;
+                        border-color:transparent #f3961c;
+                }*/
+        .twitted {
+            width: 16em;
+            margin-bottom: 1.5em;
+            border: 1px solid #888;
+        }
+
+        .twitted h2 {
+            margin: 0;
+            padding: 0.3em 0.8em;
+            font-size: 1em;
+            color: #fff;
+            background-color: #888;
+        }
+
+        .twitted p.preLoader {
+            margin: 0;
+            padding: 1em 1em 1em 3em;
+            background: transparent url("loader.gif") 1em center no-repeat;
+            /* generate your own loader gif: http://www.ajaxload.info */
+        }
+
+        .twitted ul#twitter_update_list {
+            margin: 0;
+            padding: 0 0.8em;
+            list-style-type: none;
+        }
+
+        .twitted ul#twitter_update_list li {
+            margin: 0;
+            padding: 0.8em 0 1em 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .twitted ul#twitter_update_list li span {
+            /* tweet content */
+            display: block;
+        }
+
+        .twitted ul#twitter_update_list li span a {
+            /* links in tweet content */
+            color: #00f;
+        }
+
+        .twitted ul#twitter_update_list li a {
+            /* timestamp link */
+            color: #f00;
+        }
+
+        .twitted ul#twitter_update_list li.firstTweet {
+        }
+
+        .twitted ul#twitter_update_list li.lastTweet {
+            border-bottom: none;
+        }
+
+        .twitted p.profileLink {
+            display: block;
+            margin: 0;
+            padding: 0.3em 1em;
+            color: #fff;
+            background-color: #ddd;
+        }
+
+
+        .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+            background: #FFCC33 !important;
+            margin-bottom: 0; padding-bottom: 1px;
+            font-size: 13pt !important;
+            height: 30px !important;
+        }
+
+        .ui-tabs .ui-tabs-nav li {
+            
+            font-size: 11pt !important;
+            font-weight: bold !important;
+            height: 40px !important;
+            border: 0px !important
+            
+        }
+
+        .ui-notificationbar {
+            background: gray !important;
+            height: 150px !important;
+            opacity:0.96;
+            filter:alpha(opacity=1);
+        }
+
+
+/*        .ui-growl {
+            
+            top: 85%;
+            width: 30% !important
+
+
+        }
+        .ui-growl-message{
+            width: 80%
+        }*/
+
+    </style>
+
+    <!--    link href='http://fonts.googleapis.com/css?family=Hammersmith+One&amp;v2' rel='stylesheet' type='text/css'>-->
+
+    <p:ajaxStatus onstart="document.body.style.cursor='wait';" oncomplete="document.body.style.cursor='default';"/>
+
+</f:view>
+
+
+

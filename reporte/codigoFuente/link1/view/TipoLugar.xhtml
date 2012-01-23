@@ -1,0 +1,102 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Tipo lugar Details</f:facet>
+
+        <s:decorate id="idTipoLugar" template="layout/display.xhtml">
+            <ui:define name="label">Id tipo lugar</ui:define>
+            <h:outputText value="#{tipoLugarHome.instance.idTipoLugar}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcionTipoLugar" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion tipo lugar</ui:define>
+            <h:outputText value="#{tipoLugarHome.instance.descripcionTipoLugar}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreTipoLugar" template="layout/display.xhtml">
+            <ui:define name="label">Nombre tipo lugar</ui:define>
+            <h:outputText value="#{tipoLugarHome.instance.nombreTipoLugar}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/TipoLugarEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty tipoLugarFrom ? 'TipoLugarList' : tipoLugarFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Lugars</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="lugarsChildren">
+
+        <h:outputText value="There are no lugars associated with this tipoLugar."
+                   rendered="#{empty tipoLugarHome.lugars}"/>
+
+        <rich:dataTable value="#{tipoLugarHome.lugars}"
+                       var="_lugar"
+                  rendered="#{not empty tipoLugarHome.lugars}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="lugarsTable">
+            <rich:column sortBy="#{_lugar.idLugar}">
+                <f:facet name="header">Id lugar</f:facet>
+                <h:outputText value="#{_lugar.idLugar}"/>
+            </rich:column>
+            <rich:column sortBy="#{_lugar.descripcionLugar}">
+                <f:facet name="header">Descripcion lugar</f:facet>
+                <h:outputText value="#{_lugar.descripcionLugar}"/>
+            </rich:column>
+            <rich:column sortBy="#{_lugar.nombreLugar}">
+                <f:facet name="header">Nombre lugar</f:facet>
+                <h:outputText value="#{_lugar.nombreLugar}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectlugar"
+                     value="Select"
+                      view="/Lugar.xhtml">
+                    <f:param name="lugarIdLugar"
+                            value="#{_lugar.idLugar}"/>
+                    <f:param name="lugarFrom" value="TipoLugar"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add lugar"
+                view="/LugarEdit.xhtml">
+            <f:param name="tipoLugarIdTipoLugar"
+                    value="#{tipoLugarHome.instance.idTipoLugar}"/>
+            <f:param name="lugarFrom" value="TipoLugar"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

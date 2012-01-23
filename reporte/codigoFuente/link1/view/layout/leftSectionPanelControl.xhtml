@@ -1,0 +1,40 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:s="http://jboss.com/products/seam/taglib"
+        style="text-align: center">
+
+    <s:link
+        value="#{messages['home.emprendeunaidea']}"
+        styleClass="button yellow buttonbold textbig"
+        style=
+        "text-align: center !important;
+        padding: 7px !important;
+        color: black;
+        margin-bottom: 13px;
+        margin-top: 7px"
+        view="/IdeaCrear.seam" propagation="none"
+        >
+    </s:link>
+
+    <p:menu
+        style="text-align: left !important;font-size: 11pt !important"
+        >
+        <p:submenu label="#{messages['panelcontrol.opciones']}" >
+            <p:menuitem 
+                value="#{messages['panelcontrol.opciones.ideas']}"
+                icon="/img/ideas/idea.png"
+                style="background-position: right !important;
+                       font-size: 13pt"
+                url="/PanelControl.seam?vista=ideas"
+                />
+
+
+        </p:submenu>
+
+    </p:menu>
+
+
+</h:form>

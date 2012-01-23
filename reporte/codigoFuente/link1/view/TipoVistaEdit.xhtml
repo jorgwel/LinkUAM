@@ -1,0 +1,141 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoVista" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{tipoVistaHome.managed ? 'Edit' : 'Add'} Tipo vista</f:facet>
+
+
+            <s:decorate id="idTipoVistaField" template="layout/edit.xhtml">
+                <ui:define name="label">Id tipo vista</ui:define>
+                <h:inputText id="idTipoVista"
+                       required="true"
+                       disabled="#{tipoVistaHome.managed}"
+                          value="#{tipoVistaHome.instance.idTipoVista}">
+                    <a:support event="onblur" reRender="idTipoVistaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="descripcionTipoVistaField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion tipo vista</ui:define>
+                <h:inputText id="descripcionTipoVista"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{tipoVistaHome.instance.descripcionTipoVista}">
+                    <a:support event="onblur" reRender="descripcionTipoVistaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreTipoVistaField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre tipo vista</ui:define>
+                <h:inputText id="nombreTipoVista"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{tipoVistaHome.instance.nombreTipoVista}">
+                    <a:support event="onblur" reRender="nombreTipoVistaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{tipoVistaHome.persist}"
+                       disabled="#{!tipoVistaHome.wired}"
+                       rendered="#{!tipoVistaHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{tipoVistaHome.update}"
+                       rendered="#{tipoVistaHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{tipoVistaHome.remove}"
+                      immediate="true"
+                       rendered="#{tipoVistaHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TipoVista.xhtml"
+                rendered="#{tipoVistaHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty tipoVistaFrom ? 'TipoVistaList' : tipoVistaFrom}.xhtml"
+                rendered="#{!tipoVistaHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Vistas">
+        <h:form styleClass="association" id="vistasChildren">
+
+            <h:outputText value="There are no vistas associated with this tipoVista."
+                       rendered="#{empty tipoVistaHome.vistas}"/>
+
+            <rich:dataTable value="#{tipoVistaHome.vistas}"
+                           var="_vista"
+                      rendered="#{not empty tipoVistaHome.vistas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="vistasTable">
+                <rich:column sortBy="#{_vista.idVista}">
+                    <f:facet name="header">Id vista</f:facet>
+                    <h:outputText value="#{_vista.idVista}"/>
+                </rich:column>
+                <rich:column sortBy="#{_vista.descripcionVista}">
+                    <f:facet name="header">Descripcion vista</f:facet>
+                    <h:outputText value="#{_vista.descripcionVista}"/>
+                </rich:column>
+                <rich:column sortBy="#{_vista.nombreVista}">
+                    <f:facet name="header">Nombre vista</f:facet>
+                    <h:outputText value="#{_vista.nombreVista}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{tipoVistaHome.managed}" id="vistas">
+        <div class="actionButtons">
+            <s:button id="addvista"
+                   value="Add vista"
+                    view="/VistaEdit.xhtml"
+             propagation="none">
+                 <f:param name="tipoVistaIdTipoVista"
+                         value="#{tipoVistaHome.instance.idTipoVista}"/>
+                 <f:param name="vistaFrom" value="TipoVista"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

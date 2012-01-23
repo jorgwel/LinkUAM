@@ -1,0 +1,144 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus usuario Details</f:facet>
+
+        <s:decorate id="idEstatusUsuario" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus usuario</ui:define>
+            <h:outputText value="#{estatusUsuarioHome.instance.idEstatusUsuario}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusUsuario" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus usuario</ui:define>
+            <h:outputText value="#{estatusUsuarioHome.instance.definicionEstatusUsuario}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusUsuario" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus usuario</ui:define>
+            <h:outputText value="#{estatusUsuarioHome.instance.nombreEstatusUsuario}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusUsuarioEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusUsuarioFrom ? 'EstatusUsuarioList' : estatusUsuarioFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuarios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="usuariosChildren">
+
+        <h:outputText value="There are no usuarios associated with this estatusUsuario."
+                   rendered="#{empty estatusUsuarioHome.usuarios}"/>
+
+        <rich:dataTable value="#{estatusUsuarioHome.usuarios}"
+                       var="_usuario"
+                  rendered="#{not empty estatusUsuarioHome.usuarios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="usuariosTable">
+            <rich:column sortBy="#{_usuario.idUsuario}">
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.apellidoMaternoUsuario}">
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.apellidoPaternoUsuario}">
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.calificacionUsuario}">
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.contrasenaUsuario}">
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.fechaFinUsuario}">
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.fechaIngresoUsuario}">
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.fechaNacimientoUsuario}">
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.nickUsuario}">
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.nombreImagenUsuario}">
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.nombreUsuario}">
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.sexoUsuario}">
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectusuario"
+                     value="Select"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioIdUsuario"
+                            value="#{_usuario.idUsuario}"/>
+                    <f:param name="usuarioFrom" value="EstatusUsuario"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add usuario"
+                view="/UsuarioEdit.xhtml">
+            <f:param name="estatusUsuarioIdEstatusUsuario"
+                    value="#{estatusUsuarioHome.instance.idEstatusUsuario}"/>
+            <f:param name="usuarioFrom" value="EstatusUsuario"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,129 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    ARCHIVO QUE DEFINE LA PÁGINA PRINCIPAL
+-->
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoHomeTemplate.xhtml">
+
+    <!--
+        DEFINIENDO EL CONTENIDO DE UNA PÁGINA
+    -->
+    <ui:define name="body">
+        <p:layoutUnit
+            id="center"
+            position="center"
+            style="text-align:center;"
+            scrollable="true"
+            >
+            <!-- Growl para mensajes -->
+            <p:growl id="msg" life="2500"/>
+            <p:panel
+                style=
+                "border: 2px outset;padding: 0px;
+                margin: 7px;margin-bottom: 0px"
+                >
+                <f:facet name="header">
+                    <h:outputText
+                        value="#{'hi'}"
+                        style="visibility: hidden"/>
+                </f:facet>
+
+                <h1>Estadísticas sobre LinkUAM</h1>
+                <h:panelGrid style="text-align: left !important" columns="2">
+
+
+                    <h:outputText
+                        value="#{estadisticas.usuarios} usuarios"
+                        style=
+                        "font-weight: bold;
+                        font-size: 23pt;
+                        color: gray;
+                        text-align: left !important;
+                        margin-left: 17px !important"/>
+
+
+                    <h:outputText
+                        value="#{estadisticas.seguidores} seguidores"
+                        style=
+                        "font-weight: bold;
+                        font-size: 23pt;
+                        color: gray;
+                        text-align: left !important;
+                        margin-left: 17px !important"/>
+
+                    <h:outputText
+                        value="#{estadisticas.preguntas} preguntas"
+                        style=
+                        "font-weight: bold;
+                        font-size: 23pt;
+                        color: gray;
+                        text-align: left !important;
+                        margin-left: 17px !important"
+                        id="preg_num"/>
+
+                    
+                    <h:outputText
+                        value="#{estadisticas.comunidades} comunidades"
+                        style=
+                        "font-weight: bold;
+                        font-size: 23pt;
+                        color: gray;
+                        text-align: left !important;
+                        margin-left: 17px !important"/>
+
+                    
+                    <h:outputText
+                        value="#{estadisticas.ideas} ideas"
+                        style=
+                        "font-weight: bold;
+                        font-size: 23pt;
+                        color: gray;
+                        text-align: left !important;
+                        margin-left: 17px !important"/>
+
+                    
+                    <h:outputText
+                        value="#{estadisticas.participaciones} participaciones"
+                        style=
+                        "font-weight: bold;
+                        font-size: 23pt;
+                        color: gray;
+                        text-align: left !important;
+                        margin-left: 17px !important"/>
+
+                    <h:outputText
+                        value="#{estadisticas.instituciones} instituciones"
+                        style=
+                        "font-weight: bold;
+                        font-size: 23pt;
+                        color: gray;
+                        text-align: left !important;
+                        margin-left: 17px !important"/>
+
+
+                    <h:outputText
+                        value="#{estadisticas.criticas} críticas"
+                        style=
+                        "font-weight: bold;
+                        font-size: 23pt;
+                        color: gray;
+                        text-align: left !important;
+                        margin-left: 17px !important"/>
+
+                </h:panelGrid>
+            </p:panel>
+
+        </p:layoutUnit>
+
+    </ui:define>
+
+
+</ui:composition>
+
+

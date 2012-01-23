@@ -1,0 +1,21 @@
+  110  ./seam -Dseam-gen.properties=link-build.properties create-project
+  111  ./seam -Dseam-gen.properties=link-build.properties generate
+  112  ./seam -Dseam-gen.properties=link-build.properties unexplode
+  113  ./seam -Dseam-gen.properties=link-build.properties explode
+  293  ./seam -Dseam-gen.properties=link-build.properties create-project
+  295  ./seam -Dseam-gen.properties=link-build.properties generate
+  296  ./seam -Dseam-gen.properties=link-build.properties unexplode
+  297  ./seam -Dseam-gen.properties=link-build.properties explode
+  359  history |grep seam-gen
+  360  ./seam -Dseam-gen.properties=link-build.properties create-project
+  361  ./seam -Dseam-gen.properties=link-build.properties generate
+  362  ./seam -Dseam-gen.properties=link-build.properties generate
+  363  ./seam -Dseam-gen.properties=link-build.properties create-project
+  364  ./seam -Dseam-gen.properties=link-build.properties generate
+  370  ./seam -Dseam-gen.properties=link-build.properties generate
+  371  ./seam -Dseam-gen.properties=link-build.properties generate
+  372  ./seam -Dseam-gen.properties=link-build.properties create-project
+  373  ./seam -Dseam-gen.properties=link-build.properties generate
+  374  ./seam -Dseam-gen.properties=link-build.properties generate
+  375  ./seam -Dseam-gen.properties=link-build.properties generate
+

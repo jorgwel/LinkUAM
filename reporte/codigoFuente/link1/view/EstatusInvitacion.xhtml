@@ -1,0 +1,114 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus invitacion Details</f:facet>
+
+        <s:decorate id="idEstatusInvitacion" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus invitacion</ui:define>
+            <h:outputText value="#{estatusInvitacionHome.instance.idEstatusInvitacion}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcionEstatusInvitacion" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion estatus invitacion</ui:define>
+            <h:outputText value="#{estatusInvitacionHome.instance.descripcionEstatusInvitacion}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusInvitacion" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus invitacion</ui:define>
+            <h:outputText value="#{estatusInvitacionHome.instance.nombreEstatusInvitacion}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusInvitacionEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusInvitacionFrom ? 'EstatusInvitacionList' : estatusInvitacionFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Invitacions</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="invitacionsChildren">
+
+        <h:outputText value="There are no invitacions associated with this estatusInvitacion."
+                   rendered="#{empty estatusInvitacionHome.invitacions}"/>
+
+        <rich:dataTable value="#{estatusInvitacionHome.invitacions}"
+                       var="_invitacion"
+                  rendered="#{not empty estatusInvitacionHome.invitacions}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="invitacionsTable">
+            <rich:column sortBy="#{_invitacion.idInvitacion}">
+                <f:facet name="header">Id invitacion</f:facet>
+                <h:outputText value="#{_invitacion.idInvitacion}"/>
+            </rich:column>
+            <rich:column sortBy="#{_invitacion.correoUsuarioInvitacion}">
+                <f:facet name="header">Correo usuario invitacion</f:facet>
+                <h:outputText value="#{_invitacion.correoUsuarioInvitacion}"/>
+            </rich:column>
+            <rich:column sortBy="#{_invitacion.fechaRegistroInvitacion}">
+                <f:facet name="header">Fecha registro invitacion</f:facet>
+                <h:outputText value="#{_invitacion.fechaRegistroInvitacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_invitacion.fechaUsuarioRegistradoInvitacion}">
+                <f:facet name="header">Fecha usuario registrado invitacion</f:facet>
+                <h:outputText value="#{_invitacion.fechaUsuarioRegistradoInvitacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_invitacion.textoInvitacion}">
+                <f:facet name="header">Texto invitacion</f:facet>
+                <h:outputText value="#{_invitacion.textoInvitacion}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectinvitacion"
+                     value="Select"
+                      view="/Invitacion.xhtml">
+                    <f:param name="invitacionIdInvitacion"
+                            value="#{_invitacion.idInvitacion}"/>
+                    <f:param name="invitacionFrom" value="EstatusInvitacion"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add invitacion"
+                view="/InvitacionEdit.xhtml">
+            <f:param name="estatusInvitacionIdEstatusInvitacion"
+                    value="#{estatusInvitacionHome.instance.idEstatusInvitacion}"/>
+            <f:param name="invitacionFrom" value="EstatusInvitacion"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

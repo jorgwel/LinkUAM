@@ -1,0 +1,111 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Frase Details</f:facet>
+
+        <s:decorate id="idFrase" template="layout/display.xhtml">
+            <ui:define name="label">Id frase</ui:define>
+            <h:outputText value="#{fraseHome.instance.idFrase}"/>
+        </s:decorate>
+
+        <s:decorate id="autorFrase" template="layout/display.xhtml">
+            <ui:define name="label">Autor frase</ui:define>
+            <h:outputText value="#{fraseHome.instance.autorFrase}"/>
+        </s:decorate>
+
+        <s:decorate id="calificacionFrase" template="layout/display.xhtml">
+            <ui:define name="label">Calificacion frase</ui:define>
+            <h:outputText value="#{fraseHome.instance.calificacionFrase}"/>
+        </s:decorate>
+
+        <s:decorate id="ocupacionAutorFrase" template="layout/display.xhtml">
+            <ui:define name="label">Ocupacion autor frase</ui:define>
+            <h:outputText value="#{fraseHome.instance.ocupacionAutorFrase}"/>
+        </s:decorate>
+
+        <s:decorate id="textoFrase" template="layout/display.xhtml">
+            <ui:define name="label">Texto frase</ui:define>
+            <h:outputText value="#{fraseHome.instance.textoFrase}"/>
+        </s:decorate>
+
+        <s:decorate id="votosNegativosFrase" template="layout/display.xhtml">
+            <ui:define name="label">Votos negativos frase</ui:define>
+            <h:outputText value="#{fraseHome.instance.votosNegativosFrase}"/>
+        </s:decorate>
+
+        <s:decorate id="votosPositivosFrase" template="layout/display.xhtml">
+            <ui:define name="label">Votos positivos frase</ui:define>
+            <h:outputText value="#{fraseHome.instance.votosPositivosFrase}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/FraseEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty fraseFrom ? 'FraseList' : fraseFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Estatus frase</h:panelGroup>
+        </f:facet>
+    <div class="association" id="estatusFraseParent">
+
+        <h:outputText value="There is no estatusFrase associated with this frase."
+                   rendered="#{fraseHome.instance.estatusFrase == null}"/>
+
+        <rich:dataTable var="_estatusFrase"
+                   value="#{fraseHome.instance.estatusFrase}"
+                rendered="#{fraseHome.instance.estatusFrase != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusFraseTable">
+            <h:column>
+                <f:facet name="header">Id estatus frase</f:facet>
+                <h:outputText value="#{_estatusFrase.idEstatusFrase}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion estatus frase</f:facet>
+                <h:outputText value="#{_estatusFrase.descripcionEstatusFrase}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus frase</f:facet>
+                <h:outputText value="#{_estatusFrase.nombreEstatusFrase}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewestatusFrase"
+                     value="View"
+                      view="/EstatusFrase.xhtml">
+                    <f:param name="estatusFraseIdEstatusFrase"
+                           value="#{_estatusFrase.idEstatusFrase}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

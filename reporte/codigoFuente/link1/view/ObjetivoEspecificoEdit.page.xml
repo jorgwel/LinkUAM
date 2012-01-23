@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/ObjetivoEspecificoList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{objetivoEspecificoHome.wire}"/>
+
+   <param name="objetivoEspecificoFrom"/>
+   <param name="objetivoEspecificoIdObjetivoEspecifico" value="#{objetivoEspecificoHome.objetivoEspecificoIdObjetivoEspecifico}"/>
+   <param name="ideaFrom"/>
+   <param name="ideaIdIdea" value="#{ideaHome.ideaIdIdea}"/>
+   <param name="estatusAyudaMonetariaFrom"/>
+   <param name="estatusAyudaMonetariaIdEstatusAyudaMonetaria" value="#{estatusAyudaMonetariaHome.estatusAyudaMonetariaIdEstatusAyudaMonetaria}"/>
+
+   <param name="estatusAyudaRecursosHumanosFrom"/>
+   <param name="estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos" value="#{estatusAyudaRecursosHumanosHome.estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos}"/>
+
+   <param name="estatusIdeaFrom"/>
+   <param name="estatusIdeaIdEstatusIdea" value="#{estatusIdeaHome.estatusIdeaIdEstatusIdea}"/>
+
+   <param name="lugarFrom"/>
+   <param name="lugarIdLugar" value="#{lugarHome.lugarIdLugar}"/>
+   <param name="tipoLugarFrom"/>
+   <param name="tipoLugarIdTipoLugar" value="#{tipoLugarHome.tipoLugarIdTipoLugar}"/>
+
+   <param name="usuarioFrom"/>
+   <param name="usuarioIdUsuario" value="#{usuarioHome.usuarioIdUsuario}"/>
+   <param name="configuracionUsuarioFrom"/>
+   <param name="configuracionUsuarioIdConfiguracionUsuario" value="#{configuracionUsuarioHome.configuracionUsuarioIdConfiguracionUsuario}"/>
+
+   <param name="estatusUsuarioFrom"/>
+   <param name="estatusUsuarioIdEstatusUsuario" value="#{estatusUsuarioHome.estatusUsuarioIdEstatusUsuario}"/>
+
+   <param name="institucionFrom"/>
+   <param name="institucionIdInstitucion" value="#{institucionHome.institucionIdInstitucion}"/>
+
+
+
+
+
+
+   <navigation from-action="#{objetivoEspecificoHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/ObjetivoEspecifico.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{objetivoEspecificoHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/ObjetivoEspecifico.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{objetivoEspecificoHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/ObjetivoEspecificoList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

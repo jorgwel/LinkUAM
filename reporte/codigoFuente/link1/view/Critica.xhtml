@@ -1,0 +1,227 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Critica Details</f:facet>
+
+        <s:decorate id="idCritica" template="layout/display.xhtml">
+            <ui:define name="label">Id critica</ui:define>
+            <h:outputText value="#{criticaHome.instance.idCritica}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaCritica" template="layout/display.xhtml">
+            <ui:define name="label">Fecha critica</ui:define>
+            <h:outputText value="#{criticaHome.instance.fechaCritica}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="textoCritica" template="layout/display.xhtml">
+            <ui:define name="label">Texto critica</ui:define>
+            <h:outputText value="#{criticaHome.instance.textoCritica}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/CriticaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty criticaFrom ? 'CriticaList' : criticaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Estatus critica</h:panelGroup>
+        </f:facet>
+    <div class="association" id="estatusCriticaParent">
+
+        <h:outputText value="There is no estatusCritica associated with this critica."
+                   rendered="#{criticaHome.instance.estatusCritica == null}"/>
+
+        <rich:dataTable var="_estatusCritica"
+                   value="#{criticaHome.instance.estatusCritica}"
+                rendered="#{criticaHome.instance.estatusCritica != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusCriticaTable">
+            <h:column>
+                <f:facet name="header">Id estatus critica</f:facet>
+                <h:outputText value="#{_estatusCritica.idEstatusCritica}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus critica</f:facet>
+                <h:outputText value="#{_estatusCritica.definicionEstatusCritica}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus critica</f:facet>
+                <h:outputText value="#{_estatusCritica.nombreEstatusCritica}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewestatusCritica"
+                     value="View"
+                      view="/EstatusCritica.xhtml">
+                    <f:param name="estatusCriticaIdEstatusCritica"
+                           value="#{_estatusCritica.idEstatusCritica}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Tipo critica</h:panelGroup>
+        </f:facet>
+    <div class="association" id="tipoCriticaParent">
+
+        <h:outputText value="There is no tipoCritica associated with this critica."
+                   rendered="#{criticaHome.instance.tipoCritica == null}"/>
+
+        <rich:dataTable var="_tipoCritica"
+                   value="#{criticaHome.instance.tipoCritica}"
+                rendered="#{criticaHome.instance.tipoCritica != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipoCriticaTable">
+            <h:column>
+                <f:facet name="header">Id tipo critica</f:facet>
+                <h:outputText value="#{_tipoCritica.idTipoCritica}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion tipo critica</f:facet>
+                <h:outputText value="#{_tipoCritica.definicionTipoCritica}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre tipo critica</f:facet>
+                <h:outputText value="#{_tipoCritica.nombreTipoCritica}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewtipoCritica"
+                     value="View"
+                      view="/TipoCritica.xhtml">
+                    <f:param name="tipoCriticaIdTipoCritica"
+                           value="#{_tipoCritica.idTipoCritica}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuario</h:panelGroup>
+        </f:facet>
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this critica."
+                   rendered="#{criticaHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{criticaHome.instance.usuario}"
+                rendered="#{criticaHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewusuario"
+                     value="View"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioIdUsuario"
+                           value="#{_usuario.idUsuario}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,104 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Tipo reporte abuso Details</f:facet>
+
+        <s:decorate id="idTipoReporteAbuso" template="layout/display.xhtml">
+            <ui:define name="label">Id tipo reporte abuso</ui:define>
+            <h:outputText value="#{tipoReporteAbusoHome.instance.idTipoReporteAbuso}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionTipoReporteAbuso" template="layout/display.xhtml">
+            <ui:define name="label">Definicion tipo reporte abuso</ui:define>
+            <h:outputText value="#{tipoReporteAbusoHome.instance.definicionTipoReporteAbuso}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreTipoReporteAbuso" template="layout/display.xhtml">
+            <ui:define name="label">Nombre tipo reporte abuso</ui:define>
+            <h:outputText value="#{tipoReporteAbusoHome.instance.nombreTipoReporteAbuso}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/TipoReporteAbusoEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty tipoReporteAbusoFrom ? 'TipoReporteAbusoList' : tipoReporteAbusoFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Reporte abusos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="reporteAbusosChildren">
+
+        <h:outputText value="There are no reporteAbusos associated with this tipoReporteAbuso."
+                   rendered="#{empty tipoReporteAbusoHome.reporteAbusos}"/>
+
+        <rich:dataTable value="#{tipoReporteAbusoHome.reporteAbusos}"
+                       var="_reporteAbuso"
+                  rendered="#{not empty tipoReporteAbusoHome.reporteAbusos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="reporteAbusosTable">
+            <rich:column sortBy="#{_reporteAbuso.idReporteAbuso}">
+                <f:facet name="header">Id reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.idReporteAbuso}"/>
+            </rich:column>
+            <rich:column sortBy="#{_reporteAbuso.fechaReporteAbuso}">
+                <f:facet name="header">Fecha reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.fechaReporteAbuso}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_reporteAbuso.notaReporteAbuso}">
+                <f:facet name="header">Nota reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.notaReporteAbuso}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectreporteAbuso"
+                     value="Select"
+                      view="/ReporteAbuso.xhtml">
+                    <f:param name="reporteAbusoIdReporteAbuso"
+                            value="#{_reporteAbuso.idReporteAbuso}"/>
+                    <f:param name="reporteAbusoFrom" value="TipoReporteAbuso"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add reporteAbuso"
+                view="/ReporteAbusoEdit.xhtml">
+            <f:param name="tipoReporteAbusoIdTipoReporteAbuso"
+                    value="#{tipoReporteAbusoHome.instance.idTipoReporteAbuso}"/>
+            <f:param name="reporteAbusoFrom" value="TipoReporteAbuso"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

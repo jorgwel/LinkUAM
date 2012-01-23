@@ -1,0 +1,134 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Tipo visita Details</f:facet>
+
+        <s:decorate id="idTipoVisita" template="layout/display.xhtml">
+            <ui:define name="label">Id tipo visita</ui:define>
+            <h:outputText value="#{tipoVisitaHome.instance.idTipoVisita}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcionTipoVisita" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion tipo visita</ui:define>
+            <h:outputText value="#{tipoVisitaHome.instance.descripcionTipoVisita}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreTipoVisita" template="layout/display.xhtml">
+            <ui:define name="label">Nombre tipo visita</ui:define>
+            <h:outputText value="#{tipoVisitaHome.instance.nombreTipoVisita}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/TipoVisitaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty tipoVisitaFrom ? 'TipoVisitaList' : tipoVisitaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Visitas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="visitasChildren">
+
+        <h:outputText value="There are no visitas associated with this tipoVisita."
+                   rendered="#{empty tipoVisitaHome.visitas}"/>
+
+        <rich:dataTable value="#{tipoVisitaHome.visitas}"
+                       var="_visita"
+                  rendered="#{not empty tipoVisitaHome.visitas}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="visitasTable">
+            <rich:column sortBy="#{_visita.idVisita}">
+                <f:facet name="header">Id visita</f:facet>
+                <h:outputText value="#{_visita.idVisita}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.coordenadaGeograficaLatitudVisita}">
+                <f:facet name="header">Coordenada geografica latitud visita</f:facet>
+                <h:outputText value="#{_visita.coordenadaGeograficaLatitudVisita}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.coordenadaGeograficaLongitudVisita}">
+                <f:facet name="header">Coordenada geografica longitud visita</f:facet>
+                <h:outputText value="#{_visita.coordenadaGeograficaLongitudVisita}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.direccionIpVisita}">
+                <f:facet name="header">Direccion ip visita</f:facet>
+                <h:outputText value="#{_visita.direccionIpVisita}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.fechaFinVisita}">
+                <f:facet name="header">Fecha fin visita</f:facet>
+                <h:outputText value="#{_visita.fechaFinVisita}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_visita.fechaInicioVisita}">
+                <f:facet name="header">Fecha inicio visita</f:facet>
+                <h:outputText value="#{_visita.fechaInicioVisita}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_visita.limiteFinal}">
+                <f:facet name="header">Limite final</f:facet>
+                <h:outputText value="#{_visita.limiteFinal}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.limiteInicial}">
+                <f:facet name="header">Limite inicial</f:facet>
+                <h:outputText value="#{_visita.limiteInicial}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.sesionid}">
+                <f:facet name="header">Sesionid</f:facet>
+                <h:outputText value="#{_visita.sesionid}"/>
+            </rich:column>
+            <rich:column sortBy="#{_visita.textoABuscar}">
+                <f:facet name="header">Texto a buscar</f:facet>
+                <h:outputText value="#{_visita.textoABuscar}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectvisita"
+                     value="Select"
+                      view="/Visita.xhtml">
+                    <f:param name="visitaIdVisita"
+                            value="#{_visita.idVisita}"/>
+                    <f:param name="visitaFrom" value="TipoVisita"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add visita"
+                view="/VisitaEdit.xhtml">
+            <f:param name="tipoVisitaIdTipoVisita"
+                    value="#{tipoVisitaHome.instance.idTipoVisita}"/>
+            <f:param name="visitaFrom" value="TipoVisita"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

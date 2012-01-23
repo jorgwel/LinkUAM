@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/EstatusBitacoraList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{estatusBitacoraHome.wire}"/>
+
+   <param name="estatusBitacoraFrom"/>
+   <param name="estatusBitacoraIdEstatusBitacora" value="#{estatusBitacoraHome.estatusBitacoraIdEstatusBitacora}"/>
+
+
+   <navigation from-action="#{estatusBitacoraHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/EstatusBitacora.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{estatusBitacoraHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/EstatusBitacora.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{estatusBitacoraHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/EstatusBitacoraList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

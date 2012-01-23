@@ -1,0 +1,267 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<span  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.prime.com.tr/ui"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       >
+
+
+    <!--        <p:graphicImage value="/img/uam_texto.png"/>-->
+    <script type="text/javascript">
+
+
+            YAHOO.util.Event.addListener('ideas', 'load', function(e) {
+                jQuery(PrimeFaces.escapeClientId('ideas')).effect('drop',{mode:'show'},1000);
+            });
+
+
+
+
+
+//            YAHOO.util.Event.addListener('logo', 'load', function(e) {
+//                jQuery(PrimeFaces.escapeClientId('logo')).effect('drop',{mode:'show'},200,
+//                    function(){
+//                        jQuery(PrimeFaces.escapeClientId('letras')).effect('drop',{mode:'show' },200,
+//                            function(){
+//                                jQuery(PrimeFaces.escapeClientId('ideas')).effect('drop',{mode:'show' },200);
+//                            });
+//                    });
+//
+//            });
+
+
+
+
+    </script>
+    <s:link view="/Home.seam" style="border: none !important;position: absolute;
+                left: 10px;">
+        <h:form prependId="false" >
+            <h:graphicImage
+                id="logo"
+                value="/img/letras/link.png"
+                style=
+                "border: none !important;"
+                >
+
+            <h:graphicImage
+                id="ideas"
+                value="/img/letras/ideas.png"
+                style=
+                "border: none !important;position: absolute;
+                left: 242px;
+                top: 60px;
+                display: none;
+                "
+                />
+            <h:graphicImage
+                id="letras"
+                value="/img/letras/uamletras.png"
+                style=
+                "border: none !important;
+                position: absolute;
+                left: 242px;"
+                />
+
+            </h:graphicImage>
+        </h:form>
+    </s:link>
+
+
+
+
+
+
+
+
+    <h:form>
+        <h:outputText
+            value="#{messages['home.buscar.buscarideas']}"
+            style=
+            "font-weight: bold;
+            font-size: 15pt;
+            font-family: arial, narrow;
+            font-style:italic"
+            />
+        #{' '}#{' '}
+        <h:inputText
+            id="searchInput"
+            style=
+            "width: 300px;
+            height: 25px !important;
+            border-width:3px !important;
+            font-size: 13pt !important;
+            font-weight: bold"
+            value="#{buscador.textoABuscar}"
+            />
+        #{' '}
+        <p:watermark for="searchInput" value="#{messages['home.buscar.puntopuntopunto']}" />
+        #{' '}
+        <p:commandButton
+            value="#{messages['home.buscar']}"
+            image="detail"
+            styleClass="botonnaranja"
+            style=
+            "margin-top: 0px !important;
+            padding-top: 0px !important;
+            width: 120px !important;
+            height: 26px !important;"
+            ajax="false"
+            action="#{buscador.buscar}"
+
+            />
+    </h:form>
+    <!--    {' '}
+        p:commandButton value="Búsqueda avanzada" styleClass="button white bigrounded" style="padding: 3px"/-->
+
+
+    <div style="height: 10px"></div>
+
+    <h:outputText value="#{messages['home.tienescuenta']}" rendered="#{not identity.loggedIn}"/>
+    #{' '}
+    <s:link
+        value="#{messages['home.iniciasesion']}"
+        styleClass="botonnaranja"
+        style=
+        "padding: 3px !important;
+        color: white;
+        height: 26px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;"
+        view="/Login.seam"
+        rendered="#{not identity.loggedIn}"
+        />
+
+    <h:outputText value="#{messages['home.sinotienes']}" rendered="#{not identity.loggedIn}"/>
+    #{' '}
+    <s:link
+        value="#{messages['home.inscribete']}"
+        styleClass="botonnaranja"
+        style=
+        "padding: 3px !important;
+        color: white;
+        height: 20px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;"
+        rendered="#{not identity.loggedIn}"
+        view="/UsuarioCrear.seam"
+        propagation="none"
+        />
+
+    <h:outputText value="#{messages['home.esmuyfacil']}" rendered="#{not identity.loggedIn}"/>
+
+    <h:outputText value="#{listaVariables.resultList.size} resultados encontrados..."
+                  rendered="#{false and not identity.loggedIn}" style="font-size: 14pt"/>
+
+    <h:outputText
+        value="#{messages['home.bienvenido']} "
+        rendered="#{identity.loggedIn}"
+        style=
+        "font-weight: bold;
+        font-size: 12pt"
+        />
+    <h:outputText
+        value=" #{usuarioActual.nickUsuario} "
+        rendered="#{identity.loggedIn}"
+        style=
+        "font-weight: bold;
+        font-size: 14pt;
+        text-shadow: 1px 0px 4px #a3a3a3;
+        border-bottom: 6px solid #FFBF00;
+        margin-left: 5px"/>
+    #{' '}    #{' '}
+    <s:link
+        value="#{messages['panelcontrol.panelcontrol']}"
+        styleClass="botonnaranja"
+        view="/PanelControl.seam"
+        style=
+        "padding: 3px !important;
+        color: white;
+        height: 26px !important;
+        margin-left: 8px;
+        padding-left: 12px !important;
+        padding-right: 12px !important;"
+        rendered="#{identity.loggedIn}">
+        <f:param name="vista" value="ideas" />
+    </s:link>
+    #{' '}    #{' '}
+    <s:link
+        value="#{messages['home.salir']}"
+        styleClass="botonnaranja"
+        action="#{identity.logout}"
+        style=
+        "padding: 3px !important;
+        color: white;
+        height: 26px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;"
+        rendered="#{identity.loggedIn}"/>
+
+    <p:idleMonitor onidle="topBar.show();" onactive="topBar.hide();" timeout="100000" />
+    <p:notificationBar
+        widgetVar="topBar"
+        position="top"
+        style="text-align: center !important;"
+        effect="fade"
+        effectSpeed="fast"
+        >
+        <h:panelGrid>
+
+            <p:graphicImage
+                value="/img/uam_logo_letras_blancas.png"
+                style="margin-bottom: 10px !important"
+                />
+            <s:div>
+                <h:outputText
+                    style="letter-spacing: 4px !important;
+                    font-size: 30pt;
+                    text-shadow: 3px 3px 6px #AAAAAA;
+                    color: white;
+                    margin-top: 35px !important;
+                    font-family:Tahoma, Geneva, sans-serif;"
+                    value="#{messages['home.siguesahi']}"
+                    />
+                <h:outputText
+                    style="letter-spacing: 4px !important;
+                    font-size: 30pt;
+                    text-shadow: 3px 3px 6px #AAAAAA;
+                    color: white;
+                    margin-top: 35px !important;
+                    font-family:Tahoma, Geneva, sans-serif;"
+                    rendered="#{usuarioActual!=null}"
+                    value=" #{usuarioActual.nombreUsuario}"
+                    />
+                <h:outputText
+                    style="letter-spacing: 4px !important;
+                    font-size: 30pt;
+                    text-shadow: 3px 3px 6px #AAAAAA;
+                    color: white;
+                    margin-top: 35px !important;
+                    font-family:Tahoma, Geneva, sans-serif;"
+                    value="?"
+                    />
+            </s:div>
+        </h:panelGrid>
+
+    </p:notificationBar>
+
+
+
+
+
+
+    <!--    p:dialog widgetVar="idleDialog" modal="true" visible="false" closable="true" position="bottom"-->
+
+
+
+
+
+
+
+
+
+
+
+</span>

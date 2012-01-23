@@ -1,0 +1,49 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib">
+
+<!--    <h:outputText value="Bienvenido a México Consciente"
+                  style="font-size: 25pt;text-align: left;font-weight: bold"/>-->
+
+
+    <h:form style="text-align: left" id="listaObjetos">
+        <br/>
+        <h:outputText value="#{tituloContenido}" style="font-size: 20pt"/>
+        <ui:include src="search.xhtml"/>
+        <hr/>
+
+        <p:dataGrid  var="_var" value="#{listaVariables.resultList}"
+                     columns="1" rows="#{numFilas}"
+                     paginator="#{not paginadorVisible?'false':listaVariables.resultList.size>numFilas?'true':
+                                  'false'}"
+                     paginatorPosition="bottom" style="text-align: left;border: 0"
+                     styleClass="inside">
+
+            <p:panel header="#{fecha}, #{titulo}" collapsed="true"
+                     toggleable="true" toggleSpeed="300" 
+                     style="font-size: 14pt;text-align: left;border: 0;" styleClass="inside">
+
+                <f:facet name="footer">
+                    <h:outputText value="Por: #{valorpie}"
+                                  style="font-size: 7pt"/>
+                </f:facet>
+
+                <h:outputText style="font-size: 13pt" value="#{descripcion}"/>
+
+            </p:panel>
+
+        </p:dataGrid>
+    </h:form>
+
+    <!-- Link que lleva a ver todos los avisos -->
+    <div style="text-align: right">
+        <s:link value="#{mensajeVerTodos}" view="/#{mensajeVerTodosTarget}" style="text-align: right" />
+    </div>
+
+
+</ui:composition>

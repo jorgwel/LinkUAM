@@ -1,0 +1,218 @@
+<s:div xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.prime.com.tr/ui"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       >
+
+    <h:panelGrid columns="1">
+
+        <p:panel style="text-align: center;border: 0;">
+            <f:facet name="header">
+                <h:outputText
+                    value="#{messages['idea.tienesidea']}"
+                    style=
+                    "font-style: normal;
+                    font-size: 11pt !important;
+                    letter-spacing: 1px !important"
+                    />
+            </f:facet>
+
+            <s:link 
+                value="#{messages['idea.emprendela']}"
+                styleClass="botonnaranja"
+                style=
+                "padding: 3px !important;
+                 color: white;
+                 padding-left: 12px !important;
+                 padding-right: 12px !important;"
+                view="/IdeaCrear.seam"
+                propagation="none">
+                <f:param name="cameFrom" value="/Home.seam"/>
+            </s:link>
+
+        </p:panel>
+<!--        <p:panel
+            style=
+            "font-size: 14pt;
+            text-align: center;
+            border: 0;"
+            styleClass="inside"
+            >
+            <f:facet name="header">
+                <h:outputText value="#{messages['idea.dondeparticipar']}" style="font-style: normal;font-size: 13pt !important"/>
+            </f:facet>
+
+            <s:link 
+                value="#{messages['idea.pulsaaqui']}"
+                styleClass="botonnaranja"
+                style=
+                "padding: 3px !important;
+                color: white"
+                />
+
+        </p:panel>-->
+
+        <p:outputPanel id="outcritica">
+            <p:panel
+                style=
+                "border: 0;"
+                >
+                <f:facet name="header">
+                    <h:outputText value="#{messages['critica.titulo']}" style="font-style: normal;font-size: 11pt !important;letter-spacing: 1px !important"/>
+                </f:facet>
+                
+                <h:form prependId="false">
+                    <p:message 
+                        for="seleccionTipoCritica"
+                        id="mensajeErrorCritica"
+                        >
+                        <p:effect type="pulsate" event="load">
+                            <f:param name="mode" value="'show'" />
+                        </p:effect>
+                    </p:message>
+                    <h:selectOneRadio 
+                        layout="pageDirection"
+                        value="#{critica.tipoCritica}"
+                        required="true" 
+                        requiredMessage=
+                        "#{messages['critica.mensaje.tipocriticarequeriso']}"
+                        id="seleccionTipoCritica"
+                        >
+                        <s:selectItems 
+                            var="_tipoCritica"
+                            value="#{tipoCriticaList.resultList}"
+                            label=
+                            "#{_tipoCritica.definicionTipoCritica}"
+                            />
+                        <s:convertEntity/>
+                        <s:validate/>
+                    </h:selectOneRadio>
+                    <br/>
+                    <h:outputText
+                        value="#{messages['critica.comentario']}"
+                        style="font-weight: bold"
+                        />
+                    
+                    <br/>
+                    <h:inputTextarea
+                        rows="3"
+                        style="width: 170px"
+                        value="#{critica.textoCritica}"
+                        id="areaDeCritica"
+                        required="true"
+                        />
+
+                    <p:watermark
+                        for="areaDeCritica"
+                        value="#{messages['critica.agua.areadecritica']}"
+                        />
+
+                    <p:commandButton
+                        value="#{messages['home.critica.enviar']}"
+                        styleClass="botonnaranja"
+                        style=
+                        "left: 27px !important;
+                        margin-top: 0px !important;
+                        padding-top: 0px !important;
+                        width: 120px !important;
+                        height: 26px !important"
+                        action="#{criticaHome.persist}"
+                        process="@form"
+                        update="msg mensajeErrorCritica"
+                        oncomplete="manejaRespuestaDeCritica(xhr, status, args)"
+
+                        />
+                    <!--                    <p:commandButton value="Enviar" styleClass="ui-button orange center buttonbold textbig" action="{criticaHome.persist}" update="seleccionTipoCritica,areaDeCritica"/>-->
+
+                </h:form>
+                <script>
+                function manejaRespuestaDeCritica(xhr, status, args){
+
+                    if(args.respuesta == 'criticaRealizada'){
+                        //Reseteando área de texto
+                        document.getElementById('areaDeCritica').value='';
+
+                        var radiosDeTipoCritica =
+                            document.getElementsByName('seleccionTipoCritica');
+                        //Reseteando radios
+                        for (var i = 0; i &lt; radiosDeTipoCritica.length; i++)
+                            radiosDeTipoCritica[i].checked = false;
+                        
+                    }
+
+                }
+                </script>
+            </p:panel>
+        </p:outputPanel>
+    </h:panelGrid>
+    
+    <p:panel style="border: 0">
+        <f:facet name="header">
+            <h:outputText value="#{messages['home.twitter.titulo']}" style="font-style: normal;font-size: 11pt !important;letter-spacing: 1px !important"/>
+        </f:facet>
+
+        <h:form>
+
+            <p:dataGrid
+                var="_tweet"
+                value="#{seamListManagerTweets}"
+                style="border: none !important;
+                text-align: left !important;
+                background: gainsboro !important;
+                width: 100% !important;
+                padding: 0px !important;
+                list-style: none !important;"
+                columns="1"
+                rows="4"
+                >
+
+                <div class="triangle-isosceles"
+                     style=
+                     "margin-bottom: -12px !important;
+                     width: 165px !important" >
+                    <p:graphicImage value="/img/tweets.png" width="30"/>
+                    <h:outputText
+                        value="#{stringutils.abbreviate(_tweet['text'], 65)}"
+                        style="font-size: 9pt !important"
+                        />
+                    <a 
+                        href="#{_tweet['urlstatus']}"
+                        target="_blank"
+                        style="font-size: 9pt !important"
+                        >#{_tweet['createdat']}
+                    </a>
+                    <!--                    h:outputText
+                                            value="@{_tweet['screen_name']}"
+                                            style="font-size: 9pt"
+                                            /-->
+                </div>
+
+
+            </p:dataGrid>
+        </h:form>
+        <br/>
+
+        <a 
+            target="_blank"
+            href="http://twitter.com/#{valoresGlobales.screenNameTweeter}"
+            style="font-style: normal;font-size: 11pt !important;color: gray;">http://twitter.com/linkuam</a>
+
+
+        <a 
+            target="_blank"
+            href="http://twitter.com/#{valoresGlobales.screenNameTweeter}"
+            style="border: 0">
+            <h:panelGrid columns="2">
+                <h:outputText value="#{messages['home.twitter.comparte']}" style="color: gray;font-size: 12pt !important;font-weight: bold !important"/>
+                <p:graphicImage value="/img/beer-t.png"/>
+            </h:panelGrid>
+        </a>
+
+
+
+
+    </p:panel>
+</s:div>
+

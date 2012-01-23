@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <link rel="icon"
+                  type="image/png"
+                  href="#{valoresGlobales.servidorWeb}/#{valoresGlobales.nombreDeAplicacion}/img/linkUAMfavIcon.png"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+
+
+            <p:resources/>
+            <!-- Para hacer llamadas remotas a Seam-->
+            <s:remote include="ideaHome"/>
+            <ui:include src="codigoJavascript.xhtml"/>
+            <ui:include src="codigoCss.xhtml"/>
+
+
+<!--            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/primefaces-aristo/theme.css" />-->
+
+
+        </head>
+        <body>
+
+
+
+            <!--______________________________________________-->
+            <!-- Inserción de plantilla principal             -->
+            <!--______________________________________________-->
+            <p:layout  style="width: 1118px;height: 2000px;text-align: center" ><!-- fullPage="false" -->
+                <!--______________________________________________-->
+                <!-- Inserción del layout que va hasta arriba     -->
+                <!--______________________________________________-->
+                <p:layoutUnit id="top" position="top" height="143">
+
+
+                    <h:panelGrid columns="1">
+                        <!--                        <p:graphicImage value="img/logo_temp.png" style="text-align: right"/>-->
+                        <p:panel styleClass="ui-panel fondopaneltitulo">
+
+                            <ui:include src="topSearch.xhtml"/>
+
+                        </p:panel>
+
+                        <!--______________________________________________-->
+                        <!-- Inserción del menú jerárquico de cada página -->
+                        <!--______________________________________________-->
+                        <ui:include src="breadCrumb.xhtml"/>
+                    </h:panelGrid>
+                </p:layoutUnit>
+
+                <p:layoutUnit id="bottom" position="bottom" height="70">
+                    <ui:insert name="panelBottom"/>
+
+
+                </p:layoutUnit>
+                <!--__________________________-->
+                <!-- Inserción del layout para-->
+                <!-- el contenido principal.  -->
+                <!--__________________________-->
+                <!--                <p:layoutUnit id="center" position="center" style="text-align:center;" scrollable="true">-->
+                <ui:insert name="body"/>
+                <!--                </p:layoutUnit>-->
+
+                <p:layoutUnit id="left" position="left"   width="250">
+
+                </p:layoutUnit>
+
+                <p:layoutUnit id="right" position="right" width="250">
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+            <!--__________________________-->
+            <!-- Inserción del menú stack -->
+            <!-- fuera de la plantilla    -->
+            <!--__________________________-->
+            <!--            <ui:include src="stack.xhtml">
+                            <ui:param name="projectName" value="prime_mconsciente"/>
+                        </ui:include>-->
+
+        </body>
+    </html>
+</f:view>
+
+
+

@@ -1,0 +1,143 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoReporteAbuso" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{tipoReporteAbusoHome.managed ? 'Edit' : 'Add'} Tipo reporte abuso</f:facet>
+
+
+            <s:decorate id="idTipoReporteAbusoField" template="layout/edit.xhtml">
+                <ui:define name="label">Id tipo reporte abuso</ui:define>
+                <h:inputText id="idTipoReporteAbuso"
+                       required="true"
+                       disabled="#{tipoReporteAbusoHome.managed}"
+                          value="#{tipoReporteAbusoHome.instance.idTipoReporteAbuso}">
+                    <a:support event="onblur" reRender="idTipoReporteAbusoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionTipoReporteAbusoField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion tipo reporte abuso</ui:define>
+                <h:inputText id="definicionTipoReporteAbuso"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{tipoReporteAbusoHome.instance.definicionTipoReporteAbuso}">
+                    <a:support event="onblur" reRender="definicionTipoReporteAbusoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreTipoReporteAbusoField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre tipo reporte abuso</ui:define>
+                <h:inputText id="nombreTipoReporteAbuso"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{tipoReporteAbusoHome.instance.nombreTipoReporteAbuso}">
+                    <a:support event="onblur" reRender="nombreTipoReporteAbusoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{tipoReporteAbusoHome.persist}"
+                       disabled="#{!tipoReporteAbusoHome.wired}"
+                       rendered="#{!tipoReporteAbusoHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{tipoReporteAbusoHome.update}"
+                       rendered="#{tipoReporteAbusoHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{tipoReporteAbusoHome.remove}"
+                      immediate="true"
+                       rendered="#{tipoReporteAbusoHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TipoReporteAbuso.xhtml"
+                rendered="#{tipoReporteAbusoHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty tipoReporteAbusoFrom ? 'TipoReporteAbusoList' : tipoReporteAbusoFrom}.xhtml"
+                rendered="#{!tipoReporteAbusoHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Reporte abusos">
+        <h:form styleClass="association" id="reporteAbusosChildren">
+
+            <h:outputText value="There are no reporteAbusos associated with this tipoReporteAbuso."
+                       rendered="#{empty tipoReporteAbusoHome.reporteAbusos}"/>
+
+            <rich:dataTable value="#{tipoReporteAbusoHome.reporteAbusos}"
+                           var="_reporteAbuso"
+                      rendered="#{not empty tipoReporteAbusoHome.reporteAbusos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="reporteAbusosTable">
+                <rich:column sortBy="#{_reporteAbuso.idReporteAbuso}">
+                    <f:facet name="header">Id reporte abuso</f:facet>
+                    <h:outputText value="#{_reporteAbuso.idReporteAbuso}"/>
+                </rich:column>
+                <rich:column sortBy="#{_reporteAbuso.fechaReporteAbuso}">
+                    <f:facet name="header">Fecha reporte abuso</f:facet>
+                    <h:outputText value="#{_reporteAbuso.fechaReporteAbuso}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_reporteAbuso.notaReporteAbuso}">
+                    <f:facet name="header">Nota reporte abuso</f:facet>
+                    <h:outputText value="#{_reporteAbuso.notaReporteAbuso}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{tipoReporteAbusoHome.managed}" id="reporteAbusos">
+        <div class="actionButtons">
+            <s:button id="addreporteAbuso"
+                   value="Add reporteAbuso"
+                    view="/ReporteAbusoEdit.xhtml"
+             propagation="none">
+                 <f:param name="tipoReporteAbusoIdTipoReporteAbuso"
+                         value="#{tipoReporteAbusoHome.instance.idTipoReporteAbuso}"/>
+                 <f:param name="reporteAbusoFrom" value="TipoReporteAbuso"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,38 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+
+        <p:resources/>
+        </head>
+        <body>
+        <p:growl id="msg" globalOnly="true"/>
+
+        <h:outputText value="Buscar idea"/>
+
+        <p:menu>
+            <p:submenu>
+                <p:menuitem value="UAM Azcapotzalco" url="/BuscarIdea.seam?idInstitucion=0&amp;idTipoIdea=1&amp;limiteInicial=2&amp;limiteFinal=3" />
+
+            </p:submenu>
+        </p:menu>
+        <h:form prependId="false">
+
+
+            <p:commandButton id="comando" value="comando!"/>
+
+
+        </h:form>
+        </body>
+    </html>
+
+</f:view>

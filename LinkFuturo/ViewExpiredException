@@ -1,0 +1,24 @@
+< error-page>
+< exception-type>javax.faces.application.ViewExpiredException< /exception-type>
+< location>/error.jsp< /location>
+< /error-page>
+
+
+
+<context-param>
+  <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+  <param-value>true</param-value>
+</context-param>
+
+http://www.bashanblog.com/2009/08/handling-jsf-viewexpiredexception-with.html
+http://www.tikalk.com/java/forums/seam-error-javaxfacesapplicationviewexpiredexception
+
+https://issues.jboss.org/browse/RF-3102
+
+http://community.jboss.org/message/38041#38041
+
+http://community.jboss.org/wiki/RichFacesCookbookViewExpiredException
+
+http://www.jroller.com/mert/entry/state_saving_method_client_side
+
+http://seamframework.org/Community/JavaxfacesapplicationViewExpiredException

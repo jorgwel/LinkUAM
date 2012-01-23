@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="firstResult" value="#{visitaList.firstResult}"/>
+   <param name="sort" value="#{visitaList.orderColumn}"/>
+   <param name="dir" value="#{visitaList.orderDirection}"/>
+   <param name="logic" value="#{visitaList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="direccionIpVisita" value="#{visitaList.visita.direccionIpVisita}"/>
+   <param name="sesionid" value="#{visitaList.visita.sesionid}"/>
+   <param name="textoABuscar" value="#{visitaList.visita.textoABuscar}"/>
+
+</page>

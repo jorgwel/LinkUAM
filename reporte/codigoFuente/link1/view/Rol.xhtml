@@ -1,0 +1,100 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Rol Details</f:facet>
+
+        <s:decorate id="idRol" template="layout/display.xhtml">
+            <ui:define name="label">Id rol</ui:define>
+            <h:outputText value="#{rolHome.instance.idRol}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionRol" template="layout/display.xhtml">
+            <ui:define name="label">Definicion rol</ui:define>
+            <h:outputText value="#{rolHome.instance.definicionRol}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreRol" template="layout/display.xhtml">
+            <ui:define name="label">Nombre rol</ui:define>
+            <h:outputText value="#{rolHome.instance.nombreRol}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/RolEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty rolFrom ? 'RolList' : rolFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Permisos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="permisosChildren">
+
+        <h:outputText value="There are no permisos associated with this rol."
+                   rendered="#{empty rolHome.permisos}"/>
+
+        <rich:dataTable value="#{rolHome.permisos}"
+                       var="_permiso"
+                  rendered="#{not empty rolHome.permisos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="permisosTable">
+            <rich:column sortBy="#{_permiso.id.rolId}">
+                <f:facet name="header">Rol id</f:facet>
+                <h:outputText value="#{_permiso.id.rolId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_permiso.id.usuarioId}">
+                <f:facet name="header">Usuario id</f:facet>
+                <h:outputText value="#{_permiso.id.usuarioId}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectpermiso"
+                     value="Select"
+                      view="/Permiso.xhtml">
+                    <f:param name="permisoRolId"
+                            value="#{_permiso.id.rolId}"/>
+                    <f:param name="permisoUsuarioId"
+                            value="#{_permiso.id.usuarioId}"/>
+                    <f:param name="permisoFrom" value="Rol"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add permiso"
+                view="/PermisoEdit.xhtml">
+            <f:param name="rolIdRol"
+                    value="#{rolHome.instance.idRol}"/>
+            <f:param name="permisoFrom" value="Rol"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

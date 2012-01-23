@@ -1,0 +1,130 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Tipo contacto usuario Details</f:facet>
+
+        <s:decorate id="idTipoContactoUsuario" template="layout/display.xhtml">
+            <ui:define name="label">Id tipo contacto usuario</ui:define>
+            <h:outputText value="#{tipoContactoUsuarioHome.instance.idTipoContactoUsuario}"/>
+        </s:decorate>
+
+        <s:decorate id="dato1" template="layout/display.xhtml">
+            <ui:define name="label">Dato1</ui:define>
+            <h:outputText value="#{tipoContactoUsuarioHome.instance.dato1}"/>
+        </s:decorate>
+
+        <s:decorate id="dato2" template="layout/display.xhtml">
+            <ui:define name="label">Dato2</ui:define>
+            <h:outputText value="#{tipoContactoUsuarioHome.instance.dato2}"/>
+        </s:decorate>
+
+        <s:decorate id="dato3" template="layout/display.xhtml">
+            <ui:define name="label">Dato3</ui:define>
+            <h:outputText value="#{tipoContactoUsuarioHome.instance.dato3}"/>
+        </s:decorate>
+
+        <s:decorate id="dato4" template="layout/display.xhtml">
+            <ui:define name="label">Dato4</ui:define>
+            <h:outputText value="#{tipoContactoUsuarioHome.instance.dato4}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionTipoContactoUsuario" template="layout/display.xhtml">
+            <ui:define name="label">Definicion tipo contacto usuario</ui:define>
+            <h:outputText value="#{tipoContactoUsuarioHome.instance.definicionTipoContactoUsuario}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreTipoContactoUsuario" template="layout/display.xhtml">
+            <ui:define name="label">Nombre tipo contacto usuario</ui:define>
+            <h:outputText value="#{tipoContactoUsuarioHome.instance.nombreTipoContactoUsuario}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/TipoContactoUsuarioEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty tipoContactoUsuarioFrom ? 'TipoContactoUsuarioList' : tipoContactoUsuarioFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Contacto usuarios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="contactoUsuariosChildren">
+
+        <h:outputText value="There are no contactoUsuarios associated with this tipoContactoUsuario."
+                   rendered="#{empty tipoContactoUsuarioHome.contactoUsuarios}"/>
+
+        <rich:dataTable value="#{tipoContactoUsuarioHome.contactoUsuarios}"
+                       var="_contactoUsuario"
+                  rendered="#{not empty tipoContactoUsuarioHome.contactoUsuarios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="contactoUsuariosTable">
+            <rich:column sortBy="#{_contactoUsuario.idContactoUsuario}">
+                <f:facet name="header">Id contacto usuario</f:facet>
+                <h:outputText value="#{_contactoUsuario.idContactoUsuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_contactoUsuario.textoComplementario1}">
+                <f:facet name="header">Texto complementario1</f:facet>
+                <h:outputText value="#{_contactoUsuario.textoComplementario1}"/>
+            </rich:column>
+            <rich:column sortBy="#{_contactoUsuario.textoComplementario2}">
+                <f:facet name="header">Texto complementario2</f:facet>
+                <h:outputText value="#{_contactoUsuario.textoComplementario2}"/>
+            </rich:column>
+            <rich:column sortBy="#{_contactoUsuario.textoComplementario3}">
+                <f:facet name="header">Texto complementario3</f:facet>
+                <h:outputText value="#{_contactoUsuario.textoComplementario3}"/>
+            </rich:column>
+            <rich:column sortBy="#{_contactoUsuario.textoContactoUsuario}">
+                <f:facet name="header">Texto contacto usuario</f:facet>
+                <h:outputText value="#{_contactoUsuario.textoContactoUsuario}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectcontactoUsuario"
+                     value="Select"
+                      view="/ContactoUsuario.xhtml">
+                    <f:param name="contactoUsuarioIdContactoUsuario"
+                            value="#{_contactoUsuario.idContactoUsuario}"/>
+                    <f:param name="contactoUsuarioFrom" value="TipoContactoUsuario"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add contactoUsuario"
+                view="/ContactoUsuarioEdit.xhtml">
+            <f:param name="tipoContactoUsuarioIdTipoContactoUsuario"
+                    value="#{tipoContactoUsuarioHome.instance.idTipoContactoUsuario}"/>
+            <f:param name="contactoUsuarioFrom" value="TipoContactoUsuario"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,157 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusFrase" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusFraseHome.managed ? 'Edit' : 'Add'} Estatus frase</f:facet>
+
+
+            <s:decorate id="idEstatusFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus frase</ui:define>
+                <h:inputText id="idEstatusFrase"
+                       required="true"
+                       disabled="#{estatusFraseHome.managed}"
+                          value="#{estatusFraseHome.instance.idEstatusFrase}">
+                    <a:support event="onblur" reRender="idEstatusFraseField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="descripcionEstatusFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion estatus frase</ui:define>
+                <h:inputText id="descripcionEstatusFrase"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusFraseHome.instance.descripcionEstatusFrase}">
+                    <a:support event="onblur" reRender="descripcionEstatusFraseField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreEstatusFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus frase</ui:define>
+                <h:inputText id="nombreEstatusFrase"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusFraseHome.instance.nombreEstatusFrase}">
+                    <a:support event="onblur" reRender="nombreEstatusFraseField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusFraseHome.persist}"
+                       disabled="#{!estatusFraseHome.wired}"
+                       rendered="#{!estatusFraseHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusFraseHome.update}"
+                       rendered="#{estatusFraseHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusFraseHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusFraseHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusFrase.xhtml"
+                rendered="#{estatusFraseHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusFraseFrom ? 'EstatusFraseList' : estatusFraseFrom}.xhtml"
+                rendered="#{!estatusFraseHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Frases">
+        <h:form styleClass="association" id="frasesChildren">
+
+            <h:outputText value="There are no frases associated with this estatusFrase."
+                       rendered="#{empty estatusFraseHome.frases}"/>
+
+            <rich:dataTable value="#{estatusFraseHome.frases}"
+                           var="_frase"
+                      rendered="#{not empty estatusFraseHome.frases}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="frasesTable">
+                <rich:column sortBy="#{_frase.idFrase}">
+                    <f:facet name="header">Id frase</f:facet>
+                    <h:outputText value="#{_frase.idFrase}"/>
+                </rich:column>
+                <rich:column sortBy="#{_frase.autorFrase}">
+                    <f:facet name="header">Autor frase</f:facet>
+                    <h:outputText value="#{_frase.autorFrase}"/>
+                </rich:column>
+                <rich:column sortBy="#{_frase.calificacionFrase}">
+                    <f:facet name="header">Calificacion frase</f:facet>
+                    <h:outputText value="#{_frase.calificacionFrase}"/>
+                </rich:column>
+                <rich:column sortBy="#{_frase.ocupacionAutorFrase}">
+                    <f:facet name="header">Ocupacion autor frase</f:facet>
+                    <h:outputText value="#{_frase.ocupacionAutorFrase}"/>
+                </rich:column>
+                <rich:column sortBy="#{_frase.textoFrase}">
+                    <f:facet name="header">Texto frase</f:facet>
+                    <h:outputText value="#{_frase.textoFrase}"/>
+                </rich:column>
+                <rich:column sortBy="#{_frase.votosNegativosFrase}">
+                    <f:facet name="header">Votos negativos frase</f:facet>
+                    <h:outputText value="#{_frase.votosNegativosFrase}"/>
+                </rich:column>
+                <rich:column sortBy="#{_frase.votosPositivosFrase}">
+                    <f:facet name="header">Votos positivos frase</f:facet>
+                    <h:outputText value="#{_frase.votosPositivosFrase}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusFraseHome.managed}" id="frases">
+        <div class="actionButtons">
+            <s:button id="addfrase"
+                   value="Add frase"
+                    view="/FraseEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusFraseIdEstatusFrase"
+                         value="#{estatusFraseHome.instance.idEstatusFrase}"/>
+                 <f:param name="fraseFrom" value="EstatusFrase"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

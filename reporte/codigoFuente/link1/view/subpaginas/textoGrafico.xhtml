@@ -1,0 +1,41 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+
+        <p:resources/>
+        </head>
+        <body bgcolor="#0000FF">
+             <h:panelGrid columns="2">
+     <h:outputText value="Verdana - 14 - italic : " />
+     <p:graphicText value="Visca el Barca!" fontSize="14" fontStyle="italic" fontName="URW Chancery L Medium Italic"/>
+
+     <h:outputText value="Arial -  20 - plain : " />
+     <p:graphicText value="PrimeFaces is in made in Turkey" fontName="Arial" fontSize="20"  />
+
+     <h:outputText value="Tahoma -  12 - plain : " />
+     <p:graphicText value="Ultimate Component Suite" fontName="Tahoma" />
+
+     <h:outputText value="Georgia -  12 - bold  : " />
+     <p:graphicText value="F.C. Barcelona" fontName="Georgia" fontStyle="bold" />
+
+     <h:outputText value="Courier New  -  18  -  bold : " />
+     <p:graphicText value="JSF Rocks!" fontName="Courier New" fontStyle="bold" fontSize="18"/>
+
+     <p:graphicText value="JSF Rocks!" fontName="Courier New" fontStyle="bold" fontSize="18" />
+ </h:panelGrid>
+
+        #{0+0}
+        </body>
+    </html>
+
+</f:view>

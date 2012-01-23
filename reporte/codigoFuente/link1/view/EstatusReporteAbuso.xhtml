@@ -1,0 +1,104 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus reporte abuso Details</f:facet>
+
+        <s:decorate id="idEstatusReporteAbuso" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus reporte abuso</ui:define>
+            <h:outputText value="#{estatusReporteAbusoHome.instance.idEstatusReporteAbuso}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusReporteAbuso" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus reporte abuso</ui:define>
+            <h:outputText value="#{estatusReporteAbusoHome.instance.definicionEstatusReporteAbuso}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusReporteAbuso" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus reporte abuso</ui:define>
+            <h:outputText value="#{estatusReporteAbusoHome.instance.nombreEstatusReporteAbuso}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusReporteAbusoEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusReporteAbusoFrom ? 'EstatusReporteAbusoList' : estatusReporteAbusoFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Reporte abusos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="reporteAbusosChildren">
+
+        <h:outputText value="There are no reporteAbusos associated with this estatusReporteAbuso."
+                   rendered="#{empty estatusReporteAbusoHome.reporteAbusos}"/>
+
+        <rich:dataTable value="#{estatusReporteAbusoHome.reporteAbusos}"
+                       var="_reporteAbuso"
+                  rendered="#{not empty estatusReporteAbusoHome.reporteAbusos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="reporteAbusosTable">
+            <rich:column sortBy="#{_reporteAbuso.idReporteAbuso}">
+                <f:facet name="header">Id reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.idReporteAbuso}"/>
+            </rich:column>
+            <rich:column sortBy="#{_reporteAbuso.fechaReporteAbuso}">
+                <f:facet name="header">Fecha reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.fechaReporteAbuso}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_reporteAbuso.notaReporteAbuso}">
+                <f:facet name="header">Nota reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.notaReporteAbuso}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectreporteAbuso"
+                     value="Select"
+                      view="/ReporteAbuso.xhtml">
+                    <f:param name="reporteAbusoIdReporteAbuso"
+                            value="#{_reporteAbuso.idReporteAbuso}"/>
+                    <f:param name="reporteAbusoFrom" value="EstatusReporteAbuso"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add reporteAbuso"
+                view="/ReporteAbusoEdit.xhtml">
+            <f:param name="estatusReporteAbusoIdEstatusReporteAbuso"
+                    value="#{estatusReporteAbusoHome.instance.idEstatusReporteAbuso}"/>
+            <f:param name="reporteAbusoFrom" value="EstatusReporteAbuso"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

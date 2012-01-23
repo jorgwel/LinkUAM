@@ -1,0 +1,309 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Canica Details</f:facet>
+
+        <s:decorate id="idCanica" template="layout/display.xhtml">
+            <ui:define name="label">Id canica</ui:define>
+            <h:outputText value="#{canicaHome.instance.idCanica}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaCanica" template="layout/display.xhtml">
+            <ui:define name="label">Fecha canica</ui:define>
+            <h:outputText value="#{canicaHome.instance.fechaCanica}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="textoAportadoCanica" template="layout/display.xhtml">
+            <ui:define name="label">Texto aportado canica</ui:define>
+            <h:outputText value="#{canicaHome.instance.textoAportadoCanica}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/CanicaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty canicaFrom ? 'CanicaList' : canicaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Avisos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="avisosChildren">
+
+        <h:outputText value="There are no avisos associated with this canica."
+                   rendered="#{empty canicaHome.avisos}"/>
+
+        <rich:dataTable value="#{canicaHome.avisos}"
+                       var="_aviso"
+                  rendered="#{not empty canicaHome.avisos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="avisosTable">
+            <rich:column sortBy="#{_aviso.idAviso}">
+                <f:facet name="header">Id aviso</f:facet>
+                <h:outputText value="#{_aviso.idAviso}"/>
+            </rich:column>
+            <rich:column sortBy="#{_aviso.fechaCreacionAviso}">
+                <f:facet name="header">Fecha creacion aviso</f:facet>
+                <h:outputText value="#{_aviso.fechaCreacionAviso}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_aviso.textoAviso}">
+                <f:facet name="header">Texto aviso</f:facet>
+                <h:outputText value="#{_aviso.textoAviso}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectaviso"
+                     value="Select"
+                      view="/Aviso.xhtml">
+                    <f:param name="avisoIdAviso"
+                            value="#{_aviso.idAviso}"/>
+                    <f:param name="avisoFrom" value="Canica"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add aviso"
+                view="/AvisoEdit.xhtml">
+            <f:param name="canicaIdCanica"
+                    value="#{canicaHome.instance.idCanica}"/>
+            <f:param name="avisoFrom" value="Canica"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Envios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="enviosChildren">
+
+        <h:outputText value="There are no envios associated with this canica."
+                   rendered="#{empty canicaHome.envios}"/>
+
+        <rich:dataTable value="#{canicaHome.envios}"
+                       var="_envio"
+                  rendered="#{not empty canicaHome.envios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="enviosTable">
+            <rich:column sortBy="#{_envio.idEnvio}">
+                <f:facet name="header">Id envio</f:facet>
+                <h:outputText value="#{_envio.idEnvio}"/>
+            </rich:column>
+            <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                <f:facet name="header">Fecha envio envio</f:facet>
+                <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                <f:facet name="header">Fecha registro envio</f:facet>
+                <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                <f:facet name="header">Numero intentos envio</f:facet>
+                <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectenvio"
+                     value="Select"
+                      view="/Envio.xhtml">
+                    <f:param name="envioIdEnvio"
+                            value="#{_envio.idEnvio}"/>
+                    <f:param name="envioFrom" value="Canica"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add envio"
+                view="/EnvioEdit.xhtml">
+            <f:param name="canicaIdCanica"
+                    value="#{canicaHome.instance.idCanica}"/>
+            <f:param name="envioFrom" value="Canica"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Necesidad</h:panelGroup>
+        </f:facet>
+    <div class="association" id="necesidadParent">
+
+        <h:outputText value="There is no necesidad associated with this canica."
+                   rendered="#{canicaHome.instance.necesidad == null}"/>
+
+        <rich:dataTable var="_necesidad"
+                   value="#{canicaHome.instance.necesidad}"
+                rendered="#{canicaHome.instance.necesidad != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="necesidadTable">
+            <h:column>
+                <f:facet name="header">Id necesidad</f:facet>
+                <h:outputText value="#{_necesidad.idNecesidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion necesidad</f:facet>
+                <h:outputText value="#{_necesidad.descripcionNecesidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus necesidad id estatus necesidad</f:facet>
+                <h:outputText value="#{_necesidad.estatusNecesidad.idEstatusNecesidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha necesidad</f:facet>
+                <h:outputText value="#{_necesidad.fechaNecesidad}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Idea id idea</f:facet>
+                <h:outputText value="#{_necesidad.idea.idIdea}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewnecesidad"
+                     value="View"
+                      view="/Necesidad.xhtml">
+                    <f:param name="necesidadIdNecesidad"
+                           value="#{_necesidad.idNecesidad}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuario</h:panelGroup>
+        </f:facet>
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this canica."
+                   rendered="#{canicaHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{canicaHome.instance.usuario}"
+                rendered="#{canicaHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewusuario"
+                     value="View"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioIdUsuario"
+                           value="#{_usuario.idUsuario}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

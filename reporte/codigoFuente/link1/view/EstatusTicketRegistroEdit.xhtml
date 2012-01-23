@@ -1,0 +1,149 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusTicketRegistro" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusTicketRegistroHome.managed ? 'Edit' : 'Add'} Estatus ticket registro</f:facet>
+
+
+            <s:decorate id="idEstatusTicketRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus ticket registro</ui:define>
+                <h:inputText id="idEstatusTicketRegistro"
+                       required="true"
+                       disabled="#{estatusTicketRegistroHome.managed}"
+                          value="#{estatusTicketRegistroHome.instance.idEstatusTicketRegistro}">
+                    <a:support event="onblur" reRender="idEstatusTicketRegistroField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionEstatusTicketRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus ticket registro</ui:define>
+                <h:inputText id="definicionEstatusTicketRegistro"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusTicketRegistroHome.instance.definicionEstatusTicketRegistro}">
+                    <a:support event="onblur" reRender="definicionEstatusTicketRegistroField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreEstatusTicketRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus ticket registro</ui:define>
+                <h:inputText id="nombreEstatusTicketRegistro"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusTicketRegistroHome.instance.nombreEstatusTicketRegistro}">
+                    <a:support event="onblur" reRender="nombreEstatusTicketRegistroField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusTicketRegistroHome.persist}"
+                       disabled="#{!estatusTicketRegistroHome.wired}"
+                       rendered="#{!estatusTicketRegistroHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusTicketRegistroHome.update}"
+                       rendered="#{estatusTicketRegistroHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusTicketRegistroHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusTicketRegistroHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusTicketRegistro.xhtml"
+                rendered="#{estatusTicketRegistroHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusTicketRegistroFrom ? 'EstatusTicketRegistroList' : estatusTicketRegistroFrom}.xhtml"
+                rendered="#{!estatusTicketRegistroHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Ticket registros">
+        <h:form styleClass="association" id="ticketRegistrosChildren">
+
+            <h:outputText value="There are no ticketRegistros associated with this estatusTicketRegistro."
+                       rendered="#{empty estatusTicketRegistroHome.ticketRegistros}"/>
+
+            <rich:dataTable value="#{estatusTicketRegistroHome.ticketRegistros}"
+                           var="_ticketRegistro"
+                      rendered="#{not empty estatusTicketRegistroHome.ticketRegistros}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="ticketRegistrosTable">
+                <rich:column sortBy="#{_ticketRegistro.idTicketRegistro}">
+                    <f:facet name="header">Id ticket registro</f:facet>
+                    <h:outputText value="#{_ticketRegistro.idTicketRegistro}"/>
+                </rich:column>
+                <rich:column sortBy="#{_ticketRegistro.fechaTicketRegistro}">
+                    <f:facet name="header">Fecha ticket registro</f:facet>
+                    <h:outputText value="#{_ticketRegistro.fechaTicketRegistro}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ticketRegistro.fechaTicketUsado}">
+                    <f:facet name="header">Fecha ticket usado</f:facet>
+                    <h:outputText value="#{_ticketRegistro.fechaTicketUsado}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ticketRegistro.textoTicketRegistro}">
+                    <f:facet name="header">Texto ticket registro</f:facet>
+                    <h:outputText value="#{_ticketRegistro.textoTicketRegistro}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusTicketRegistroHome.managed}" id="ticketRegistros">
+        <div class="actionButtons">
+            <s:button id="addticketRegistro"
+                   value="Add ticketRegistro"
+                    view="/TicketRegistroEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusTicketRegistroIdEstatusTicketRegistro"
+                         value="#{estatusTicketRegistroHome.instance.idEstatusTicketRegistro}"/>
+                 <f:param name="ticketRegistroFrom" value="EstatusTicketRegistro"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,594 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoEditar.xhtml">
+
+
+    <ui:define name="body">
+        <p:layoutUnit id="center"  scrollable="true" position="center">
+
+            <p:growl id="msg" life="6000"/>
+
+            <h1 style="text-align: left !important;height: 30px;
+                font-size: 20pt;padding: 6px !important;width: 28% !important;
+                font-style: oblique !important;border: none !important"
+                class="yellow ui-widget-header"
+                >
+                #{messages['idea.titulocrear']}
+            </h1>
+            <!--                <s:div
+                            style=
+                            "text-align: left !important;
+                             font-size: 23pt;
+                             font-weight: bold !important;
+                             font-style: oblique !important;
+                             border: 2px !important;
+
+                             padding: 20px !important;
+                             text-shadow:
+                             0 0 4px #ccc, 0 -5px 4px #ff3, 2px -10px 6px #fd3, -2px -15px 11px #f80, 2px -18px 18px #f20
+                             ,0 0 4px #ccc, 0 0px 4px #ff3, 2px 0px 6px #fd3, -2px 0px 11px #f80, 2px 0px 18px #f20
+                             ,0px 0px 6px #FFCC00,0px 0px 9px #FFCC00,0px 0px 6px #FFCC00,0px 0px 12px #FFCC00,0px 0px 12px #FFCC00;"
+
+                             >
+            #{messages['idea.titulocrear']}
+        </s:div>-->
+
+
+
+            <h:form id="form">
+                <p:wizard widgetVar="wiz" showNavBar="false"
+                          flowListener="#{userWizard.onFlowProcess}"
+                          id="wizart"
+                          >
+
+                    <p:tab id="infogeneral" title="">
+                        <p:panel style="text-align: left !important;border: 0px !important">
+                            <h:outputText
+                                value="#{messages['idea.crear.mensajeintro']}"
+                                style="width: 100% !important;
+                                text-align: left !important;font-size: 13pt;
+                                margin-bottom: 20px;margin-top: 20px;
+                                vertical-align: super !important"
+                                />
+                            <font color="red" size="5"
+                                  style="position: absolute;font-weight: bolder"
+                                  >*
+                            </font> 
+                            <p:effect type="pulsate" event="load"/>
+                        </p:panel>
+
+
+
+                        <h:panelGrid columns="1"
+                                     style=
+                                     "text-align: center !important;
+                                     vertical-align: top !important"
+                                     >
+
+
+
+                            <h:panelGrid columns="2">
+
+                                <h:panelGrid>
+
+                                    <p:panel style="border: 1px solid #A3A3A3 !important;margin-bottom: 19px !important;">
+                                        <f:facet name="header">
+                                            <s:div>
+                                                <h:outputText
+                                                    value=
+                                                    "#{messages['idea.crear.tituloidea.intro']}"
+                                                    style=
+                                                    "width: 100% !important;
+                                                    font-size: 11pt "
+                                                    />
+
+                                                <font color="red" size="5">*</font>
+
+                                                <s:span id="counterInputTituloIdea"
+                                                        style="font-size: 11pt;
+                                                        color: gray;
+                                                        margin-left: 80px"
+                                                        >
+                                                    #{seamSizeColumna.tituloIdea}
+                                                    #{' '}
+                                                    #{messages['idea.contador.caracteresmax']}
+                                                </s:span>
+                                            </s:div>
+                                        </f:facet>
+                                        <h:panelGrid columns="1"
+                                                     style="text-align: left !important;
+                                                     width: 100% !important"
+                                                     >
+                                            <h:panelGrid columns="2">
+
+                                                <p:message for="inputTituloIdea" id="messageInputTituloIdea">
+                                                    <p:effect type="pulsate" event="load">
+                                                        <f:param name="mode" value="'show'" />
+                                                    </p:effect>
+                                                </p:message>
+                                            </h:panelGrid>
+                                            <h:inputText
+                                                required="true"
+                                                style="width: 95% !important;font-size: 11pt"
+                                                id="inputTituloIdea"
+                                                onkeypress=
+                                                "javascript:actualizarContador(this,'form:wizart:counterInputTituloIdea')"
+                                                value="#{ideaHome.instance.tituloIdea}"
+                                                requiredMessage=
+                                                "#{messages['idea.crear.tituloidea.requerido']}"
+                                                >
+
+                                                <s:validate/>
+                                            </h:inputText>
+                                        </h:panelGrid>
+                                    </p:panel>
+
+                                    <p:panel style="border: 1px solid #A3A3A3 !important;margin-bottom: 19px !important">
+                                        <f:facet name="header">
+                                            <s:div>
+                                                <h:outputText
+                                                    value=
+                                                    "#{messages['idea.crear.contenidoidea.intro']}"
+                                                    style=
+                                                    "width: 100% !important;
+                                                    font-weight: bold;
+                                                    font-size: 11pt "
+                                                    />
+                                                <font color="red" size="5">*</font>
+
+                                                <s:span id="counterInputContenidoIdea"
+                                                        style="font-size: 11pt;
+                                                        color: gray;
+                                                        margin-left: 80px"
+                                                        >
+
+                                                    #{'100%'}
+                                                    #{' '}
+                                                    #{messages['idea.contador.porcentajelibre']}
+                                                </s:span>
+                                            </s:div>
+                                        </f:facet>
+                                        <h:panelGrid columns="2" style="text-align: left !important">
+
+
+                                            <p:message for="inputContenidoIdea" id="messageInputContenidoIdea">
+                                                <p:effect type="pulsate" event="load">
+                                                    <f:param name="mode" value="'show'" />
+                                                </p:effect>
+                                            </p:message>
+                                        </h:panelGrid>
+                                        <p:editor
+                                            width="450"
+                                            id="inputContenidoIdea"
+                                            value="#{ideaHome.instance.contenidoIdea}"
+                                            resizable="true"  required="true"
+                                            requiredMessage=
+                                            "#{messages['idea.crear.contenidoidea.requerido']}"
+                                            title=""
+                                            >
+                                        </p:editor>
+
+
+                                    </p:panel>
+
+
+
+
+                                </h:panelGrid>
+
+                                <h:panelGrid>
+
+                                    <p:panel
+                                        style="text-align: left !important;
+                                        margin-bottom: 13px !important"
+                                        >
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value="#{messages['idea.crear.tipos.titulo']}"
+                                                style="font-size: 11pt"
+                                                />
+                                        </f:facet>
+                                        <!--                                        <h:outputText
+                                                                                    value=
+                                                                                    "#{messages['idea.crear.tipos.intro']}"
+                                                                                    />-->
+                                        <h:selectManyCheckbox
+                                            value="#{ideaHome.tipoIdeas}"
+                                            layout="pageDirection"
+                                            >
+                                            <!--                                        f:selectItem itemValue="-1" itemLabel="idea.crear."-->
+
+                                            <s:selectItems
+                                                var="_tipoIdea"
+                                                value="#{tipoIdeaList.resultList}"
+                                                label=
+                                                "#{messages['tipoidea.'.concat(_tipoIdea.nombreTipoIdea)]}"
+                                                />
+
+                                            <s:convertEntity/>
+                                        </h:selectManyCheckbox>
+                                    </p:panel>
+
+                                    <p:panel
+                                        style="text-align: left !important;margin-bottom: 19px !important"
+
+                                        >
+                                        <f:facet name="header">
+                                            <h:outputText
+                                                value="#{messages['idea.crear.comunidades.titulo']}"
+                                                style="font-size: 11pt;"
+                                                />
+                                        </f:facet>
+
+                                        <h:selectManyCheckbox
+                                            value="#{ideaHome.comunidades}"
+                                            layout="pageDirection"
+                                            >
+                                            <!--                                        f:selectItem itemValue="-1" itemLabel="idea.crear."-->
+
+                                            <s:selectItems
+                                                var="_comunidad"
+                                                value="#{comunidadList.resultList}"
+                                                label="#{messages['idea.crear.comunidades.lacomunidad']} '#{messages['comunidad.'.concat(_comunidad.nombreComunidad)]}'"
+                                                >
+                                            </s:selectItems>
+
+                                            <s:convertEntity/>
+                                        </h:selectManyCheckbox>
+                                    </p:panel>
+
+
+
+
+
+
+
+
+
+
+
+                                </h:panelGrid>
+
+
+                            </h:panelGrid>
+
+
+                            <p:panel style="border: 1px solid #A3A3A3 !important;margin-bottom: 19px !important;">
+                                <f:facet name="header">
+                                    <h:outputText
+                                        value=
+                                        "#{messages['idea.crear.apoyorecursoshumanos.intro']}"
+                                        style="width: 300px !important;font-size: 11pt;font-weight: bold"
+                                        />
+                                </f:facet>
+                                <h:panelGrid columns="1" id="grid7">
+
+
+                                    <h:selectOneMenu
+                                        value=
+                                        "#{ideaHome.estatusAyudaRecursosHumanosHome.instance}"
+                                        required="true"
+                                        requiredMessage=
+                                        "#{messages['estatusayudarecursoshumanos.requerido']}"
+                                        style="width: 95% !important;font-size: 12pt !important"
+                                        >
+                                        <s:selectItems
+                                            var="_ayudaRecursosHumanos"
+                                            value=
+                                            "#{estatusAyudaRecursosHumanosList.resultList}"
+                                            label=
+                                            "#{messages['estatusayudarecursoshumanos.'.concat(_ayudaRecursosHumanos.nombreEstatusAyudaRecursosHumanos)]}"
+                                            />
+                                        <s:convertEntity/>
+                                        <s:validate/>
+
+
+                                    </h:selectOneMenu>
+
+                                </h:panelGrid>
+                            </p:panel>
+
+                            <h:panelGrid columns="3">
+
+
+                                <p:panel
+                                    style="border: 1px solid #A3A3A3 !important;margin-bottom: 19px !important"
+                                    >
+                                    <f:facet name="header">
+                                        <h:outputText
+                                            value=
+                                            "#{messages['idea.crear.necesidads.intro']}"
+                                            style="font-size: 11pt; font-weight: bold"
+                                            />
+                                    </f:facet>
+                                    <h:panelGrid style="text-align: left !important">
+
+                                        <h:outputText
+                                            value=
+                                            "#{messages['idea.crear.necesidads.intro2']}"
+                                            style="font-size: 11pt; font-weight: bold"
+                                            />
+                                        <s:span id="counterInputNecesidad"
+                                                style="font-size: 13pt;
+                                                color: gray"
+                                                >
+                                            #{seamSizeColumna.necesidad}
+                                            #{' '}
+                                            #{messages['idea.contador.caracteresmax']}
+
+                                        </s:span>
+
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="1" id="grid5">
+
+                                        <h:panelGrid columns="1">
+                                            <h:panelGrid columns="1">
+                                                <p:ajaxStatus>
+                                                    <f:facet name="start">
+                                                        <h:panelGrid>
+                                                            <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                                            <h:outputText
+                                                                value="#{messages['general.ajax.trabajando']}"
+                                                                style=
+                                                                "font-size: 10pt !important;
+                                                                font-weight: bold !important;
+                                                                color: gray !important"
+                                                                />
+                                                        </h:panelGrid>
+                                                    </f:facet>
+
+                                                    <f:facet name="complete">
+                                                        <h:outputText
+                                                            value=""
+                                                            style=
+                                                            "font-size: 10pt !important;
+                                                            font-weight: bold !important;
+                                                            color: gray !important"
+                                                            />
+                                                    </f:facet>
+                                                </p:ajaxStatus>
+                                                <h:inputTextarea
+                                                    id="textoNecesidad"
+                                                    value=
+                                                    "#{ideaHome.necesidad.descripcionNecesidad}"
+                                                    style="width: 96% !important"
+                                                    onkeypress=
+                                                    "javascript:actualizarContador(this,'form:wizart:counterInputNecesidad')"
+                                                    />
+                                            </h:panelGrid>
+                                            <h:panelGrid >
+                                                <p:commandButton
+                                                    value=
+                                                    "${messages['idea.crear.agregarnecesidad']}"
+                                                    update="books5 textoNecesidad"
+                                                    style="width: 45% !important;padding: 0px !important"
+                                                    action="#{ideaHome.reinitNecesidad}"
+                                                    process="@this textoNecesidad"
+                                                    styleClass="ui-button botonnaranja"
+                                                    >
+                                                    <p:collector
+                                                        value="#{ideaHome.necesidad}"
+                                                        addTo=
+                                                        "#{ideaHome.necesidadsCapturadosCrearIdea}"
+                                                        />
+                                                </p:commandButton>
+                                                <!--                                            <p:commandButton
+                                                                                                value=
+                                                                                                "#{messages['idea.crear.limpiarcampo']}"
+                                                                                                type="reset"
+                                                                                                style="width: 40% !important;padding: 0px !important"
+                                                                                                styleClass="ui-button botonnaranja"
+                                                                                                />-->
+                                            </h:panelGrid>
+
+                                        </h:panelGrid>
+
+                                        <p:outputPanel
+                                            id="books5"
+                                            style="text-align: left !important"
+                                            >
+                                            <f:facet name="header">
+                                                #{messages['idea.crear.necesidads.necesidadscreados']}
+                                            </f:facet>
+                                            <p:dataTable
+                                                value=
+                                                "#{ideaHome.necesidadsCapturadosCrearIdea}"
+                                                var="oNecesidad" id="dataBooks5"
+                                                style="width: 100% !important;"
+                                                emptyMessage=
+                                                "#{messages['idea.crear.necesidads.necesidadsnoencontrados']}"
+                                                >
+
+                                                <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText
+                                                            value=
+                                                            "#{messages['idea.crear.necesidads.columnanecesidad']}"
+                                                            />
+                                                    </f:facet>
+                                                    <h:outputText
+                                                        value=
+                                                        "#{oNecesidad.descripcionNecesidad}"
+                                                        style=
+                                                        "width: 200px !important;"
+                                                        />
+                                                </p:column>
+
+                                                <p:column
+                                                    rendered=
+                                                    "#{ideaHome.necesidadsCapturadosCrearIdea.size > 0}"
+                                                    id="colEliminar5"
+                                                    >
+                                                    <f:facet name="header">
+                                                        <h:outputText
+                                                            value=
+                                                            "#{messages['idea.crear.quitar']}"
+                                                            />
+                                                    </f:facet>
+                                                    <p:commandLink
+                                                        value=
+                                                        "#{messages['idea.crear.siquitar']}"
+                                                        update="form:wizart:dataBooks5"
+                                                        styleClass=
+                                                        "ui-button botonnaranja"
+                                                        style="color: white !important;
+                                                        padding: 1px !important"
+                                                        process="form:wizart:dataBooks5 "
+                                                        >
+                                                        <p:collector
+                                                            value="#{oNecesidad}"
+                                                            removeFrom=
+                                                            "#{ideaHome.necesidadsCapturadosCrearIdea}"
+                                                            />
+                                                        <s:conversationId/>
+
+                                                    </p:commandLink>
+                                                </p:column>
+
+                                            </p:dataTable>
+                                        </p:outputPanel>
+                                    </h:panelGrid>
+                                </p:panel>
+
+
+
+                                <p:panel style="border: 1px solid #A3A3A3 !important;margin-bottom: 19px !important;">
+                                    <f:facet name="header">
+                                        <h:outputText
+                                            value=
+                                            "#{messages['idea.crear.subirimagen.titulo']}"
+                                            style=
+                                            "width: 100% !important;font-size: 11pt;font-weight: bold !important"
+                                            />
+                                    </f:facet>
+                                    <h:panelGrid
+                                        columns="2"
+                                        style="text-align: left !important;
+                                        width: 100% !important">
+                                        <h:panelGrid columns="1">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['idea.crear.subirimagen.intro.size']}"
+                                                style=
+                                                "width: 100% !important;
+                                                font-weight: bold !important;
+                                                font-size: 11pt;
+                                                border: 2px;"
+                                                />
+                                            <h:panelGrid columns="2">
+                                                
+                                                <h:panelGrid>
+
+
+                                                    <p:fileUpload
+                                                        fileUploadListener=
+                                                        "#{ideaHome.uploadImageListener}"
+                                                        auto="true"
+                                                        allowTypes=
+                                                        "*.jpg;*.png;*.gif;*.JPG;*.PNG;*.GIF;"
+                                                        description="Images"
+                                                        id="subirArchivo"
+                                                        update="imagenRaw msg @this size"
+                                                        label="SUBIR IMAGEN"
+                                                        sizeLimit="2500000"
+                                                        />
+
+                                                    <h:outputText
+                                                        value=
+                                                        "#{ideaHome.sizeImagen}"
+                                                        id="size"
+                                                        />
+                                                </h:panelGrid>
+
+                                                <s:graphicImage
+                                                    value="#{ideaHome.imagen}"
+                                                    alt="[idea imagen]"
+                                                    id="imagenRaw">
+
+                                                    <s:transformImageSize
+                                                        width="200"
+                                                        height="140"
+                                                        maintainRatio="false"
+                                                        />
+                                                </s:graphicImage>
+
+                                            </h:panelGrid>
+
+                                            <!--                                            -->
+
+
+
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </p:panel>
+
+
+
+                            </h:panelGrid>
+
+
+
+
+                            <h:panelGrid columns="2" id="grid6"
+                                         style="vertical-align: top !important"
+                                         >
+
+
+
+                            </h:panelGrid>
+
+                            <!--                            h1 style="text-align: center !important;height: 22px;
+                                                            font-size: 16pt;padding: 4px !important;
+                                                            font-style: oblique;width: 60%;
+                                                            border: none !important;margin-bottom: 5px !important"
+                                                            class=
+                                                            "ui-widget-header"
+                                                            >
+                            #{messages['idea.crear.apoyo']}
+                        </h1-->
+
+
+
+                            <h:commandButton
+                                value="#{messages['idea.crear.botonpublicar']}"
+                                styleClass="botonnaranja"
+                                style="padding: 0px;
+                                text-align: right !important;
+                                font-size: 16pt !important;
+                                width: 195px !important"
+                                action="#{ideaHome.persist}"
+                                />
+                        </h:panelGrid>
+                    </p:tab>
+
+
+                    <!--
+                                        p:tab id="comolograrlos" title="">
+
+                                        p:tab>
+                                        p:tab id="tiposidea" title="">
+
+                                        p:tab>
+
+                                        p:tab id="apoyos" title="">
+
+                                        p:tab>-->
+                </p:wizard>
+
+            </h:form>
+
+        </p:layoutUnit>
+    </ui:define>
+
+
+
+
+
+</ui:composition>

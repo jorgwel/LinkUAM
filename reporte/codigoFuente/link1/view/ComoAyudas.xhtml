@@ -1,0 +1,191 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    ARCHIVO QUE DEFINE LA PÁGINA PRINCIPAL
+-->
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoHomeTemplate.xhtml">
+
+    <!--
+        DEFINIENDO EL CONTENIDO DE UNA PÁGINA
+    -->
+    <ui:define name="body">
+        <p:layoutUnit
+            id="center"
+            position="center"
+            style="text-align:center;"
+            scrollable="true"
+            >
+            <!-- Growl para mensajes -->
+            <p:growl id="msg" life="2500"/>
+            <p:panel
+                style=
+                "border: 2px outset;padding: 0px;
+                margin: 7px;margin-bottom: 0px"
+                >
+                <f:facet name="header">
+                    <h:outputText
+                        value="#{'hi'}"
+                        style="visibility: hidden"/>
+                </f:facet>
+
+
+                <p:graphicImage value="/img/uam_logo.png"/>
+                <p style="text-align: left" >
+                    <h:outputText 
+                        style=
+                        "text-align: left;
+                        font-size: 14pt;
+                        font-weight: bold"
+                        value="¿Cómo ayudo a LinkUAM?"
+                        />
+                </p>
+
+
+
+
+                <p style="text-align: left;font-size: 12pt">
+
+                    Por supuesto que la mejor manera de ayudar a LinkUAM, es utilizándolo. Atrévete a
+                    comunicar tus ideas al mundo, aprovecha que una gran comunidad estudiantil y emprendedora
+                    te está escuchando. Recuerda que si tu no has propuesto la idea, también puedes encontrar
+                    una en la que puedas participar.
+                </p>
+
+                <p style="text-align: left;font-size: 12pt">
+
+                    También existen otras formas en que nos puedes brindar ayuda valiosa.
+
+                </p>
+
+                <p style="text-align: left" >
+                    <h:outputText
+                        style=
+                        "text-align: left;
+                        font-size: 12pt;
+                        font-weight: bold"
+                        value="Nuevas clasificaciones de ideas"
+                        />
+                </p>
+                <p style="text-align: left;font-size: 12pt">
+
+                    La lista de "tipos de idea" que puedes ver en la parte izquierda de la
+                    página principal, no es más que un bosquejo.
+                    <br/>
+                    Con el fin de clasificar
+                    mejor las ideas de LinkUAM, sería de mucha ayuda que nos propusieras
+                    nuevas clasificaciones de acuerdo a tus necesidades.
+
+                </p>
+
+                <p style="text-align: left" >
+                    <h:outputText
+                        style=
+                        "text-align: left;
+                        font-size: 12pt;
+                        font-weight: bold"
+                        value="Opiniones sobre imagen de la página"
+                        />
+                </p>
+                <p style="text-align: left;font-size: 12pt">
+                    Sabemos que una imgen dice más que mil palabras. A pesar de que
+                    LinkUAM fue realizado intentándo darle
+                    la mejor apariencia posible, su imagen 
+                    no es perfecta. Si tu tienes opiniones, críticas o aportaciones 
+                    con respecto a la imagen del sitio, seas diseñador o no, nos
+                    encantaría saberlas.
+
+                </p>
+
+                <p style="text-align: left" >
+                    <h:outputText
+                        style=
+                        "text-align: left;
+                        font-size: 12pt;
+                        font-weight: bold"
+                        value="Usabilidad y nuevas funcionalidades"
+                        />
+                </p>
+                <p style="text-align: left;font-size: 12pt">
+
+                    Sería fabuloso que pudieses darnos tu opinión acerca de la usabilidad del sitio.
+                    Así mismo, si tienes una idea acerca de una nueva funcionalidad que debería
+                    tener el sitio, sería excelente que nos la comunicaras.
+
+                </p>
+
+                <p style="text-align: left" >
+                    <h:outputText
+                        style=
+                        "text-align: left;
+                        font-size: 12pt;
+                        font-weight: bold"
+                        value="Faltas de ortografía"
+                        />
+                </p>
+                <p style="text-align: left;font-size: 12pt">
+
+                    Si ver una falta de ortografía te revuelve el estomago, por favor hazme saber en donde la viste y será corregida lo más pronto posible.
+
+                </p>
+
+                <p style="text-align: left" >
+                    <h:outputText
+                        style=
+                        "text-align: left;
+                        font-size: 12pt;
+                        font-weight: bold"
+                        value="Para desarrolladores de software y todo el que pueda hacerlo"
+                        />
+                </p>
+                <p style="text-align: left;font-size: 12pt">
+
+                    Mientras hacemos de LinkUAM un sistema relativamente estable, quedará
+                    habilitada una funcionalidad de debug. ¿A qué me refiero? A que si ocurre
+                    un error en el sistema, este mostrará una página con muuchos detalles
+                    sobre el error. Si pudieran enviar pantallazos de ese error o incluso el texto
+                    completo, así como algunos detalles sobre la hora en que ocurrió y que
+                    operación estaban realizando, se los agradecería mucho.
+
+                </p>
+                <br/>
+                <br/>
+                
+                <p style="text-align: left;font-size: 12pt">
+                    LinkUAM se encuentra en una Versión BETA!<span style="color: red;font-weight: bold">*</span>. Agradeceremos cualquier comentario, crítica, aportación de ideas o reportes de error al correo: <i>linkuam@gmail.com</i>. También puedes hacerlo en la sección creada para ello presente en la  <s:link view="/Home.seam"> página principal</s:link>.
+
+
+                </p>
+
+                <p style="text-align: center">
+
+                    <p style="text-align: center;font-size: 12pt">
+                        Esperamos que te guste LinkUAM, y si no, nos hagas saber el porque.
+                    </p>
+                    <p style="text-align: center;font-size: 12pt;font-style: italic">
+                        Atte
+                    </p>
+                    <p style="text-align: center;font-size: 12pt;">
+                        <span style="font-size: 14pt;font-weight: bold" >Jorge</span> <span style="font-size: 10pt;font-style: italic">"Moriré en un mundo diferente"</span> <span style="font-size: 14pt;font-weight: bold">Bautista</span>
+                    </p>
+                </p>
+
+
+
+
+
+            </p:panel>
+
+        </p:layoutUnit>
+
+    </ui:define>
+
+
+</ui:composition>
+
+

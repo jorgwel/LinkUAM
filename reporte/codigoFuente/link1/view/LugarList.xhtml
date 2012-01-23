@@ -1,0 +1,175 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="lugarSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="Lugar Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Descripcion lugar</ui:define>
+                <h:inputText id="descripcionLugar" value="#{lugarList.lugar.descripcionLugar}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Nombre lugar</ui:define>
+                <h:inputText id="nombreLugar" value="#{lugarList.lugar.nombreLugar}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{lugarList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/LugarList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">Lugar Search Results (#{empty lugarList.resultList ? 0 : (lugarList.paginated ? lugarList.resultCount : lugarList.resultList.size)})</f:facet>
+    <div class="results" id="lugarList">
+
+    <h:outputText value="The lugar search returned no results."
+               rendered="#{empty lugarList.resultList}"/>
+
+    <rich:dataTable id="lugarList"
+                var="_lugar"
+              value="#{lugarList.resultList}"
+           rendered="#{not empty lugarList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{lugarList}"/>
+                    <ui:param name="propertyLabel" value="Id lugar"/>
+                    <ui:param name="propertyPath" value="lugar.idLugar"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_lugar.idLugar}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{lugarList}"/>
+                    <ui:param name="propertyLabel" value="Descripcion lugar"/>
+                    <ui:param name="propertyPath" value="lugar.descripcionLugar"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_lugar.descripcionLugar}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{lugarList}"/>
+                    <ui:param name="propertyLabel" value="Nombre lugar"/>
+                    <ui:param name="propertyPath" value="lugar.nombreLugar"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_lugar.nombreLugar}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{lugarList}"/>
+                    <ui:param name="propertyLabel" value="Tipo lugar id tipo lugar"/>
+                    <ui:param name="propertyPath" value="lugar.tipoLugar.idTipoLugar"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_lugar.tipoLugar.idTipoLugar}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{lugarList}"/>
+                    <ui:param name="propertyLabel" value="Usuario id usuario"/>
+                    <ui:param name="propertyPath" value="lugar.usuario.idUsuario"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_lugar.usuario.idUsuario}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'Lugar' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="lugarViewId">
+                <f:param name="lugarIdLugar"
+                        value="#{_lugar.idLugar}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/LugarEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="lugarEdit"
+                rendered="#{empty from}">
+                <f:param name="lugarIdLugar"
+                        value="#{_lugar.idLugar}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/LugarList.xhtml"
+            rendered="#{lugarList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/LugarList.xhtml"
+            rendered="#{lugarList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{lugarList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/LugarList.xhtml"
+            rendered="#{lugarList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{lugarList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/LugarList.xhtml"
+            rendered="#{lugarList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{lugarList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/LugarEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create lugar">
+            <f:param name="lugarIdLugar"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

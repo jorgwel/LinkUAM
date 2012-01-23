@@ -1,0 +1,160 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoEnvio" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{tipoEnvioHome.managed ? 'Edit' : 'Add'} Tipo envio</f:facet>
+
+
+            <s:decorate id="idTipoEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Id tipo envio</ui:define>
+                <h:inputText id="idTipoEnvio"
+                       required="true"
+                       disabled="#{tipoEnvioHome.managed}"
+                          value="#{tipoEnvioHome.instance.idTipoEnvio}">
+                    <a:support event="onblur" reRender="idTipoEnvioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionTipoEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion tipo envio</ui:define>
+                <h:inputText id="definicionTipoEnvio"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{tipoEnvioHome.instance.definicionTipoEnvio}">
+                    <a:support event="onblur" reRender="definicionTipoEnvioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreTipoEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre tipo envio</ui:define>
+                <h:inputText id="nombreTipoEnvio"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{tipoEnvioHome.instance.nombreTipoEnvio}">
+                    <a:support event="onblur" reRender="nombreTipoEnvioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="vistaTipoEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Vista tipo envio</ui:define>
+                <h:inputText id="vistaTipoEnvio"
+                           size="100"
+                      maxlength="100"
+                          value="#{tipoEnvioHome.instance.vistaTipoEnvio}">
+                    <a:support event="onblur" reRender="vistaTipoEnvioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{tipoEnvioHome.persist}"
+                       disabled="#{!tipoEnvioHome.wired}"
+                       rendered="#{!tipoEnvioHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{tipoEnvioHome.update}"
+                       rendered="#{tipoEnvioHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{tipoEnvioHome.remove}"
+                      immediate="true"
+                       rendered="#{tipoEnvioHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TipoEnvio.xhtml"
+                rendered="#{tipoEnvioHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty tipoEnvioFrom ? 'TipoEnvioList' : tipoEnvioFrom}.xhtml"
+                rendered="#{!tipoEnvioHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Envios">
+        <h:form styleClass="association" id="enviosChildren">
+
+            <h:outputText value="There are no envios associated with this tipoEnvio."
+                       rendered="#{empty tipoEnvioHome.envios}"/>
+
+            <rich:dataTable value="#{tipoEnvioHome.envios}"
+                           var="_envio"
+                      rendered="#{not empty tipoEnvioHome.envios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="enviosTable">
+                <rich:column sortBy="#{_envio.idEnvio}">
+                    <f:facet name="header">Id envio</f:facet>
+                    <h:outputText value="#{_envio.idEnvio}"/>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                    <f:facet name="header">Fecha envio envio</f:facet>
+                    <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                    <f:facet name="header">Fecha registro envio</f:facet>
+                    <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                    <f:facet name="header">Numero intentos envio</f:facet>
+                    <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{tipoEnvioHome.managed}" id="envios">
+        <div class="actionButtons">
+            <s:button id="addenvio"
+                   value="Add envio"
+                    view="/EnvioEdit.xhtml"
+             propagation="none">
+                 <f:param name="tipoEnvioIdTipoEnvio"
+                         value="#{tipoEnvioHome.instance.idTipoEnvio}"/>
+                 <f:param name="envioFrom" value="TipoEnvio"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

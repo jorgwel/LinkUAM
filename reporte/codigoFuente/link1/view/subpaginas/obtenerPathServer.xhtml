@@ -1,0 +1,36 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+
+        <p:resources/>
+        </head>
+        <body bgcolor="#0000FF">
+        <h:panelGrid>
+
+
+            <h:outputText value="Server URL: #{obtenerPath.server}" />
+            <h:outputText value="Server URL: #{sessionStatus.serverUrl}"/>
+            <h:outputText value="Application Name: #{obtenerPath.appName}"/>
+            <hr/>
+            <h:outputText value="servidorWeb: #{valoresGlobales.servidorWeb}" />
+            <h:outputText value="nombreDeAplicacion: #{valoresGlobales.nombreDeAplicacion}"/>
+            <h:outputText value="servidorCorreo: #{valoresGlobales.servidorCorreo}"/>
+            <h:outputText value="servidorCorreoPuerto: #{valoresGlobales.servidorCorreoPuerto}"/>
+
+
+        </h:panelGrid>
+
+        </body>
+    </html>
+
+</f:view>

@@ -1,0 +1,29 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Objetivo general}{1}{section.1}
+\contentsline {section}{\numberline {2}Objetivos particulares}{1}{section.2}
+\contentsline {subsection}{\numberline {2.1}Registrar las ideas creativas de los miembros de la UAM}{1}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Difundir ideas entre la comunidad universitaria}{1}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Difundir proyectos en proceso de desarrollo}{1}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Facilitar la comunicaci\'on con diferentes comunidades}{1}{subsection.2.4}
+\contentsline {section}{\numberline {3}Antecedentes}{1}{section.3}
+\contentsline {subsection}{\numberline {3.1}Referencias internas}{1}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Referencias externas}{2}{subsection.3.2}
+\contentsline {section}{\numberline {4}Justificaci\'on}{2}{section.4}
+\contentsline {subsection}{\numberline {4.1}Innovar y emprender}{2}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Innovar y emprender en la UAM}{3}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Servicio social}{4}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Proyecto terminal}{5}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Aprovechamiento de conocimiento generado}{5}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Compromiso con la sociedad}{6}{subsection.4.6}
+\contentsline {section}{\numberline {5}Descripci\'on t\'ecnica}{6}{section.5}
+\contentsline {subsection}{\numberline {5.1}Casos de uso}{7}{subsection.5.1}
+\contentsline {section}{\numberline {6}Especificaci\'on t\'ecnica}{9}{section.6}
+\contentsline {subsection}{\numberline {6.1}Alcance del proyecto}{10}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Licencia}{10}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Tecnolog\'ias usadas}{11}{subsection.6.3}
+\contentsline {section}{\numberline {7}Entregables}{11}{section.7}
+\contentsline {section}{\numberline {8}Calendario de trabajo}{11}{section.8}
+\contentsline {section}{\numberline {9}Recursos}{12}{section.9}
+\contentsline {subsection}{\numberline {9.1}Financiamiento}{12}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.2}Recursos disponibles}{12}{subsection.9.2}
+\contentsline {section}{\numberline {10}Bibliograf\'ia}{12}{section.10}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      login-required="true" >
+
+    <begin-conversation join="true"/>
+    <param name="cameFrom"/>
+
+    <navigation from-action="#{ideaHome.persist}">
+        <rule if-outcome="persisted" >
+            <end-conversation />
+            <redirect view-id="/IdeaDetalle.seam">
+                <param name="ideaIdIdea" value="#{ideaHome.instance.idIdea}" />
+            </redirect>
+        </rule>
+<!--        <rule if-outcome="nohayusuario" >
+            <end-conversation/>
+            <redirect view-id="/Login.seam">
+                #{messages['mx.uam.azc.link.loggedOut']}
+            </redirect>
+        </rule>-->
+    </navigation>
+</page>

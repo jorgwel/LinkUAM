@@ -1,0 +1,34 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+
+        <p:resources/>
+        </head>
+        <body>
+
+        <h:form prependId="false">
+
+            <p:editor value="#{seamRichEditorBean.contenidoIdea}"  resizable="true"  />
+            <p:commandButton value="Enviar" action="#{seamRichEditorBean.imprimir}" ajax="false"/>
+            
+
+        </h:form>
+
+        <p:panel>
+            <h:outputText value="#{seamRichEditorBean.contenidoIdea}" id="editorRich" escape="false" />
+        </p:panel>
+
+    </body>
+</html>
+
+</f:view>

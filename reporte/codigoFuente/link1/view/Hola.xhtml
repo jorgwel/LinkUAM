@@ -1,0 +1,651 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+
+    <head>
+    <p:resources />
+</head>
+<body>
+
+
+<h:form prependId="false">
+    <p:message for="titulo">
+        <p:effect type="pulsate" event="load">
+            <f:param name="mode" value="'show'" />
+        </p:effect>
+    </p:message>
+
+    <h:inputText required="true" requiredMessage="Hola Jorgito" id="titulo"/>
+    <h:commandButton/>
+</h:form>
+<p:editor />
+
+<p:accordionPanel>
+    <p:tab title="First Tab Title">
+        <h:outputText value= "Lorem"/>
+    </p:tab>
+    <p:tab title="Gracias">
+        <h:outputText value= "Man!"/>
+    </p:tab>
+</p:accordionPanel>
+
+
+
+<p:breadCrumb preview="true" expandEffectDuration="1000" collapseEffectDuration="1000"
+              initialCollapseEffectDuration="1000">
+    <p:menuitem label="Categories" url="dasdsdsadas" />
+    <p:menuitem label="Sports" url="" />
+    <p:menuitem label="Football" url="" />
+    <p:menuitem label="Countries" url="" />
+    <p:menuitem label="Spain" url="" />
+    <p:menuitem label="F.C. Barcelona" url="" />
+    <p:menuitem label="Squad" url="" />
+    <p:menuitem label="Lionel Messi" url="" />
+</p:breadCrumb>
+
+<p:calendar value="#{beanFecha.date}" locale="mx" pages="3"/>
+
+<p:calendar value="#{beanFecha.date}" mode="inline" pages="3" />
+
+<p:carousel value="#{carBean.cars}" var="car" rows="1" revealAmount="0">
+    <p:graphicImage value="/img/cars/#{car.manufacturer}.png"/><br/>
+    <h:outputText value="Model: #{car.model}" /><br/>
+    <h:outputText value="Year: #{car.year}" /><br/>
+    <h:outputText value="Color: #{car.color}" />
+</p:carousel>
+
+<p:carousel itemStyleClass="carItem"
+            rows="1" effect="easeInStrong" circular="true">
+    <p:graphicImage value="/img/cars/gimp.png"/>
+    <p:graphicImage value="/img/cars/k3b.png"/>
+    <p:graphicImage value="/img/cars/karbon.png"/>
+    <p:graphicImage value="/img/cars/kbruch.png"/>
+    <p:graphicImage value="/img/cars/kbugbuster.png"/>
+    <p:graphicImage value="/img/cars/kde-windows.png"/>
+    <p:graphicImage value="/img/cars/ksniffer.png"/>
+    <p:graphicImage value="/img/cars/nepomuk.png"/>
+    <p:graphicImage value="/img/cars/oxygen.png"/>
+    <p:graphicImage value="/img/cars/penguin.png"/>
+    <p:graphicImage value="/img/cars/plasmagik.png"/>
+
+</p:carousel>
+<hr></hr>
+
+<p:carousel id="godfather" rows="1" itemStyle="height:200px;width:600px;"  circular="TRUE">
+    <p:tab title="Godfather Part I">
+        <h:panelGrid columns="2" cellpadding="10">
+            <p:graphicImage value="/img/cars/plasmagik.png" />
+            <h:outputText
+                value="The story begins as Don Vito ..." />
+        </h:panelGrid>
+    </p:tab>
+    <p:tab title="Godfather Part II">
+        <h:panelGrid columns="2" cellpadding="10">
+            <p:graphicImage value="/img/cars/penguin.png" />
+            <h:outputText value="Francis Ford Coppola's ..."/>
+        </h:panelGrid>
+    </p:tab>
+    <p:tab title="Godfather Part III">
+        <h:panelGrid columns="2" cellpadding="10">
+            <p:graphicImage value="/img/cars/kde-windows.png" />
+            <h:outputText value="After a break of ..." />
+        </h:panelGrid>
+    </p:tab>
+</p:carousel>
+
+
+<p:pieChart value="#{chartBean.sales}" var="sale"
+            categoryField="#{sale.brand}" dataField="#{sale.amount}" />
+
+
+<h:form>
+    <h:inputText id="name" value="#{bookBean.text}" />
+    <p:commandButton value="Submit" update="display"/>
+    <p:commandButton value="With Icon" image="/img/cars/phonebook.png"/>
+    <p:commandButton image="img/cars/pdf.png"/>
+    <h:outputText value="#{bookBean.firstName}" id="display" />
+</h:form>
+
+
+<h:form>
+    <p:commandLink actionListener="#{bookBean.saveBook}" update="text">
+        <h:outputText value="Ajax Submit" />
+    </p:commandLink>
+    <h:outputText id="text" value="#{bookBean.text}" />
+</h:form>
+
+
+
+<h:form id="formol">
+    <p:commandButton type="button" onclick="cd.show()" />
+    <p:confirmDialog message="Are you sure about destroying the world?"
+                     header="Initiating destroy process" severity="alert"
+                     widgetVar="cd">
+
+        <p:commandButton value="Yes Sure"
+                         actionListener="#{bookBean.saveBook}"
+                         update="messages" oncomplete="cd.hide()"/>
+        <p:commandButton value="Not Yet" onclick="cd.hide();"
+                         type="button" />
+
+    </p:confirmDialog>
+    <h:outputText id="text" value="#{bookBean.text}" />
+    <h:outputText id="messages" value="#{bookBean.text}" />
+
+
+    <p:contextMenu for="formol">
+        <p:menuitem value="Save" actionListener="#{bookBean.saveBook}" update="msg"/>
+        <p:menuitem value="Delete" actionListener="#{bookBean.saveBook}" ajax="false"/>
+        <p:menuitem value="Go Home" url="www.primefaces.org" target="_blank"/>
+    </p:contextMenu>
+</h:form>
+
+
+
+<p:dashboard model="#{dashboardBean.model}">
+    <p:panel id="sports" header="Lifestyle">
+
+
+    </p:panel>
+    <p:panel id="finance" header="Finance">
+
+
+    </p:panel>
+
+</p:dashboard>
+
+
+<hr/>
+<h:form>
+
+    <p:growl id="growl" showDetail="true" />
+
+    <p:dashboard id="board" model="#{dashboardBean.model}"
+                 reorderListener="#{dashboardBean.handleReorder}"
+                 onReorderUpdate="growl">
+
+        <p:panel id="sports" header="Sports"  closable="true" toggleable="true">
+            <h:outputText value="Sports Content" />
+        </p:panel>
+
+        <p:panel id="finance" header="Finance">
+            <h:outputText value="Finance Content" />
+        </p:panel>
+
+        <p:panel id="lifestyle" header="Lifestyle">
+            <h:outputText value="Lifestyle Content"  />
+        </p:panel>
+
+        <p:panel id="weather" header="Weather" closable="true" toggleable="true">
+            <h:outputText value="Weather Content" />
+        </p:panel>
+
+        <p:panel id="politics" header="Politics">
+            <h:outputText value="Politics Content" />
+        </p:panel>
+    </p:dashboard>
+
+    <div style="clear:both" />
+
+
+
+    <h3>More widgets to add</h3>
+    <p>Draggable component has exclusive support to connect with dashboards</p>
+
+    <h:panelGrid columns="3">
+        <p:panel id="travel" header="Travel">
+            <h:outputText value="Travel Content" />
+        </p:panel>
+        <p:draggable for="travel" dashboard="board" ghost="true"/>
+
+        <p:panel id="tv" header="TV">
+            <h:outputText value="TV Content" />
+        </p:panel>
+        <p:draggable for="tv" dashboard="board" ghost="true"/>
+    </h:panelGrid>
+
+</h:form>      
+
+<h:form>
+
+    <p:dataGrid var="car" value="#{carBean.cars}" columns="3" rows="12">
+
+        <p:column>
+            <p:panel header="#{car.model}">
+                <h:panelGrid columns="1" style="width:100%">
+                    <p:graphicImage value="/img/cars/#{car.manufacturer}.png"/>
+
+                    <h:outputText value="#{car.year}" />
+                </h:panelGrid>
+            </p:panel>
+        </p:column>
+    </p:dataGrid>
+</h:form>  
+
+
+
+<h:form>
+
+    <p:dataGrid var="car" value="#{carBean.cars}" columns="2" rows="4" paginator="true" paginatorPosition="bottom">
+
+        <p:column>
+            <p:panel header="#{car.model}">
+                <h:panelGrid columns="1" style="width:100%">
+                    <p:graphicImage value="/img/cars/#{car.manufacturer}.png"/>
+
+                    <h:outputText value="#{car.year}" />
+                </h:panelGrid>
+            </p:panel>
+        </p:column>
+    </p:dataGrid>
+</h:form>
+
+
+<p:dataList value="#{carBean.cars}" var="car" type="ordered">
+    #{car.manufacturer}, #{car.year}
+</p:dataList>
+
+
+<p:dataList value="#{carBean.cars}" var="car" type="definition">
+	     Model: #{car.model}, Year: #{car.year}
+    <f:facet name="description">
+        <p:graphicImage value="/img/cars/#{car.manufacturer}.png"/>
+    </f:facet>
+</p:dataList>
+
+<h:form>
+    <p:dataList value="#{carBean.cars}" var="car"  paginator="true" rows="5">
+	     Model: #{car.model}, Year: #{car.year}
+        <f:facet name="description">
+            <p:graphicImage value="/img/cars/#{car.manufacturer}.png"/>
+        </f:facet>
+    </p:dataList>
+</h:form>
+
+
+<!--<p:ajaxStatus>
+    <f:facet name="start">
+        <h:graphicImage value="img/cars/ajaxloading.gif" />
+    </f:facet>
+
+
+    <f:facet name="complete">
+        <h:outputText value="Done!" />
+    </f:facet>
+</p:ajaxStatus>-->
+
+
+<hr/>
+
+<h:form>
+
+    <p:dataTable var="car" value="#{carBean.cars}" paginator="true" rows="5" selection="#{carBean.selectedCars}" selectionMode="multiple"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,7,9" paginatorPosition="bottom">
+
+
+
+        <p:column sortBy="#{car.model}"  filterBy="#{car.model}">
+            <f:facet name="header">
+                <h:outputText value="Model" />
+            </f:facet>
+            <h:outputText value="#{car.model}" />
+        </p:column>
+        <p:column sortBy="#{car.year}">
+            <f:facet name="header">
+                <h:outputText value="Year" />
+            </f:facet>
+            <h:outputText value="#{car.year}" />
+        </p:column>
+        <p:column sortBy="#{car.manufacturer}">
+            <f:facet name="header">
+                <h:outputText value="Manufacturer" />
+            </f:facet>
+            <h:outputText value="#{car.manufacturer}" />
+        </p:column>
+        <p:column sortBy="#{car.color}">
+            <f:facet name="header">
+                <h:outputText value="Color" />
+            </f:facet>
+            <h:outputText value="#{car.color}" />
+        </p:column>
+
+
+
+
+    </p:dataTable>
+    <p:commandButton value="Submit" action="#{carBean.mostrarCarros}"/>
+</h:form>
+
+
+<hr/>
+<h:form>
+    <p:dataTable var="car" value="#{carBean.lazyModel}"
+                 dynamic="true" paginator="true" rows="5" lazy="true"
+                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 rowsPerPageTemplate="5,10,15"
+                 selection="#{carListController.selectedCar}" >
+        <p:column sortBy="#{car.model}"  filterBy="#{car.model}">
+            <f:facet name="header">
+                <h:outputText value="Model" />
+            </f:facet>
+            <h:outputText value="#{car.model}" />
+        </p:column>
+        <p:column sortBy="#{car.year}">
+            <f:facet name="header">
+                <h:outputText value="Year" />
+            </f:facet>
+            <h:outputText value="#{car.year}" />
+        </p:column>
+    </p:dataTable>
+</h:form>
+
+<hr/>
+<p:dialog header="Header Text" widgetVar="dialog">
+    <h:outputText value="Resistance to PrimeFaces is Futile!" />
+	     //Other content
+</p:dialog>
+
+<!--<a href="#" onclick="dialog.show()">Show</a>
+<a href="#" onclick="dialog.hide()">Hide</a>-->
+
+
+<h:outputText id="name3" value="Name #{bookBean.firstName}"/>
+<h:outputLink value="#" onclick="dlg.show()">Enter FirstName</h:outputLink>
+
+<p:dialog header="Enter FirstName" widgetVar="dlg" closeListener="#{bookBean.manejaCerrado}" onCloseUpdate="msg" >
+    <h:form>
+        <h:panelGrid columns="2" style="margin-bottom:10px">
+            <h:outputLabel for="firstName" value="Firstname:" />
+            <h:inputText id="firstName" value="#{bookBean.firstName}" />
+
+            <p:commandButton value="Reset" type="reset"/>
+            <p:commandButton value="Ajax Submit" type="submit" update="name3"
+                             oncomplete="dlg.hide();"/>
+        </h:panelGrid>
+    </h:form>
+</p:dialog>
+
+<p:growl id="msg" showDetail="true"/>
+
+
+<p:panel id="pnl" header="Draggable Panel">
+    <h:outputText value="This is actually a regular p:panel" />
+</p:panel>
+<p:draggable for="pnl"/>
+
+<h:graphicImage id="campnou" value="/img/cars/penguin.png">
+    <p:draggable />
+</h:graphicImage>
+
+<hr/>
+
+<p:panel id="pnl2" header="Draggable Panel">
+    <h:outputText value="I can only be dragged using my header" />
+</p:panel>
+<p:draggable for="pnl2" handle="div.pf-panel-hd"/>
+
+
+<hr/>
+
+<p:panel id="pnl3" header="Draggable Panel">
+    <h:outputText value="I am cloned" />
+</p:panel>
+<p:draggable for="pnl3" helper="clone"/>
+
+
+<p:panel id="pnl4" header="Draggable Panel">
+    <h:outputText value="I am dragged in grid mode" />
+</p:panel>
+<p:draggable for="pnl4" grid="20,40"/>
+
+
+
+<p:outputPanel layout="block" style="width:400px;height:200px;">
+    <p:panel id="conpnl2" header="Restricted">
+        <h:outputText value="I am restricted to my parent's boundaries" />
+    </p:panel>
+</p:outputPanel>
+<p:draggable for="conpnl2" containment="parent" />
+
+
+<p:outputPanel layout="block" style="width:400px;height:200px;">
+    <h:graphicImage id="campnou2" value="/img/cars/penguin.png">
+        <p:draggable containment="parent"/>
+    </h:graphicImage>
+</p:outputPanel>
+
+
+<p:graphicImage id="messi" value="img/cars/penguin.png" />
+<p:draggable for="messi"/>
+<p:outputPanel id="zone" styleClass="slot">
+    <h:outputText value="!!!Drop here!!!"                  
+                  style="font-size:24px;" />
+</p:outputPanel>
+<hr/>
+<p:droppable for="zone" dropListener="#{ddController.onDrop}"/>
+<hr/>
+
+
+<p:dock>
+    <p:menuitem value="Home" icon="/img/cars/gimp.png" url="#" />
+    <p:menuitem value="Music" icon="/img/cars/k3b.png" url="#" />
+    <p:menuitem value="Video" icon="/img/cars/karbon.png" url="#"/>
+    <p:menuitem value="Email" icon="/img/cars/kbruch.png" url="#"/>
+    <p:menuitem value="Link" icon="/img/cars/kde-windows.png" url="#"/>
+    <p:menuitem value="RSS" icon="/img/cars/ksniffer.png" url="#"/>
+    <p:menuitem value="History" icon="/img/cars/plasmagik.png" url="#"/>
+</p:dock>
+<hr/>
+<h:panelGrid columns="4">
+
+    <p:panel header="Blind">
+        <h:outputText value="click" />
+        <p:effect type="blind" event="click">
+            <f:param name="direction" value="'horizontal'" />
+        </p:effect>
+    </p:panel>
+
+    <p:panel header="Clip">
+        <h:outputText value="mouseover" />
+        <p:effect type="clip" event="click" />
+    </p:panel>
+
+    <p:panel header="Drop">
+        <h:outputText value="click" />
+        <p:effect type="drop" event="click" />
+    </p:panel>
+
+    <p:panel header="Explode">
+        <h:outputText value="click" />
+        <p:effect type="explode" event="click" />
+    </p:panel>
+
+    <p:panel header="Fold">
+        <h:outputText value="doubleclick" />
+        <p:effect type="fold" event="dblclick" />
+    </p:panel>
+
+    <p:panel header="Puff">
+        <h:outputText value="doubleclick" />
+        <p:effect type="puff" event="dblclick" />
+    </p:panel>
+
+    <p:panel header="Slide">
+        <h:outputText value="doubleclick" />
+        <p:effect type="slide" event="dblclick" />
+    </p:panel>
+
+    <p:panel header="Scale">
+        <h:outputText value="doubleclick" />
+        <p:effect type="scale" event="dblclick">
+            <f:param name="percent" value="90" />
+        </p:effect>
+    </p:panel>
+
+    <p:panel header="Bounce">
+        <h:outputText value="click" />
+        <p:effect type="bounce" event="click" />
+    </p:panel>
+
+    <p:panel header="Pulsate">
+        <h:outputText value="click" />
+        <p:effect type="pulsate" event="click" />
+    </p:panel>
+
+    <p:panel header="Shake">
+        <h:outputText value="click" />
+        <p:effect type="shake" event="click" />
+    </p:panel>
+
+    <p:panel header="Size">
+        <h:outputText value="click" />
+        <p:effect type="size" event="click">
+            <f:param name="to" value="{width: 200,height: 60}" />
+        </p:effect>
+    </p:panel>
+
+</h:panelGrid>
+
+<hr/>
+<h:form>
+    <h:commandButton value="Download">
+        <p:fileDownload value="#{fileDownloadController.file}" />
+    </h:commandButton>
+
+    <h:commandLink value="Download">
+        <p:fileDownload value="#{fileDownloadController.file}"/>
+        <h:graphicImage value="/img/cars/penguin.png" />
+    </h:commandLink>
+</h:form>
+
+
+
+
+<p:inplace>
+    <h:inputText value="Edit me" />
+</p:inplace>
+
+
+<hr/>
+<h:outputText value="Select One" />
+<p:inplace label="Cities">
+    <h:selectOneMenu>
+        <f:selectItem itemLabel="Istanbul" itemValue="Istanbul" />
+        <f:selectItem itemLabel="Ankara" itemValue="Ankara" />
+    </h:selectOneMenu>
+</p:inplace>
+
+<p:keyboard value="#{bean.value}" layout="alphabetic"/>
+<hr/>
+<h:inputText id="txt" value="#{bean.value}" />
+<p:message for="txt" />
+
+<p:notificationBar widgetVar="topBar" effect="slide">
+    <p:graphicImage icon="/img/cars/karbon.png"/>
+</p:notificationBar>
+<h:outputLink value="#" onclick="topBar.show()">Show</h:outputLink>
+<h:outputLink value="#" onclick="topBar.hide()">Hide</h:outputLink>
+
+<p:password value="#{bean.password}" inline="true"/>
+
+
+<p:pickList value="#{pickListBean.cities}" var="city"
+            itemLabel="#{city}" itemValue="#{city}"/>
+
+
+<h:graphicImage id="img2" value="/img/cars/penguin.png">
+    <p:resizable proxy="true" animate="true" effect="bounceOut"/>
+</h:graphicImage>
+
+<p:stack icon="/img/cars/penguin.png">
+    <p:menuitem value="Aperture" icon="" url="#"/>
+    <p:menuitem value="Photoshop" icon="/img/cars/karbon.png" url="#"/>
+</p:stack>
+
+
+
+<h:form>
+    <h:inputText id="firstname" value="#{bean.firstname}">
+        <p:ajax event="keyup" update="out" />
+    </h:inputText>
+</h:form>
+
+<h:outputText id="out" value="#{bean.firstname}" />
+<hr/>
+
+<h:form>
+    <h:inputText id="counter">
+        <p:ajax event="keyup" update="out2" actionListener="#{counterBean.increment}"/>
+    </h:inputText>
+</h:form>
+
+
+
+<h:outputText id="out2" value="#{counterBean.count}" />
+
+
+<h:form prependId="false">
+    <p:panel id="panel" header="New Person">
+        <h:messages />
+        <h:outputText value="5 characters minimum" />
+
+        <h:panelGrid columns="3">
+            <h:outputLabel for="firstname" value="Firstname: *" />
+            <h:inputText id="firstname" value="#{bean.firstname}" >
+                <f:validateLength minimum="5" />
+                <p:ajax event="blur" update="panel" />
+            </h:inputText>
+            <h:message for="firstname" />
+        </h:panelGrid>
+    </p:panel>
+</h:form>
+
+<p:themeSwitcher />
+
+<p:lightBox width="50%" height="50%">
+    <h:outputLink value="#" title="Leo Messi" >
+        <h:outputText value="The Messiah"/>
+    </h:outputLink>
+
+    <f:facet name="inline">
+        <h:panelGrid columns="2">
+            <h:graphicImage value="/img/integrantes/jorge.jpg" />
+            <h:outputText style="color:#FFFFFF"
+                          value="Messi is an unusual player......" />
+        </h:panelGrid>
+    </f:facet>
+</p:lightBox>
+
+
+<hr/>
+<p:menubar>
+    <p:submenu label="File">
+        <p:submenu label="New">
+            <p:menuitem value="Project" url="#"/>
+            <p:menuitem value="Other" url="#"/>
+        </p:submenu>
+        <p:menuitem value="Open" url="#"></p:menuitem>
+        <p:menuitem value="Quit" url="#"></p:menuitem>
+    </p:submenu>
+    <p:submenu label="Edit">
+        <p:menuitem value="Undo" url="#"></p:menuitem>
+        <p:menuitem value="Redo" url="#"></p:menuitem>
+    </p:submenu>
+    <p:submenu label="Help">
+        <p:menuitem label="Contents" url="#" />
+        <p:submenu label="Search">
+            <p:submenu label="Text">
+                <p:menuitem value="Workspace" url="#" />
+            </p:submenu>
+            <p:menuitem value="File" url="#" />
+        </p:submenu>
+    </p:submenu>
+
+</p:menubar>
+
+</body>
+</html>

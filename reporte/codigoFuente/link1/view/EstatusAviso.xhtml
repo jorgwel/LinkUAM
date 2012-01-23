@@ -1,0 +1,104 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus aviso Details</f:facet>
+
+        <s:decorate id="idEstatusAviso" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus aviso</ui:define>
+            <h:outputText value="#{estatusAvisoHome.instance.idEstatusAviso}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusAviso" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus aviso</ui:define>
+            <h:outputText value="#{estatusAvisoHome.instance.definicionEstatusAviso}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusAviso" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus aviso</ui:define>
+            <h:outputText value="#{estatusAvisoHome.instance.nombreEstatusAviso}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusAvisoEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusAvisoFrom ? 'EstatusAvisoList' : estatusAvisoFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Avisos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="avisosChildren">
+
+        <h:outputText value="There are no avisos associated with this estatusAviso."
+                   rendered="#{empty estatusAvisoHome.avisos}"/>
+
+        <rich:dataTable value="#{estatusAvisoHome.avisos}"
+                       var="_aviso"
+                  rendered="#{not empty estatusAvisoHome.avisos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="avisosTable">
+            <rich:column sortBy="#{_aviso.idAviso}">
+                <f:facet name="header">Id aviso</f:facet>
+                <h:outputText value="#{_aviso.idAviso}"/>
+            </rich:column>
+            <rich:column sortBy="#{_aviso.fechaCreacionAviso}">
+                <f:facet name="header">Fecha creacion aviso</f:facet>
+                <h:outputText value="#{_aviso.fechaCreacionAviso}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_aviso.textoAviso}">
+                <f:facet name="header">Texto aviso</f:facet>
+                <h:outputText value="#{_aviso.textoAviso}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectaviso"
+                     value="Select"
+                      view="/Aviso.xhtml">
+                    <f:param name="avisoIdAviso"
+                            value="#{_aviso.idAviso}"/>
+                    <f:param name="avisoFrom" value="EstatusAviso"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add aviso"
+                view="/AvisoEdit.xhtml">
+            <f:param name="estatusAvisoIdEstatusAviso"
+                    value="#{estatusAvisoHome.instance.idEstatusAviso}"/>
+            <f:param name="avisoFrom" value="EstatusAviso"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

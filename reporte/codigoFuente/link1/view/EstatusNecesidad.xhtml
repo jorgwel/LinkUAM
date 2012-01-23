@@ -1,0 +1,104 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus necesidad Details</f:facet>
+
+        <s:decorate id="idEstatusNecesidad" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus necesidad</ui:define>
+            <h:outputText value="#{estatusNecesidadHome.instance.idEstatusNecesidad}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusNecesidad" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus necesidad</ui:define>
+            <h:outputText value="#{estatusNecesidadHome.instance.definicionEstatusNecesidad}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusNecesidad" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus necesidad</ui:define>
+            <h:outputText value="#{estatusNecesidadHome.instance.nombreEstatusNecesidad}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusNecesidadEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusNecesidadFrom ? 'EstatusNecesidadList' : estatusNecesidadFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Necesidads</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="necesidadsChildren">
+
+        <h:outputText value="There are no necesidads associated with this estatusNecesidad."
+                   rendered="#{empty estatusNecesidadHome.necesidads}"/>
+
+        <rich:dataTable value="#{estatusNecesidadHome.necesidads}"
+                       var="_necesidad"
+                  rendered="#{not empty estatusNecesidadHome.necesidads}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="necesidadsTable">
+            <rich:column sortBy="#{_necesidad.idNecesidad}">
+                <f:facet name="header">Id necesidad</f:facet>
+                <h:outputText value="#{_necesidad.idNecesidad}"/>
+            </rich:column>
+            <rich:column sortBy="#{_necesidad.descripcionNecesidad}">
+                <f:facet name="header">Descripcion necesidad</f:facet>
+                <h:outputText value="#{_necesidad.descripcionNecesidad}"/>
+            </rich:column>
+            <rich:column sortBy="#{_necesidad.fechaNecesidad}">
+                <f:facet name="header">Fecha necesidad</f:facet>
+                <h:outputText value="#{_necesidad.fechaNecesidad}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectnecesidad"
+                     value="Select"
+                      view="/Necesidad.xhtml">
+                    <f:param name="necesidadIdNecesidad"
+                            value="#{_necesidad.idNecesidad}"/>
+                    <f:param name="necesidadFrom" value="EstatusNecesidad"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add necesidad"
+                view="/NecesidadEdit.xhtml">
+            <f:param name="estatusNecesidadIdEstatusNecesidad"
+                    value="#{estatusNecesidadHome.instance.idEstatusNecesidad}"/>
+            <f:param name="necesidadFrom" value="EstatusNecesidad"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

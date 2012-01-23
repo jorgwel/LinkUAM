@@ -1,0 +1,139 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Objetivo especifico Details</f:facet>
+
+        <s:decorate id="idObjetivoEspecifico" template="layout/display.xhtml">
+            <ui:define name="label">Id objetivo especifico</ui:define>
+            <h:outputText value="#{objetivoEspecificoHome.instance.idObjetivoEspecifico}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcionObjetivoEspecifico" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion objetivo especifico</ui:define>
+            <h:outputText value="#{objetivoEspecificoHome.instance.descripcionObjetivoEspecifico}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaObjetivoEspecifico" template="layout/display.xhtml">
+            <ui:define name="label">Fecha objetivo especifico</ui:define>
+            <h:outputText value="#{objetivoEspecificoHome.instance.fechaObjetivoEspecifico}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ObjetivoEspecificoEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty objetivoEspecificoFrom ? 'ObjetivoEspecificoList' : objetivoEspecificoFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Idea</h:panelGroup>
+        </f:facet>
+    <div class="association" id="ideaParent">
+
+        <h:outputText value="There is no idea associated with this objetivoEspecifico."
+                   rendered="#{objetivoEspecificoHome.instance.idea == null}"/>
+
+        <rich:dataTable var="_idea"
+                   value="#{objetivoEspecificoHome.instance.idea}"
+                rendered="#{objetivoEspecificoHome.instance.idea != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ideaTable">
+            <h:column>
+                <f:facet name="header">Id idea</f:facet>
+                <h:outputText value="#{_idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion idea</f:facet>
+                <h:outputText value="#{_idea.calificacionIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido idea</f:facet>
+                <h:outputText value="#{_idea.contenidoIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda monetaria id estatus ayuda monetaria</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaMonetaria.idEstatusAyudaMonetaria}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda recursos humanos id estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaRecursosHumanos.idEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus idea id estatus idea</f:facet>
+                <h:outputText value="#{_idea.estatusIdea.idEstatusIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha creacion idea</f:facet>
+                <h:outputText value="#{_idea.fechaCreacionIdea}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lugar id lugar</f:facet>
+                <h:outputText value="#{_idea.lugar.idLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen</f:facet>
+                <h:outputText value="#{_idea.nombreImagen}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Resumen idea</f:facet>
+                <h:outputText value="#{_idea.resumenIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titulo idea</f:facet>
+                <h:outputText value="#{_idea.tituloIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_idea.usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos negativos idea</f:facet>
+                <h:outputText value="#{_idea.votosNegativosIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos positivos idea</f:facet>
+                <h:outputText value="#{_idea.votosPositivosIdea}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewidea"
+                     value="View"
+                      view="/Idea.xhtml">
+                    <f:param name="ideaIdIdea"
+                           value="#{_idea.idIdea}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

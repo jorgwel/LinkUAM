@@ -1,0 +1,143 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    ARCHIVO QUE DEFINE LA PÁGINA PRINCIPAL
+-->
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoHomeTemplate.xhtml">
+
+    <!--
+        DEFINIENDO EL CONTENIDO DE UNA PÁGINA
+    -->
+    <ui:define name="body">
+        <p:layoutUnit
+            id="center"
+            position="center"
+            style="text-align:center;"
+            scrollable="true"
+            >
+            <!-- Growl para mensajes -->
+            <p:growl id="msg" life="2500"/>
+            <p:panel
+                style=
+                "border: 2px outset;padding: 0px;
+                margin: 7px;margin-bottom: 0px"
+                >
+                <f:facet name="header">
+                    <h:outputText
+                        value="#{'LICENCIA'}"
+                        style=
+                        "font-size: 15pt !important;
+                         font-weight: bold"
+                         />
+                </f:facet>
+                Esto es un resumen fácilmente legible del <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/2.5/mx/legalcode">Texto Legal (la licencia completa). </a>
+                <p style="text-align: left;font-style: italic">
+                    <strong>Advertencia: </strong> Este resumen (Commons Deed) no es una licencia. Es simplemente una referencia práctica para entender el Texto Legal (la licencia completa). — es una redacción legible por humanos de algunos de los términos clave de la licencia. Tómelo como una interfaz amigable del Texto Legal que se encuentra más abajo. Este resumen por sí mismo no tiene valor legal, y su contenido no aparece en la auténtica licencia.
+Creative Commons no es un bufete de abogados y no ofrece servicios legales. La distribución, la muestra, o el enlace de este Resumen no crea ningun vínculo abogado-cliente.
+                </p>
+                <p:panel style="border: 0px !important">
+                    <f:facet name="header">
+                        <h:outputText value="Usted es libre de:" style="font-size: 14;font-weight: bold"/>
+                    </f:facet>
+
+                    <ul  style="text-align: left">
+                        <li  style="text-align: left">Compartir - copiar, distribuir, ejecutar y comunicar públicamente la obra</li>
+
+                        <li>Hacer obras derivadas</li>
+                        <li>hacer un uso comercial de esta obra</li>
+                    </ul>
+
+
+
+                </p:panel>
+                <p:panel style="border: 0px !important">
+                    <f:facet name="header">
+                        <h:outputText value="Bajo las condiciones siguientes:" style="font-size: 14;font-weight: bold"/>
+                    </f:facet>
+                    
+
+                    <ul 
+                        style="text-align: left" dir="ltr">
+                        <li>
+                            <p>
+                                <strong>Atribución</strong> 
+                                &mdash;
+                                    —Debe reconocer los créditos de la obra de la manera especificada por el autor o el licenciante (pero no de una manera que sugiera que tiene su apoyo o que apoyan el uso que hace de su obra).
+                                
+                            </p>
+
+                        </li>
+                        
+                        <li>
+                            <p>
+                                <strong>Compartir bajo la Misma Licencia</strong> &mdash;
+                                —Si altera o transforma esta obra, o genera una obra derivada, sólo puede distribuir la obra generada bajo una licencia idéntica a ésta.
+                            </p>
+
+
+                        </li>
+                    </ul>
+                </p:panel>
+                <p:panel style="border: 0px !important">
+                    <f:facet name="header">
+                        <h:outputText value="Entendiendo que:" style="font-size: 14;font-weight: bold"/>
+                    </f:facet>
+                    
+
+                    <ul >
+                        <li style="text-align: left">
+                            <strong>Renuncia</strong>
+                            &mdash;—
+                            Alguna de estas condiciones puede <a href="#" id="waived" class="helpLink">no aplicarse</a> si se obtiene el permiso del titular de los derechos de autor
+                        </li>
+
+                        <li  style="text-align: left">
+                            <strong>Dominio Público</strong>
+                            &mdash;—
+                            Cuando la obra o alguno de sus elementos se halle en el <a target="_blank" href="http://wiki.creativecommons.org/Public_domain" id="public_domain" class="helpLink">dominio público</a> según la ley vigente aplicable, esta situación no quedará afectada por la licencia.
+                        </li>
+
+                        <li  style="text-align: left">
+                            <strong>Otros derechos</strong>
+                            &mdash;—
+                            Los derechos siguientes no quedan afectados por la licencia de ninguna manera:
+
+                            <ul>
+
+                                <li style="text-align: left">Los derechos derivados de <a target="_blank" href="http://wiki.creativecommons.org/Frequently_Asked_Questions#Do_Creative_Commons_licenses_affect_fair_use.2C_fair_dealing_or_other_exceptions_to_copyright.3F" id="fair_use" class="helpLink">usos legítimos</a>u otras limitaciones reconocidas por ley no se ven afectados por lo anterior.</li>
+
+
+                                <li style="text-align: left">Los derechos <a target="_blank" href="http://wiki.creativecommons.org/Frequently_Asked_Questions#I_don.E2.80.99t_like_the_way_a_person_has_used_my_work_in_a_derivative_work_or_included_it_in_a_collective_work.3B_what_can_I_do.3F" id="moral_rights" class="helpLink">morales</a> del auto;</li>
+
+
+
+                                <li style="text-align: left">Derechos que pueden ostentar otras personas sobre la propia obra o su uso, como por ejemplo <a target="_blank" href="http://wiki.creativecommons.org/Frequently_Asked_Questions#When_are_publicity_rights_relevant.3F" class="helpLink" id="publicity_rights">derechos de imagen</a> o de privacidad.</li>
+                            </ul>
+                        </li>
+
+                        <li style="text-align: left">
+                            <strong>Aviso</strong>
+                            &mdash;—
+                            Al reutilizar o distribuir la obra, tiene que dejar muy en claro los términos de la licencia de esta obra. La mejor forma de hacerlo es enlazar a esta página.
+                        </li>
+
+                    </ul>
+                </p:panel>
+
+Esto es un resumen fácilmente legible del <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/2.5/mx/legalcode">Texto Legal (la licencia completa). </a>
+            </p:panel>
+
+        </p:layoutUnit>
+
+    </ui:define>
+
+
+</ui:composition>
+
+

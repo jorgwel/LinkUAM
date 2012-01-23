@@ -1,0 +1,110 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus ticket registro Details</f:facet>
+
+        <s:decorate id="idEstatusTicketRegistro" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus ticket registro</ui:define>
+            <h:outputText value="#{estatusTicketRegistroHome.instance.idEstatusTicketRegistro}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusTicketRegistro" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus ticket registro</ui:define>
+            <h:outputText value="#{estatusTicketRegistroHome.instance.definicionEstatusTicketRegistro}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusTicketRegistro" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus ticket registro</ui:define>
+            <h:outputText value="#{estatusTicketRegistroHome.instance.nombreEstatusTicketRegistro}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusTicketRegistroEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusTicketRegistroFrom ? 'EstatusTicketRegistroList' : estatusTicketRegistroFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Ticket registros</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="ticketRegistrosChildren">
+
+        <h:outputText value="There are no ticketRegistros associated with this estatusTicketRegistro."
+                   rendered="#{empty estatusTicketRegistroHome.ticketRegistros}"/>
+
+        <rich:dataTable value="#{estatusTicketRegistroHome.ticketRegistros}"
+                       var="_ticketRegistro"
+                  rendered="#{not empty estatusTicketRegistroHome.ticketRegistros}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="ticketRegistrosTable">
+            <rich:column sortBy="#{_ticketRegistro.idTicketRegistro}">
+                <f:facet name="header">Id ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.idTicketRegistro}"/>
+            </rich:column>
+            <rich:column sortBy="#{_ticketRegistro.fechaTicketRegistro}">
+                <f:facet name="header">Fecha ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.fechaTicketRegistro}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_ticketRegistro.fechaTicketUsado}">
+                <f:facet name="header">Fecha ticket usado</f:facet>
+                <h:outputText value="#{_ticketRegistro.fechaTicketUsado}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_ticketRegistro.textoTicketRegistro}">
+                <f:facet name="header">Texto ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.textoTicketRegistro}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectticketRegistro"
+                     value="Select"
+                      view="/TicketRegistro.xhtml">
+                    <f:param name="ticketRegistroIdTicketRegistro"
+                            value="#{_ticketRegistro.idTicketRegistro}"/>
+                    <f:param name="ticketRegistroFrom" value="EstatusTicketRegistro"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add ticketRegistro"
+                view="/TicketRegistroEdit.xhtml">
+            <f:param name="estatusTicketRegistroIdEstatusTicketRegistro"
+                    value="#{estatusTicketRegistroHome.instance.idEstatusTicketRegistro}"/>
+            <f:param name="ticketRegistroFrom" value="EstatusTicketRegistro"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,141 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoLugar" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{tipoLugarHome.managed ? 'Edit' : 'Add'} Tipo lugar</f:facet>
+
+
+            <s:decorate id="idTipoLugarField" template="layout/edit.xhtml">
+                <ui:define name="label">Id tipo lugar</ui:define>
+                <h:inputText id="idTipoLugar"
+                       required="true"
+                       disabled="#{tipoLugarHome.managed}"
+                          value="#{tipoLugarHome.instance.idTipoLugar}">
+                    <a:support event="onblur" reRender="idTipoLugarField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="descripcionTipoLugarField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion tipo lugar</ui:define>
+                <h:inputText id="descripcionTipoLugar"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{tipoLugarHome.instance.descripcionTipoLugar}">
+                    <a:support event="onblur" reRender="descripcionTipoLugarField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreTipoLugarField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre tipo lugar</ui:define>
+                <h:inputText id="nombreTipoLugar"
+                       required="true"
+                           size="50"
+                      maxlength="50"
+                          value="#{tipoLugarHome.instance.nombreTipoLugar}">
+                    <a:support event="onblur" reRender="nombreTipoLugarField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{tipoLugarHome.persist}"
+                       disabled="#{!tipoLugarHome.wired}"
+                       rendered="#{!tipoLugarHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{tipoLugarHome.update}"
+                       rendered="#{tipoLugarHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{tipoLugarHome.remove}"
+                      immediate="true"
+                       rendered="#{tipoLugarHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TipoLugar.xhtml"
+                rendered="#{tipoLugarHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty tipoLugarFrom ? 'TipoLugarList' : tipoLugarFrom}.xhtml"
+                rendered="#{!tipoLugarHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Lugars">
+        <h:form styleClass="association" id="lugarsChildren">
+
+            <h:outputText value="There are no lugars associated with this tipoLugar."
+                       rendered="#{empty tipoLugarHome.lugars}"/>
+
+            <rich:dataTable value="#{tipoLugarHome.lugars}"
+                           var="_lugar"
+                      rendered="#{not empty tipoLugarHome.lugars}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="lugarsTable">
+                <rich:column sortBy="#{_lugar.idLugar}">
+                    <f:facet name="header">Id lugar</f:facet>
+                    <h:outputText value="#{_lugar.idLugar}"/>
+                </rich:column>
+                <rich:column sortBy="#{_lugar.descripcionLugar}">
+                    <f:facet name="header">Descripcion lugar</f:facet>
+                    <h:outputText value="#{_lugar.descripcionLugar}"/>
+                </rich:column>
+                <rich:column sortBy="#{_lugar.nombreLugar}">
+                    <f:facet name="header">Nombre lugar</f:facet>
+                    <h:outputText value="#{_lugar.nombreLugar}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{tipoLugarHome.managed}" id="lugars">
+        <div class="actionButtons">
+            <s:button id="addlugar"
+                   value="Add lugar"
+                    view="/LugarEdit.xhtml"
+             propagation="none">
+                 <f:param name="tipoLugarIdTipoLugar"
+                         value="#{tipoLugarHome.instance.idTipoLugar}"/>
+                 <f:param name="lugarFrom" value="TipoLugar"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

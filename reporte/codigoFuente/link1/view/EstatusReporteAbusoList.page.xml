@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="firstResult" value="#{estatusReporteAbusoList.firstResult}"/>
+   <param name="sort" value="#{estatusReporteAbusoList.orderColumn}"/>
+   <param name="dir" value="#{estatusReporteAbusoList.orderDirection}"/>
+   <param name="logic" value="#{estatusReporteAbusoList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="definicionEstatusReporteAbuso" value="#{estatusReporteAbusoList.estatusReporteAbuso.definicionEstatusReporteAbuso}"/>
+   <param name="nombreEstatusReporteAbuso" value="#{estatusReporteAbusoList.estatusReporteAbuso.nombreEstatusReporteAbuso}"/>
+
+</page>

@@ -1,0 +1,149 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusEnvio" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusEnvioHome.managed ? 'Edit' : 'Add'} Estatus envio</f:facet>
+
+
+            <s:decorate id="idEstatusEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus envio</ui:define>
+                <h:inputText id="idEstatusEnvio"
+                       required="true"
+                       disabled="#{estatusEnvioHome.managed}"
+                          value="#{estatusEnvioHome.instance.idEstatusEnvio}">
+                    <a:support event="onblur" reRender="idEstatusEnvioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionEstatusEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus envio</ui:define>
+                <h:inputText id="definicionEstatusEnvio"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusEnvioHome.instance.definicionEstatusEnvio}">
+                    <a:support event="onblur" reRender="definicionEstatusEnvioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreEstatusEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus envio</ui:define>
+                <h:inputText id="nombreEstatusEnvio"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusEnvioHome.instance.nombreEstatusEnvio}">
+                    <a:support event="onblur" reRender="nombreEstatusEnvioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusEnvioHome.persist}"
+                       disabled="#{!estatusEnvioHome.wired}"
+                       rendered="#{!estatusEnvioHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusEnvioHome.update}"
+                       rendered="#{estatusEnvioHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusEnvioHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusEnvioHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusEnvio.xhtml"
+                rendered="#{estatusEnvioHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusEnvioFrom ? 'EstatusEnvioList' : estatusEnvioFrom}.xhtml"
+                rendered="#{!estatusEnvioHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Envios">
+        <h:form styleClass="association" id="enviosChildren">
+
+            <h:outputText value="There are no envios associated with this estatusEnvio."
+                       rendered="#{empty estatusEnvioHome.envios}"/>
+
+            <rich:dataTable value="#{estatusEnvioHome.envios}"
+                           var="_envio"
+                      rendered="#{not empty estatusEnvioHome.envios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="enviosTable">
+                <rich:column sortBy="#{_envio.idEnvio}">
+                    <f:facet name="header">Id envio</f:facet>
+                    <h:outputText value="#{_envio.idEnvio}"/>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                    <f:facet name="header">Fecha envio envio</f:facet>
+                    <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                    <f:facet name="header">Fecha registro envio</f:facet>
+                    <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                    <f:facet name="header">Numero intentos envio</f:facet>
+                    <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusEnvioHome.managed}" id="envios">
+        <div class="actionButtons">
+            <s:button id="addenvio"
+                   value="Add envio"
+                    view="/EnvioEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusEnvioIdEstatusEnvio"
+                         value="#{estatusEnvioHome.instance.idEstatusEnvio}"/>
+                 <f:param name="envioFrom" value="EstatusEnvio"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

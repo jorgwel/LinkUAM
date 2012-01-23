@@ -1,0 +1,112 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus miembro comunidad Details</f:facet>
+
+        <s:decorate id="idEstatusMiembroComunidad" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus miembro comunidad</ui:define>
+            <h:outputText value="#{estatusMiembroComunidadHome.instance.idEstatusMiembroComunidad}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusMiembroComunidad" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus miembro comunidad</ui:define>
+            <h:outputText value="#{estatusMiembroComunidadHome.instance.definicionEstatusMiembroComunidad}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusMiembroComunidad" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus miembro comunidad</ui:define>
+            <h:outputText value="#{estatusMiembroComunidadHome.instance.nombreEstatusMiembroComunidad}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusMiembroComunidadEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusMiembroComunidadFrom ? 'EstatusMiembroComunidadList' : estatusMiembroComunidadFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Miembro comunidads</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="miembroComunidadsChildren">
+
+        <h:outputText value="There are no miembroComunidads associated with this estatusMiembroComunidad."
+                   rendered="#{empty estatusMiembroComunidadHome.miembroComunidads}"/>
+
+        <rich:dataTable value="#{estatusMiembroComunidadHome.miembroComunidads}"
+                       var="_miembroComunidad"
+                  rendered="#{not empty estatusMiembroComunidadHome.miembroComunidads}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="miembroComunidadsTable">
+            <rich:column sortBy="#{_miembroComunidad.id.comunidadId}">
+                <f:facet name="header">Comunidad id</f:facet>
+                <h:outputText value="#{_miembroComunidad.id.comunidadId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_miembroComunidad.id.usuarioId}">
+                <f:facet name="header">Usuario id</f:facet>
+                <h:outputText value="#{_miembroComunidad.id.usuarioId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_miembroComunidad.fechaFinMiembroComunidad}">
+                <f:facet name="header">Fecha fin miembro comunidad</f:facet>
+                <h:outputText value="#{_miembroComunidad.fechaFinMiembroComunidad}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_miembroComunidad.fechaInicioMiembroComunidad}">
+                <f:facet name="header">Fecha inicio miembro comunidad</f:facet>
+                <h:outputText value="#{_miembroComunidad.fechaInicioMiembroComunidad}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectmiembroComunidad"
+                     value="Select"
+                      view="/MiembroComunidad.xhtml">
+                    <f:param name="miembroComunidadComunidadId"
+                            value="#{_miembroComunidad.id.comunidadId}"/>
+                    <f:param name="miembroComunidadUsuarioId"
+                            value="#{_miembroComunidad.id.usuarioId}"/>
+                    <f:param name="miembroComunidadFrom" value="EstatusMiembroComunidad"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add miembroComunidad"
+                view="/MiembroComunidadEdit.xhtml">
+            <f:param name="estatusMiembroComunidadIdEstatusMiembroComunidad"
+                    value="#{estatusMiembroComunidadHome.instance.idEstatusMiembroComunidad}"/>
+            <f:param name="miembroComunidadFrom" value="EstatusMiembroComunidad"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

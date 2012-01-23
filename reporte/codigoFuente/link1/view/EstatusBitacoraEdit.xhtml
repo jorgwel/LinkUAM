@@ -1,0 +1,147 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusBitacora" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusBitacoraHome.managed ? 'Edit' : 'Add'} Estatus bitacora</f:facet>
+
+
+            <s:decorate id="idEstatusBitacoraField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus bitacora</ui:define>
+                <h:inputText id="idEstatusBitacora"
+                       required="true"
+                       disabled="#{estatusBitacoraHome.managed}"
+                          value="#{estatusBitacoraHome.instance.idEstatusBitacora}">
+                    <a:support event="onblur" reRender="idEstatusBitacoraField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="definicionEstatusBitacoraField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus bitacora</ui:define>
+                <h:inputText id="definicionEstatusBitacora"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusBitacoraHome.instance.definicionEstatusBitacora}">
+                    <a:support event="onblur" reRender="definicionEstatusBitacoraField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreEstatusBitacoraField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus bitacora</ui:define>
+                <h:inputText id="nombreEstatusBitacora"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusBitacoraHome.instance.nombreEstatusBitacora}">
+                    <a:support event="onblur" reRender="nombreEstatusBitacoraField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusBitacoraHome.persist}"
+                       disabled="#{!estatusBitacoraHome.wired}"
+                       rendered="#{!estatusBitacoraHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusBitacoraHome.update}"
+                       rendered="#{estatusBitacoraHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusBitacoraHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusBitacoraHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusBitacora.xhtml"
+                rendered="#{estatusBitacoraHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusBitacoraFrom ? 'EstatusBitacoraList' : estatusBitacoraFrom}.xhtml"
+                rendered="#{!estatusBitacoraHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Bitacoras">
+        <h:form styleClass="association" id="bitacorasChildren">
+
+            <h:outputText value="There are no bitacoras associated with this estatusBitacora."
+                       rendered="#{empty estatusBitacoraHome.bitacoras}"/>
+
+            <rich:dataTable value="#{estatusBitacoraHome.bitacoras}"
+                           var="_bitacora"
+                      rendered="#{not empty estatusBitacoraHome.bitacoras}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="bitacorasTable">
+                <rich:column sortBy="#{_bitacora.idBitacora}">
+                    <f:facet name="header">Id bitacora</f:facet>
+                    <h:outputText value="#{_bitacora.idBitacora}"/>
+                </rich:column>
+                <rich:column sortBy="#{_bitacora.descripcionBitacora}">
+                    <f:facet name="header">Descripcion bitacora</f:facet>
+                    <h:outputText value="#{_bitacora.descripcionBitacora}"/>
+                </rich:column>
+                <rich:column sortBy="#{_bitacora.fechaBitacora}">
+                    <f:facet name="header">Fecha bitacora</f:facet>
+                    <h:outputText value="#{_bitacora.fechaBitacora}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_bitacora.tituloBitacora}">
+                    <f:facet name="header">Titulo bitacora</f:facet>
+                    <h:outputText value="#{_bitacora.tituloBitacora}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusBitacoraHome.managed}" id="bitacoras">
+        <div class="actionButtons">
+            <s:button id="addbitacora"
+                   value="Add bitacora"
+                    view="/BitacoraEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusBitacoraIdEstatusBitacora"
+                         value="#{estatusBitacoraHome.instance.idEstatusBitacora}"/>
+                 <f:param name="bitacoraFrom" value="EstatusBitacora"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

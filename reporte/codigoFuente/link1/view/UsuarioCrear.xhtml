@@ -1,0 +1,764 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoEditar.xhtml">
+
+
+    <ui:define name="body">
+        <p:layoutUnit id="center"  scrollable="true" position="center">
+
+            <p:growl id="msg" life="2000"/>
+
+            <h1 style="text-align: left !important;height: 30px;
+                font-size: 20pt;padding: 6px !important;width: 28% !important;
+                font-style: oblique !important;border: none !important"
+                class="yellow ui-widget-header"
+                >
+                #{messages['usuario.titulocrear']}
+            </h1>
+
+
+            <h:form id="form">
+                <p:wizard widgetVar="wiz" showNavBar="false"
+                          id="wizart"
+                          >
+
+                    <p:tab id="infogeneral" title="">
+                        <p:panel style="text-align: left !important;">
+                            <h:outputText
+                                value="#{messages['usuario.crear.mensajeintro']}"
+                                style="width: 95% !important;
+                                text-align: left !important;font-size: 13pt;
+                                margin-bottom: 20px;margin-top: 20px"
+                                />
+                            <font color="red" size="5"
+                                  style="position: absolute;font-weight: bolder"
+                                  >*
+                            </font>
+                            <p:effect type="pulsate" event="load"/>
+                        </p:panel>
+
+
+
+
+
+
+                        <h:panelGrid columns="1"
+                                     style=
+                                     "text-align: left !important;
+                                     width: 100% !important;
+                                     margin-top: 25px !important"
+                                     >
+
+                            <p:panel style="border: 0px !important">
+                                <f:facet name="header">
+                                    <h:outputText
+                                        value="#{messages['usuario.crear.seccion.informacionpersonal']}"
+                                        style="font-size: 14pt !important"/>
+                                </f:facet>
+                                <h:panelGrid columns="4" style="margin-top: -28px !important">
+
+                                    <h:panelGrid columns="1"
+                                                 style="text-align: left !important;
+                                                 width: 100% !important"
+                                                 >
+                                        <h:panelGrid>
+                                            <s:div
+                                                style=
+                                                "margin-bottom: 0px !important;
+                                                font-weight: bold"
+                                                >
+                                                <h:outputText
+                                                    value="#{messages['usuario.crear.nombres']}"
+                                                    style="font-size: 11pt"
+                                                    />
+
+                                                <font color="red" size="5">*</font>
+                                            </s:div>
+
+                                        </h:panelGrid>
+                                        <p:message
+                                            for="inputNombreUsuario"
+                                            id="messageInputNombreUsuario"
+                                            >
+                                            <p:effect type="highlight" event="load" speed="1000">
+                                                <f:param name="mode" value="'show'" />
+                                            </p:effect>
+                                        </p:message>
+
+                                        <h:inputText
+
+                                            required="true"
+                                            style=
+                                            "width: 95% !important;
+                                            font-size: 11pt !important"
+                                            id="inputNombreUsuario"
+                                            onkeyup=
+                                            "javascript:actualizarContador(this,'form:wizart:counterInputNombreUsuario')"
+                                            value="#{usuarioHome.instance.nombreUsuario}"
+                                            requiredMessage=
+                                            "#{messages['usuario.crear.nombres.requerido']}"
+                                            >                                            
+                                            <p:ajax
+                                                event="blur"
+                                                update="msg messageInputNombreUsuario"
+                                                process="@this inputNombreUsuario"
+                                                global="false"
+                                                />
+                                            <s:validate/>
+                                        </h:inputText>
+                                        <s:span id="counterInputNombreUsuario"
+                                                style="font-size: 12pt;
+                                                color: gray;"
+                                                >
+                                            #{seamSizeColumna.nombreUsuario}
+                                            #{' '}
+                                            #{messages['idea.contador.caracteresmax']}
+                                        </s:span>
+
+                                    </h:panelGrid>
+
+
+
+
+
+
+
+
+
+
+                                    <h:panelGrid
+                                        style="text-align: left !important"
+                                        >
+                                        <h:panelGrid>
+                                            <s:div
+                                                style=
+                                                "margin-bottom: 0px !important;
+                                                font-weight: bold"
+                                                >
+                                                <h:outputText
+                                                    value="#{messages['usuario.crear.apellidopaterno']}"
+                                                    style="font-size: 11pt"
+                                                    />
+
+                                                <font color="red" size="5">*</font>
+                                            </s:div>
+
+                                        </h:panelGrid>
+                                        <p:message
+                                            for="inputApellidoPaternoUsuario"
+                                            id="messageInputApellidoPaternoUsuario"
+                                            >
+                                            <p:effect  type="highlight" event="load" speed="1000">
+                                                <f:param name="mode" value="'show'" />
+                                            </p:effect>
+                                        </p:message>
+
+                                        <h:inputText
+                                            required="true"
+                                            style=
+                                            "width: 95% !important;
+                                            font-size: 11pt !important"
+                                            id="inputApellidoPaternoUsuario"
+                                            onkeyup=
+                                            "javascript:actualizarContador(this,'form:wizart:counterInputApellidoPaternoUsuario')"
+                                            value="#{usuarioHome.instance.apellidoPaternoUsuario}"
+                                            requiredMessage=
+                                            "#{messages['usuario.crear.apellidopaterno.requerido']}"
+
+                                            >
+                                            <p:ajax
+                                                event="blur"
+                                                update="msg messageInputApellidoPaternoUsuario"
+                                                process="@this inputApellidoPaternoUsuario"
+                                                global="false"
+                                                />
+                                            <s:validate/>
+
+                                        </h:inputText>
+                                        <s:span id="counterInputApellidoPaternoUsuario"
+                                                style="font-size: 12pt;
+                                                color: gray;"
+                                                >
+                                            #{seamSizeColumna.apellidoPaternoUsuario}
+                                            #{' '}
+                                            #{messages['idea.contador.caracteresmax']}
+                                        </s:span>
+                                    </h:panelGrid>
+
+
+
+                                    <h:panelGrid
+                                        style="text-align: left !important"
+                                        >
+                                        <h:panelGrid>
+                                            <s:div
+                                                style=
+                                                "margin-bottom: 0px !important;
+                                                font-weight: bold"
+                                                >
+                                                <h:outputText
+                                                    value="#{messages['usuario.crear.apellidomaterno']}"
+                                                    style="font-size: 11pt"
+                                                    />
+
+                                                <font color="red" size="5">*</font>
+                                            </s:div>
+
+                                        </h:panelGrid>
+
+                                        <p:message
+                                            for="inputApellidoMaternoUsuario"
+                                            id="messageInputApellidoMaternoUsuario"
+                                            >
+                                            <p:effect  type="highlight" event="load" speed="1000">
+                                                <f:param name="mode" value="'show'" />
+                                            </p:effect>
+                                        </p:message>
+                                        <h:inputText
+                                            required="true"
+                                            style=
+                                            "width: 95% !important;
+                                            font-size: 11pt !important"
+                                            id="inputApellidoMaternoUsuario"
+                                            onkeyup=
+                                            "javascript:actualizarContador(this,'form:wizart:counterInputApellidoMaternoUsuario')"
+                                            value="#{usuarioHome.instance.apellidoMaternoUsuario}"
+                                            requiredMessage=
+                                            "#{messages['usuario.crear.apellidomaterno.requerido']}"
+
+                                            >
+                                            <p:ajax
+                                                event="blur"
+                                                update="msg messageInputApellidoMaternoUsuario"
+                                                process="@this inputApellidoMaternoUsuario"
+                                                global="false"
+                                                />
+                                            <s:validate/>
+                                        </h:inputText>
+                                        <s:span id="counterInputApellidoMaternoUsuario"
+                                                style="font-size: 12pt;
+                                                color: gray;"
+                                                >
+                                            #{seamSizeColumna.apellidoMaternoUsuario}
+                                            #{' '}
+                                            #{messages['idea.contador.caracteresmax']}
+                                        </s:span>
+                                    </h:panelGrid>
+
+
+
+
+
+
+
+
+
+                                    <h:panelGrid
+                                        title=
+                                        "#{messages['usuario.crear.institucion.intro']}"
+                                        style=
+                                        "margin-top: 0px !important;
+                                        text-align: left !important"
+                                        >
+                                        <s:div style="margin-bottom: -30px">
+                                            <h:outputText
+                                                value=
+                                                "#{messages['usuario.crear.institucion']}"
+                                                style=
+                                                "font-size: 11pt;
+                                                font-weight: bold;"
+                                                />
+                                            <font color="red" size="5">*</font>
+                                        </s:div>
+                                        
+                                        <h:panelGrid 
+                                            columns="2"
+                                            style="text-align: left !important"
+                                            >
+                                            <h:panelGrid style=
+                                                         "margin: 0px !important;
+                                                         padding: 0px !important;">
+                                                <h:selectOneMenu
+                                                    value="#{usuario.institucion}"
+                                                    required="true"
+                                                    requiredMessage=
+                                                    "#{messages['usuario.crear.institucion.requerido']}"
+                                                    id="inputInstitucion"
+                                                    style=
+                                                    "font-size: 13pt !important;
+                                                    font-weight: bold !important;"
+                                                    >
+                                                    <s:selectItems
+                                                        var="_institucion"
+                                                        value="#{institucionList.resultList}"
+                                                        label=
+                                                        "#{_institucion.nombreInstitucion}"
+                                                        id="menuInstitucion"
+                                                        />
+                                                    <s:convertEntity/>
+                                                    <s:validate/>
+                                                    <p:ajax
+                                                        event="change"
+                                                        update="imagenInstitucion"
+                                                        process="@this menuInstitucion"
+                                                        />
+                                                    <p:ajax
+                                                        event="blur"
+                                                        update="imagenInstitucion"
+                                                        process="@this menuInstitucion"
+                                                        />
+
+                                                </h:selectOneMenu>
+                                            </h:panelGrid>
+                                            <h:panelGrid style=
+                                                         "margin: 0px !important;
+                                                         padding: 0px !important;">
+
+                                                <p:graphicImage
+                                                    id="imagenInstitucion"
+                                                    value=
+                                                    "/img/instituciones/big/#{(empty usuarioHome.instance.institucion.nombreImagenInstitucion)?'other.png':usuarioHome.instance.institucion.nombreImagenInstitucion}"
+                                                    height="68"
+                                                    width="68"
+                                                    >
+                                                    <p:effect  type="highlight" event="load" speed="3000">
+                                                        <f:param name="mode" value="'show'" />
+                                                    </p:effect>
+                                                </p:graphicImage>
+                                                <hr/>
+                                            </h:panelGrid>
+
+                                        </h:panelGrid>
+
+                                    </h:panelGrid>
+
+                                    <p:ajaxStatus>
+                                        <f:facet name="start">
+                                            <h:panelGrid>
+                                                <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                                <h:outputText
+                                                    value="#{messages['general.ajax.trabajando']}"
+                                                    style=
+                                                    "font-size: 10pt !important;
+                                                    font-weight: bold !important;
+                                                    color: gray !important"
+                                                    />
+                                            </h:panelGrid>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText
+                                                value=""
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important"
+                                                />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+
+
+                                </h:panelGrid>
+                            </p:panel>
+
+
+
+
+
+                            <p:panel
+                                style=
+                                "border: 0px !important"
+                                >
+                                <f:facet name="header">
+                                    <h:outputText
+                                        value="#{messages['usuario.crear.seccion.usuarioypassword']}"
+                                        style="font-size: 14pt"
+                                        />
+                                </f:facet>
+                                <h:panelGrid
+                                    columns="3"
+                                    style=
+                                    "text-align: left !important;
+                                    width: 95% !important;
+                                    margin-top: -28px !important"
+                                    >
+
+                                    <h:panelGrid
+                                        style="text-align: left !important"
+                                        title="#{messages['usuario.crear.nickusuario.intro']}">
+                                        <h3
+                                            style=
+                                            "margin-bottom: 0px !important"
+                                            >
+                                            #{messages['usuario.crear.nickusuario']}
+                                            <font color="red" size="5">*</font>
+                                        </h3>
+                                        <h:panelGrid columns="1"
+                                                     style="text-align: left !important;
+                                                     width: 100% !important"
+                                                     >
+
+                                            <p:message for="inputNickUsuario"   id="messageInputNickUsuario">
+                                                <p:effect  type="highlight" event="load" speed="1000">
+                                                    <f:param name="mode" value="'show'" />
+                                                </p:effect>
+                                            </p:message>
+                                            <h:inputText
+                                                required="true"
+                                                style="width: 95% !important;
+                                                font-size: 11pt !important"
+                                                id="inputNickUsuario"
+                                                onkeyup=
+                                                "javascript:actualizarContador(this,'form:wizart:counterInputNickUsuario')"
+                                                value="#{usuarioHome.instance.nickUsuario}"
+                                                requiredMessage=
+                                                "#{messages['usuario.crear.nickusuario.requerido']}"
+
+                                                >
+                                                <p:ajax
+                                                    event="blur"
+                                                    update="msg messageInputNickUsuario"
+                                                    process="@this inputNickUsuario"
+                                                    action="#{usuarioHome.existeNickUsuario}"
+                                                    global="false"
+                                                    />
+                                                <s:validate/>
+                                            </h:inputText>
+                                            <s:span id="counterInputNickUsuario"
+                                                    style="font-size: 12pt;
+                                                    color: gray"
+                                                    >
+                                                #{seamSizeColumna.nickUsuario}
+                                                #{' '}
+                                                #{messages['idea.contador.caracteresmax']}
+                                            </s:span>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+
+
+
+
+
+
+                                    <h:panelGrid
+                                        title=
+                                        "#{messages['usuario.crear.password.intro']}"
+                                        >
+                                        <h3
+                                            style=
+                                            "margin-bottom: 0px !important"
+                                            >
+                                            #{messages['usuario.crear.password']}
+                                            <font color="red" size="5">*</font>
+                                        </h3>
+                                        <p:message for="inputPasswordUsuario" id="messageInputPasswordUsuario">
+                                            <p:effect  type="highlight" event="load" speed="1000">
+                                                <f:param name="mode" value="'show'" />
+                                            </p:effect>
+                                        </p:message>
+                                        <h:inputSecret
+                                            required="true"
+                                            value="#{usuarioHome.instance.contrasenaUsuario}"
+                                            id="inputPasswordUsuario"
+                                            style="width: 95% !important;
+                                            font-size: 11pt !important"
+                                            onkeyup=
+                                            "javascript:actualizarContador(this,'form:wizart:counterInputPassword')"
+                                            requiredMessage=
+                                            "#{messages['usuario.crear.password.requerido']}"
+
+                                            >
+                                            <p:ajax
+                                                event="blur"
+                                                update="msg messageInputPasswordUsuario"
+                                                process="@this inputPasswordUsuario"
+                                                global="false"
+                                                />
+                                            <s:validate/>
+
+                                        </h:inputSecret>
+                                        <s:span id="counterInputPassword"
+                                                style="font-size: 12pt;
+                                                color: gray"
+                                                >
+                                            #{seamSizeColumna.passwordUsuario}
+                                            #{' '}
+                                            #{messages['idea.contador.caracteresmax']}
+                                        </s:span>
+                                    </h:panelGrid>
+
+
+                                    <h:panelGrid
+                                        title=
+                                        "#{messages['usuario.crear.password.intro']}"
+                                        >
+                                        <h3
+                                            style=
+                                            "margin-bottom: 0px !important"
+                                            >
+                                            #{messages['usuario.crear.passwordconfirmacion']}
+                                            <font color="red" size="5">*</font>
+                                        </h3>
+                                        <p:message
+                                            for="inputPasswordUsuarioConfirmacion"
+                                            id=
+                                            "messageInputPasswordUsuarioConfirmacion"
+                                            >
+                                            <p:effect  type="highlight" event="load" speed="1000">
+                                                <f:param name="mode" value="'show'" />
+                                            </p:effect>
+                                        </p:message>
+                                        <h:inputSecret
+                                            required="true"
+                                            style="width: 95% !important;
+                                            font-size: 11pt !important"
+                                            id="inputPasswordUsuarioConfirmacion"
+                                            onkeyup=
+                                            "javascript:actualizarContador(this,'form:wizart:counterInputPasswordConfirmacion')"
+                                            value="#{usuarioHome.contrasenaUsuarioConfirmacion}"
+                                            requiredMessage=
+                                            "#{messages['usuario.crear.passwordconfirmacion.requerido']}"
+
+                                            >
+                                            <p:ajax
+                                                event="blur"
+                                                update="msg messageInputPasswordUsuario messageInputPasswordUsuarioConfirmacion"
+                                                process="@this inputPasswordUsuario inputPasswordUsuarioConfirmacion"
+                                                action="#{usuarioHome.confirmarPassword}"
+                                                global="false"
+                                                />
+                                            <s:validate/>
+
+                                        </h:inputSecret>
+                                        <s:span id="counterInputPasswordConfirmacion"
+                                                style="font-size: 12pt;
+                                                color: gray"
+                                                >
+                                            #{seamSizeColumna.passwordUsuario}
+                                            #{' '}
+                                            #{messages['idea.contador.caracteresmax']}
+                                        </s:span>
+                                    </h:panelGrid>
+                                    <p:ajaxStatus>
+                                        <f:facet name="start">
+                                            <h:panelGrid columns="2"  >
+                                                <h:graphicImage value="img/ajax/ajaxloading.gif"/>
+                                                <h:outputText
+                                                    value="#{messages['general.ajax.trabajando']}"
+                                                    style=
+                                                    "font-size: 10pt !important;
+                                                    font-weight: bold !important;
+                                                    color: gray !important;
+                                                    width: 110px !important;"
+                                                    />
+                                            </h:panelGrid>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText
+                                                value=""
+                                                style=
+                                                "font-size: 10pt !important;
+                                                font-weight: bold !important;
+                                                color: gray !important"
+                                                />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+
+                                </h:panelGrid>
+                            </p:panel>
+
+                            <p:panel style="border: 0px !important">
+
+                                <f:facet name="header">
+                                    <h:outputText
+                                        value="#{messages['usuario.crear.seccion.contactofototemas']}"
+                                        style="font-size: 14pt"/>
+                                </f:facet>
+
+
+                                <h:panelGrid columns="3" style="margin-top: -13px !important">
+
+
+                                    <h:panelGrid
+                                        style=
+                                        "text-align: left !important;margin-bottom: 190px !important"
+                                        >
+                                        <h:panelGrid>
+                                            <s:div
+                                                style=
+                                                "margin-bottom: 0px !important;
+                                                font-weight: bold"
+                                                >
+                                                <h:outputText
+                                                    value="#{messages['usuario.crear.correo']}"
+                                                    style="font-size: 11pt"
+                                                    />
+
+                                                <font color="red" size="5">*</font>
+                                            </s:div>
+                                            <s:span id="counterInputCorreoUsuario"
+                                                    style="font-size: 12pt;
+                                                    color: gray;"
+                                                    >
+                                                #{seamSizeColumna.textoContactoUsuario}
+                                                #{' '}
+                                                #{messages['idea.contador.caracteresmax']}
+                                            </s:span>
+                                        </h:panelGrid>
+
+                                        <p:message
+                                            for="inputCorreoUsuario"
+                                            id="messageInputCorreoUsuario"
+                                            >
+                                            <p:effect  type="highlight" event="load" speed="1000">
+                                                <f:param name="mode" value="'show'" />
+                                            </p:effect>
+                                        </p:message>
+                                        <h:inputText
+                                            required="true"
+                                            style=
+                                            "width: 95% !important;
+                                            font-size: 11pt !important"
+                                            id="inputCorreoUsuario"
+                                            onkeyup=
+                                            "javascript:actualizarContador(this,'form:wizart:counterInputCorreoUsuario')"
+                                            value="#{usuarioHome.correoElectronico}"
+                                            requiredMessage=
+                                            "#{messages['usuario.crear.correo.requerido']}"
+
+                                            >
+                                            <p:ajax
+                                                event="blur"
+                                                update="msg messageInputCorreoUsuario"
+                                                process="@this inputCorreoUsuario"
+                                                global="false"
+                                                />
+                                            <s:validate/>
+                                        </h:inputText>
+
+                                    </h:panelGrid>
+
+
+
+
+                                    <h:panelGrid
+                                        columns="1"
+                                        style=
+                                        "text-align: center !important;
+                                        width: 100% !important;font-size: 11pt; font-weight: bold;
+                                        margin-bottom: 44px !important"
+                                        title=
+                                        "#{messages['usuario.crear.subirimagen.intro']}"
+                                        >
+                                        <h:outputText
+                                            value=
+                                            "#{messages['usuario.crear.subirimagen.intro.size']}"
+                                            style=
+                                            "width: 100% !important;
+                                            font-weight: bold !important;"
+                                            />
+
+
+                                        <s:graphicImage
+                                            value="#{usuarioHome.imagen}"
+                                            alt="[imagen de usuario]"
+                                            id="imagenRaw">
+
+                                            <s:transformImageSize
+                                                width="106"
+                                                height="134"
+                                                maintainRatio="false"
+                                                />
+
+                                        </s:graphicImage>
+
+                                        <h:outputText
+                                            value=
+                                            "#{usuarioHome.sizeImagen}"
+                                            id="size"
+                                            />
+
+                                        <p:fileUpload
+                                            fileUploadListener=
+                                            "#{usuarioHome.uploadImageListener}"
+                                            auto="true"
+                                            allowTypes=
+                                            "*.jpg;*.png;*.gif;*.JPG;*.PNG;*.GIF;"
+                                            description="Images"
+                                            id="subirArchivo"
+                                            update="imagenRaw msg @this size"
+                                            label="SUBIR IMAGEN"
+                                            sizeLimit="5000000"
+                                            
+                                            >
+                                            <p:ajax
+                                                event="blur"
+                                                />
+                                        </p:fileUpload>
+
+
+
+                                    </h:panelGrid>
+
+
+
+                                    <h:panelGrid style="margin-top: 30px !important">
+                                        <h:outputText
+                                            value="#{messages['usuario.crear.comunidades.titulo']}"
+                                            style="font-size: 11pt;font-weight: bold;"/>
+                                        <h:selectManyCheckbox
+                                            value="#{usuarioHome.comunidades}"
+                                            layout="pageDirection"
+                                            style="font-size: 11pt !important"
+                                            >
+                                            <s:selectItems
+                                                var="_comunidad"
+                                                value="#{comunidadList.resultList}"
+                                                label=
+                                                "#{messages['comunidad.'.concat(_comunidad.nombreComunidad)]}"
+                                                />
+                                            <s:convertEntity/>
+                                        </h:selectManyCheckbox>
+
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
+                            </p:panel>
+
+
+                        </h:panelGrid>
+                        <s:div
+                            style=
+                            "text-align: center !important;
+                            margin-top: 20px !important"
+                            >
+                            <h:commandButton
+                                value="#{messages['usuario.crear.registrar']}"
+                                styleClass="ui-button botonnaranja"
+                                style=
+                                "padding: 8px;
+                                text-align: center !important;
+                                font-size: 16pt !important;
+                                width: 268px !important"
+                                action="#{usuarioHome.persist}"
+                                type="submit"
+                                />
+                        </s:div>
+                    </p:tab>
+
+                </p:wizard>
+
+            </h:form>
+
+        </p:layoutUnit>
+    </ui:define>
+
+
+</ui:composition>

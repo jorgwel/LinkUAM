@@ -1,0 +1,147 @@
+Consejos futuro seam
+
+Planear...
+Definir un lugar estandar para la agregaci'on de mensajes
+Usar framework para ajax
+Definir estrategia para ver que hacer cuando se termina la sesi'on
+
+Cuando se trate de funcionalidades en una misma p'agina, sin salir de ella (AJAX), es mejor no depender de la instancia HOME que se est'a editando en ese momento. Es decir, si votamos por una idea y en nuestro backbean llenamos el campo "idea" con ideaHome actual, este objeto podr'ia arruinarse y ya no permitir otras funcionalidades. 
+Es mejor, hacer m'etodos que envien el id de la idea, que una NUEVA idea (que es copia de la actual) se obtenga en el backbean y operar sobre ella.
+
+Averiguar como demonios funciona la parte de process y update de primefaces....a veces da demasiados problemas.
+
+TODO lo relacionado con identidad y roles, manejarlo a través de Identity.
+
+Utilizar TRAN-SACC-IONES, pensar en transacciones cuando "crea" que necesito una lista temporal...
+
+Planificar un protocolo para trabajar con dialogos en AJAX
+
+Seguir estos consejos para tratar lo del viewExpiredException
+	http://seamframework.org/Documentation/RedirectingBackToCurrentPageWhenSessionTimesOut
+	http://in.relation.to/Bloggers/ImplementingGracefulSessionTimeoutWithSeamJSFAndJQuery
+
+Definir c'omo se clasificar'an los bundles, en que caso se pone un mensaje en uno o en otro.
+
+Planear y hacer bien el análisis para usar plantillas!!!
+
+Usar los mapeos de hibernate hacia enumerators!!! es lo mejor.
+
+No pongas forms a lo idiota.
+
+Para cada funcionalidad definir bien a que "Home" pertenece
+
+Definir desde un inicio en que caso se utiliza cierto tipo de query
+
+Estandarizar nombres de los mensajes en bundles
+
+Agrupar funcionalidad de subidor de imágenes
+
+Implantar políticas de logueo
+
+Definir bien apis de javascript
+
+Utilizar la menor cantidad de h:panelGrid posibles!!
+
+En el análisis planear las plantillas/templates!!
+
+Agrupar mensajes de bundle por caso de uso
+
+La falta de casos de uso conduce al retrabajo.
+
+Buscar la RE-UTILIZACIÓN de las queries!!
+
+Siempre utiliar "COMPLEMENTOS" a la hora de implantar lógica
+
+Considerar suficientes estatuses para los sustantivos de la BD para no complicar la lógica del sistema más adelante. TODO sustantivo tiene un estatus. Al menos considerarlo para futuras funcionalidades.
+
+Observar los atributos creados por seam-gen en los  *Home.java y ver como puedo aprovecharlos.
+
+Ir definiendo, desde un inicio: los pasos para la instalación de LinkUAM
+
+Considerar, cuando se reusa una query, las consecuencias que puede tener el hecho de darle UPDATE. (Tal vez otras condiciones estén activas y devuelva resultados diferentes de los esperados...)
+
+Siempre comparar los estatus contra el nombre del estatus. El id puede cambiar.
+
+A la hora de analizar el problema, tratar de relacionar los métodos para poder reusarlos. Comenzar a desarrollar el que no tenga dependencias.
+
+Buena comunicación entre clases (que tengan que estar comunicadas claro.)
+
+De nuevo...analizar bien la funcionalidad para implementar componentes genéricos
+
+El número de estados de un sustantivo en una BD es, al menos, igual al número de roles de el sistema. (CREO)
+
+Tomar en cuenta el estatus escondido/futuro del usuario, es decir. Al suspender a un usuario no suspender sus ideas, porque si este usuario es reactivado, no se reactiva con su último estado.
+
+Considerar "ámbito de estados". Es decir, para las funcionalidades de un administrador es importante que el usuario esté ACTIVO O INACTIVO, pero cuando el usuario está activo y navega a través de sus contenidos es implícito que está activo. Así que activo no debe de considerarse en las queries en este último ámbito del usuario.
+
+Lo primero que hay que editar es el loggin/bitácora
+
+Usar login directo. Hasta arriba de la página.
+
+Estudiar el tipo de validación que tendrá cada método. Tanto de identificación como de contexto (¿Eliminar una idea que no es mía?)
+
+Estudiar bien el tipo de validación de cada método y sus consecuencias.
+
+Definir el mecanismo para mostrar mensajes
+
+Poner los mensajes generados por el éxito, fracaso y advertencia de acciones, en el *.page.xml
+
+Implantar un componente para validación de password
+
+Implantar validadores de parámetros por get
+
+Considerar los casos "nunca posibles"
+
+Dar nombre a cada estado boolean que se retorne, nunca regresar true or false.
+
+Definir enunciados de los comentarios en la base de datos.
+
+Definir nombres de edificios
+
+Definir bien a quien se le asignarán los métodos.
+
+
+Cuando manejes estatus siempre traetelos con whitelist, no blacklist
+
+Cuidado cuando defines Enums para cosas dinámicas: p. ej. Path.java
+
+Establecer los valores IMPORTANTES que pueden cambiar de instalación en instalación en un XML: p. ej.: url de la aplicacion, ip del servidor y nombre de la aplicacion
+
+
+Para obtener el serverURL: Set an application variable (for instance in your DB, in a Jboss managed property ..) and add functionality to manage it.
+
+Para injectar Loggers y que no sean null private static final Log log = Logging.getLog(Object.class);
+
+Poner los bundles en todos los idiomas posibles, ya que seamlistener pedirá el bundle del lenguaje por default.
+
+Cuando ocurran cosas como en la clase que envia correos, donde se aplican los mismos métodos pero con diferentes estrategias, hacer precisamente eso: patrón estrategia.	
+
+Usar los nombres de los estatus como id. Y en general tomar como id lo diferente de cada registro, para así, independizarnos de los ids a la hora de la lógica.
+
+IpAdress y SessionId #{facesContext.externalContext.request.session.id} #{facesContext.externalContext.request.remoteAddr}
+
+Planear un lugar para los observadores o plantearlos dentro de la arquitectura
+
+Siempre que pienses en un campo numérico, piensa antes si se puede calcular en lugar de registrarse "duro". Pero también pensar en que si se debe de calcular demasiadas veces (pensar en todos los casos), tal vez sí convenga "duro".
+
+Planear la Redefinición de los mensajes autogenerados cuando se crea, actualiza o borra un registro
+
+Desarrollar una estrategia para "estatisticar" las visitas al sitio.
+
+Definir si se pondrán puntos o no a lo largo del sistema.
+
+Al menos en postgres, respaldar en PLAIN. Esos archivos si son versionables por SVN.
+
+Investigar bien como explotar el EntityNotFoundException
+
+Cuando se trate de dividir la página con plantillas, jamás usar forms como elementos padre. Siempre comienza con un div.
+
+Si tu adviertes en la documentación sobre valores concretos y delimitados de una variable,  y los usuarios que montan la app, la riegan, entonces dejalos. (Refiriendome a valores de inicio a la aplicación)
+
+Que los métodos inicializadores de quartz, solo avienten el evento y que quien lo cache, haga toooda la lógica.
+
+Documentar las plantillas en las vistas. (Aquellas que no hice para linkUam)
+
+Si el mensaje predeterminado para ciertas operaciones en base de datos [nombreTabla]_created, updated, etc. está vacío,efectivamente no avisará de nada, pero tampoco eventará los eventos. Esto puede ocasionar que tu página de error no se vea/funcione.
+
+Planear bien tus factorías y manager desde un principio.

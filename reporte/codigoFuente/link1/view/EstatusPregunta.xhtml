@@ -1,0 +1,114 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus pregunta Details</f:facet>
+
+        <s:decorate id="idEstatusPregunta" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus pregunta</ui:define>
+            <h:outputText value="#{estatusPreguntaHome.instance.idEstatusPregunta}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusPregunta" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus pregunta</ui:define>
+            <h:outputText value="#{estatusPreguntaHome.instance.definicionEstatusPregunta}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusPregunta" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus pregunta</ui:define>
+            <h:outputText value="#{estatusPreguntaHome.instance.nombreEstatusPregunta}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusPreguntaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusPreguntaFrom ? 'EstatusPreguntaList' : estatusPreguntaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Preguntas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="preguntasChildren">
+
+        <h:outputText value="There are no preguntas associated with this estatusPregunta."
+                   rendered="#{empty estatusPreguntaHome.preguntas}"/>
+
+        <rich:dataTable value="#{estatusPreguntaHome.preguntas}"
+                       var="_pregunta"
+                  rendered="#{not empty estatusPreguntaHome.preguntas}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="preguntasTable">
+            <rich:column sortBy="#{_pregunta.idPregunta}">
+                <f:facet name="header">Id pregunta</f:facet>
+                <h:outputText value="#{_pregunta.idPregunta}"/>
+            </rich:column>
+            <rich:column sortBy="#{_pregunta.fechaCreacionPregunta}">
+                <f:facet name="header">Fecha creacion pregunta</f:facet>
+                <h:outputText value="#{_pregunta.fechaCreacionPregunta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_pregunta.fechaFinPregunta}">
+                <f:facet name="header">Fecha fin pregunta</f:facet>
+                <h:outputText value="#{_pregunta.fechaFinPregunta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_pregunta.preguntaPregunta}">
+                <f:facet name="header">Pregunta pregunta</f:facet>
+                <h:outputText value="#{_pregunta.preguntaPregunta}"/>
+            </rich:column>
+            <rich:column sortBy="#{_pregunta.respuestaPregunta}">
+                <f:facet name="header">Respuesta pregunta</f:facet>
+                <h:outputText value="#{_pregunta.respuestaPregunta}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectpregunta"
+                     value="Select"
+                      view="/Pregunta.xhtml">
+                    <f:param name="preguntaIdPregunta"
+                            value="#{_pregunta.idPregunta}"/>
+                    <f:param name="preguntaFrom" value="EstatusPregunta"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add pregunta"
+                view="/PreguntaEdit.xhtml">
+            <f:param name="estatusPreguntaIdEstatusPregunta"
+                    value="#{estatusPreguntaHome.instance.idEstatusPregunta}"/>
+            <f:param name="preguntaFrom" value="EstatusPregunta"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

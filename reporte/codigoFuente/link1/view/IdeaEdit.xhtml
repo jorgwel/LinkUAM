@@ -1,0 +1,1116 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="idea" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{ideaHome.managed ? 'Edit' : 'Add'} Idea</f:facet>
+
+
+            <s:decorate id="idIdeaField" template="layout/edit.xhtml">
+                <ui:define name="label">Id idea</ui:define>
+                <h:inputText id="idIdea"
+                       required="true"
+                       disabled="#{ideaHome.managed}"
+                          value="#{ideaHome.instance.idIdea}">
+                    <a:support event="onblur" reRender="idIdeaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+
+
+            <s:decorate id="calificacionIdeaField" template="layout/edit.xhtml">
+                <ui:define name="label">Calificacion idea</ui:define>
+                <h:inputText id="calificacionIdea"
+                          value="#{ideaHome.instance.calificacionIdea}">
+                    <a:support event="onblur" reRender="calificacionIdeaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+            <s:decorate id="contenidoIdeaField" template="layout/edit.xhtml">
+                <ui:define name="label">Contenido idea</ui:define>
+                <h:inputTextarea id="contenidoIdea"
+                               cols="80"
+                               rows="10"
+                           required="true"
+                              value="#{ideaHome.instance.contenidoIdea}"/>
+            </s:decorate>
+
+
+
+
+
+
+            <s:decorate id="fechaCreacionIdeaField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha creacion idea</ui:define>
+                <rich:calendar id="fechaCreacionIdea"
+                       required="true"
+                          value="#{ideaHome.instance.fechaCreacionIdea}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+
+
+
+
+
+            <s:decorate id="nombreImagenField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre imagen</ui:define>
+                <h:inputText id="nombreImagen"
+                           size="100"
+                      maxlength="100"
+                          value="#{ideaHome.instance.nombreImagen}">
+                    <a:support event="onblur" reRender="nombreImagenField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+
+
+            <s:decorate id="resumenIdeaField" template="layout/edit.xhtml">
+                <ui:define name="label">Resumen idea</ui:define>
+                <h:inputTextarea id="resumenIdea"
+                               cols="80"
+                               rows="6"
+                              value="#{ideaHome.instance.resumenIdea}"/>
+            </s:decorate>
+
+
+
+            <s:decorate id="tituloIdeaField" template="layout/edit.xhtml">
+                <ui:define name="label">Titulo idea</ui:define>
+                <h:inputText id="tituloIdea"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{ideaHome.instance.tituloIdea}">
+                    <a:support event="onblur" reRender="tituloIdeaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+            <s:decorate id="votosNegativosIdeaField" template="layout/edit.xhtml">
+                <ui:define name="label">Votos negativos idea</ui:define>
+                <h:inputText id="votosNegativosIdea"
+                       required="true"
+                          value="#{ideaHome.instance.votosNegativosIdea}">
+                    <a:support event="onblur" reRender="votosNegativosIdeaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="votosPositivosIdeaField" template="layout/edit.xhtml">
+                <ui:define name="label">Votos positivos idea</ui:define>
+                <h:inputText id="votosPositivosIdea"
+                       required="true"
+                          value="#{ideaHome.instance.votosPositivosIdea}">
+                    <a:support event="onblur" reRender="votosPositivosIdeaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{ideaHome.persist}"
+                       disabled="#{!ideaHome.wired}"
+                       rendered="#{!ideaHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{ideaHome.update}"
+                       rendered="#{ideaHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{ideaHome.remove}"
+                      immediate="true"
+                       rendered="#{ideaHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Idea.xhtml"
+                rendered="#{ideaHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty ideaFrom ? 'IdeaList' : ideaFrom}.xhtml"
+                rendered="#{!ideaHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Avisos">
+        <h:form styleClass="association" id="avisosChildren">
+
+            <h:outputText value="There are no avisos associated with this idea."
+                       rendered="#{empty ideaHome.avisos}"/>
+
+            <rich:dataTable value="#{ideaHome.avisos}"
+                           var="_aviso"
+                      rendered="#{not empty ideaHome.avisos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="avisosTable">
+                <rich:column sortBy="#{_aviso.idAviso}">
+                    <f:facet name="header">Id aviso</f:facet>
+                    <h:outputText value="#{_aviso.idAviso}"/>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.fechaCreacionAviso}">
+                    <f:facet name="header">Fecha creacion aviso</f:facet>
+                    <h:outputText value="#{_aviso.fechaCreacionAviso}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.textoAviso}">
+                    <f:facet name="header">Texto aviso</f:facet>
+                    <h:outputText value="#{_aviso.textoAviso}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="avisos">
+        <div class="actionButtons">
+            <s:button id="addaviso"
+                   value="Add aviso"
+                    view="/AvisoEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="avisoFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Bitacoras">
+        <h:form styleClass="association" id="bitacorasChildren">
+
+            <h:outputText value="There are no bitacoras associated with this idea."
+                       rendered="#{empty ideaHome.bitacoras}"/>
+
+            <rich:dataTable value="#{ideaHome.bitacoras}"
+                           var="_bitacora"
+                      rendered="#{not empty ideaHome.bitacoras}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="bitacorasTable">
+                <rich:column sortBy="#{_bitacora.idBitacora}">
+                    <f:facet name="header">Id bitacora</f:facet>
+                    <h:outputText value="#{_bitacora.idBitacora}"/>
+                </rich:column>
+                <rich:column sortBy="#{_bitacora.descripcionBitacora}">
+                    <f:facet name="header">Descripcion bitacora</f:facet>
+                    <h:outputText value="#{_bitacora.descripcionBitacora}"/>
+                </rich:column>
+                <rich:column sortBy="#{_bitacora.fechaBitacora}">
+                    <f:facet name="header">Fecha bitacora</f:facet>
+                    <h:outputText value="#{_bitacora.fechaBitacora}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_bitacora.tituloBitacora}">
+                    <f:facet name="header">Titulo bitacora</f:facet>
+                    <h:outputText value="#{_bitacora.tituloBitacora}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="bitacoras">
+        <div class="actionButtons">
+            <s:button id="addbitacora"
+                   value="Add bitacora"
+                    view="/BitacoraEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="bitacoraFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Clasificacion ideas">
+        <h:form styleClass="association" id="clasificacionIdeasChildren">
+
+            <h:outputText value="There are no clasificacionIdeas associated with this idea."
+                       rendered="#{empty ideaHome.clasificacionIdeas}"/>
+
+            <rich:dataTable value="#{ideaHome.clasificacionIdeas}"
+                           var="_clasificacionIdea"
+                      rendered="#{not empty ideaHome.clasificacionIdeas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="clasificacionIdeasTable">
+                <rich:column sortBy="#{_clasificacionIdea.id.ideaId}">
+                    <f:facet name="header">Idea id</f:facet>
+                    <h:outputText value="#{_clasificacionIdea.id.ideaId}"/>
+                </rich:column>
+                <rich:column sortBy="#{_clasificacionIdea.id.tipoIdeaId}">
+                    <f:facet name="header">Tipo idea id</f:facet>
+                    <h:outputText value="#{_clasificacionIdea.id.tipoIdeaId}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="clasificacionIdeas">
+        <div class="actionButtons">
+            <s:button id="addclasificacionIdea"
+                   value="Add clasificacionIdea"
+                    view="/ClasificacionIdeaEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="clasificacionIdeaFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Como lograrlos">
+        <h:form styleClass="association" id="comoLograrlosChildren">
+
+            <h:outputText value="There are no comoLograrlos associated with this idea."
+                       rendered="#{empty ideaHome.comoLograrlos}"/>
+
+            <rich:dataTable value="#{ideaHome.comoLograrlos}"
+                           var="_comoLograrlo"
+                      rendered="#{not empty ideaHome.comoLograrlos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="comoLograrlosTable">
+                <rich:column sortBy="#{_comoLograrlo.idComoLograrlo}">
+                    <f:facet name="header">Id como lograrlo</f:facet>
+                    <h:outputText value="#{_comoLograrlo.idComoLograrlo}"/>
+                </rich:column>
+                <rich:column sortBy="#{_comoLograrlo.descripcionComoLograrlo}">
+                    <f:facet name="header">Descripcion como lograrlo</f:facet>
+                    <h:outputText value="#{_comoLograrlo.descripcionComoLograrlo}"/>
+                </rich:column>
+                <rich:column sortBy="#{_comoLograrlo.fechaComoLograrlo}">
+                    <f:facet name="header">Fecha como lograrlo</f:facet>
+                    <h:outputText value="#{_comoLograrlo.fechaComoLograrlo}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="comoLograrlos">
+        <div class="actionButtons">
+            <s:button id="addcomoLograrlo"
+                   value="Add comoLograrlo"
+                    view="/ComoLograrloEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="comoLograrloFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Envios">
+        <h:form styleClass="association" id="enviosChildren">
+
+            <h:outputText value="There are no envios associated with this idea."
+                       rendered="#{empty ideaHome.envios}"/>
+
+            <rich:dataTable value="#{ideaHome.envios}"
+                           var="_envio"
+                      rendered="#{not empty ideaHome.envios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="enviosTable">
+                <rich:column sortBy="#{_envio.idEnvio}">
+                    <f:facet name="header">Id envio</f:facet>
+                    <h:outputText value="#{_envio.idEnvio}"/>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                    <f:facet name="header">Fecha envio envio</f:facet>
+                    <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                    <f:facet name="header">Fecha registro envio</f:facet>
+                    <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                    <f:facet name="header">Numero intentos envio</f:facet>
+                    <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="envios">
+        <div class="actionButtons">
+            <s:button id="addenvio"
+                   value="Add envio"
+                    view="/EnvioEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="envioFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Estatus ayuda monetaria *" labelClass="required">
+    <div class="association" id="estatusAyudaMonetariaParent">
+
+        <h:outputText value="There is no estatusAyudaMonetaria associated with this idea."
+                   rendered="#{ideaHome.instance.estatusAyudaMonetaria == null}"/>
+
+        <rich:dataTable var="_estatusAyudaMonetaria"
+                   value="#{ideaHome.instance.estatusAyudaMonetaria}"
+                rendered="#{ideaHome.instance.estatusAyudaMonetaria != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusAyudaMonetariaTable">
+            <h:column>
+                <f:facet name="header">Id estatus ayuda monetaria</f:facet>
+                <h:outputText value="#{_estatusAyudaMonetaria.idEstatusAyudaMonetaria}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus ayuda monetaria</f:facet>
+                <h:outputText value="#{_estatusAyudaMonetaria.definicionEstatusAyudaMonetaria}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus ayuda monetaria</f:facet>
+                <h:outputText value="#{_estatusAyudaMonetaria.nombreEstatusAyudaMonetaria}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{ideaHome.instance.estatusAyudaMonetaria != null ? 'changeParentestatusAyudaMonetaria' : 'selectParentestatusAyudaMonetaria'}" value="#{ideaHome.instance.estatusAyudaMonetaria != null ? 'Change' : 'Select'} estatusAyudaMonetaria"
+                       view="/EstatusAyudaMonetariaList.xhtml">
+                <f:param name="from" value="IdeaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Estatus ayuda recursos humanos *" labelClass="required">
+    <div class="association" id="estatusAyudaRecursosHumanosParent">
+
+        <h:outputText value="There is no estatusAyudaRecursosHumanos associated with this idea."
+                   rendered="#{ideaHome.instance.estatusAyudaRecursosHumanos == null}"/>
+
+        <rich:dataTable var="_estatusAyudaRecursosHumanos"
+                   value="#{ideaHome.instance.estatusAyudaRecursosHumanos}"
+                rendered="#{ideaHome.instance.estatusAyudaRecursosHumanos != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusAyudaRecursosHumanosTable">
+            <h:column>
+                <f:facet name="header">Id estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_estatusAyudaRecursosHumanos.idEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_estatusAyudaRecursosHumanos.definicionEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_estatusAyudaRecursosHumanos.nombreEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{ideaHome.instance.estatusAyudaRecursosHumanos != null ? 'changeParentestatusAyudaRecursosHumanos' : 'selectParentestatusAyudaRecursosHumanos'}" value="#{ideaHome.instance.estatusAyudaRecursosHumanos != null ? 'Change' : 'Select'} estatusAyudaRecursosHumanos"
+                       view="/EstatusAyudaRecursosHumanosList.xhtml">
+                <f:param name="from" value="IdeaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Estatus idea *" labelClass="required">
+    <div class="association" id="estatusIdeaParent">
+
+        <h:outputText value="There is no estatusIdea associated with this idea."
+                   rendered="#{ideaHome.instance.estatusIdea == null}"/>
+
+        <rich:dataTable var="_estatusIdea"
+                   value="#{ideaHome.instance.estatusIdea}"
+                rendered="#{ideaHome.instance.estatusIdea != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusIdeaTable">
+            <h:column>
+                <f:facet name="header">Id estatus idea</f:facet>
+                <h:outputText value="#{_estatusIdea.idEstatusIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus idea</f:facet>
+                <h:outputText value="#{_estatusIdea.definicionEstatusIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus idea</f:facet>
+                <h:outputText value="#{_estatusIdea.nombreEstatusIdea}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{ideaHome.instance.estatusIdea != null ? 'changeParentestatusIdea' : 'selectParentestatusIdea'}" value="#{ideaHome.instance.estatusIdea != null ? 'Change' : 'Select'} estatusIdea"
+                       view="/EstatusIdeaList.xhtml">
+                <f:param name="from" value="IdeaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Imagens">
+        <h:form styleClass="association" id="imagensChildren">
+
+            <h:outputText value="There are no imagens associated with this idea."
+                       rendered="#{empty ideaHome.imagens}"/>
+
+            <rich:dataTable value="#{ideaHome.imagens}"
+                           var="_imagen"
+                      rendered="#{not empty ideaHome.imagens}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="imagensTable">
+                <rich:column sortBy="#{_imagen.idImagen}">
+                    <f:facet name="header">Id imagen</f:facet>
+                    <h:outputText value="#{_imagen.idImagen}"/>
+                </rich:column>
+                <rich:column sortBy="#{_imagen.nombreImagen}">
+                    <f:facet name="header">Nombre imagen</f:facet>
+                    <h:outputText value="#{_imagen.nombreImagen}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="imagens">
+        <div class="actionButtons">
+            <s:button id="addimagen"
+                   value="Add imagen"
+                    view="/ImagenEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="imagenFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Integrantes">
+        <h:form styleClass="association" id="integrantesChildren">
+
+            <h:outputText value="There are no integrantes associated with this idea."
+                       rendered="#{empty ideaHome.integrantes}"/>
+
+            <rich:dataTable value="#{ideaHome.integrantes}"
+                           var="_integrante"
+                      rendered="#{not empty ideaHome.integrantes}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="integrantesTable">
+                <rich:column sortBy="#{_integrante.id.ideaId}">
+                    <f:facet name="header">Idea id</f:facet>
+                    <h:outputText value="#{_integrante.id.ideaId}"/>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.id.usuarioId}">
+                    <f:facet name="header">Usuario id</f:facet>
+                    <h:outputText value="#{_integrante.id.usuarioId}"/>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.calificacionIntegrante}">
+                    <f:facet name="header">Calificacion integrante</f:facet>
+                    <h:outputText value="#{_integrante.calificacionIntegrante}"/>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.esliderIntegrante}">
+                    <f:facet name="header">Eslider integrante</f:facet>
+                    <h:outputText value="#{_integrante.esliderIntegrante}"/>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.fechaFinIntegrante}">
+                    <f:facet name="header">Fecha fin integrante</f:facet>
+                    <h:outputText value="#{_integrante.fechaFinIntegrante}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.fechaInicioIntegrante}">
+                    <f:facet name="header">Fecha inicio integrante</f:facet>
+                    <h:outputText value="#{_integrante.fechaInicioIntegrante}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="integrantes">
+        <div class="actionButtons">
+            <s:button id="addintegrante"
+                   value="Add integrante"
+                    view="/IntegranteEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="integranteFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Justificacions">
+        <h:form styleClass="association" id="justificacionsChildren">
+
+            <h:outputText value="There are no justificacions associated with this idea."
+                       rendered="#{empty ideaHome.justificacions}"/>
+
+            <rich:dataTable value="#{ideaHome.justificacions}"
+                           var="_justificacion"
+                      rendered="#{not empty ideaHome.justificacions}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="justificacionsTable">
+                <rich:column sortBy="#{_justificacion.idJustificacion}">
+                    <f:facet name="header">Id justificacion</f:facet>
+                    <h:outputText value="#{_justificacion.idJustificacion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_justificacion.descripcionJustificacion}">
+                    <f:facet name="header">Descripcion justificacion</f:facet>
+                    <h:outputText value="#{_justificacion.descripcionJustificacion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_justificacion.fechaJustificacion}">
+                    <f:facet name="header">Fecha justificacion</f:facet>
+                    <h:outputText value="#{_justificacion.fechaJustificacion}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="justificacions">
+        <div class="actionButtons">
+            <s:button id="addjustificacion"
+                   value="Add justificacion"
+                    view="/JustificacionEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="justificacionFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Lugar">
+    <div class="association" id="lugarParent">
+
+        <h:outputText value="There is no lugar associated with this idea."
+                   rendered="#{ideaHome.instance.lugar == null}"/>
+
+        <rich:dataTable var="_lugar"
+                   value="#{ideaHome.instance.lugar}"
+                rendered="#{ideaHome.instance.lugar != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="lugarTable">
+            <h:column>
+                <f:facet name="header">Id lugar</f:facet>
+                <h:outputText value="#{_lugar.idLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion lugar</f:facet>
+                <h:outputText value="#{_lugar.descripcionLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre lugar</f:facet>
+                <h:outputText value="#{_lugar.nombreLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo lugar id tipo lugar</f:facet>
+                <h:outputText value="#{_lugar.tipoLugar.idTipoLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_lugar.usuario.idUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{ideaHome.instance.lugar != null ? 'changeParentlugar' : 'selectParentlugar'}" value="#{ideaHome.instance.lugar != null ? 'Change' : 'Select'} lugar"
+                       view="/LugarList.xhtml">
+                <f:param name="from" value="IdeaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Necesidads">
+        <h:form styleClass="association" id="necesidadsChildren">
+
+            <h:outputText value="There are no necesidads associated with this idea."
+                       rendered="#{empty ideaHome.necesidads}"/>
+
+            <rich:dataTable value="#{ideaHome.necesidads}"
+                           var="_necesidad"
+                      rendered="#{not empty ideaHome.necesidads}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="necesidadsTable">
+                <rich:column sortBy="#{_necesidad.idNecesidad}">
+                    <f:facet name="header">Id necesidad</f:facet>
+                    <h:outputText value="#{_necesidad.idNecesidad}"/>
+                </rich:column>
+                <rich:column sortBy="#{_necesidad.descripcionNecesidad}">
+                    <f:facet name="header">Descripcion necesidad</f:facet>
+                    <h:outputText value="#{_necesidad.descripcionNecesidad}"/>
+                </rich:column>
+                <rich:column sortBy="#{_necesidad.fechaNecesidad}">
+                    <f:facet name="header">Fecha necesidad</f:facet>
+                    <h:outputText value="#{_necesidad.fechaNecesidad}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="necesidads">
+        <div class="actionButtons">
+            <s:button id="addnecesidad"
+                   value="Add necesidad"
+                    view="/NecesidadEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="necesidadFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Objetivo especificos">
+        <h:form styleClass="association" id="objetivoEspecificosChildren">
+
+            <h:outputText value="There are no objetivoEspecificos associated with this idea."
+                       rendered="#{empty ideaHome.objetivoEspecificos}"/>
+
+            <rich:dataTable value="#{ideaHome.objetivoEspecificos}"
+                           var="_objetivoEspecifico"
+                      rendered="#{not empty ideaHome.objetivoEspecificos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="objetivoEspecificosTable">
+                <rich:column sortBy="#{_objetivoEspecifico.idObjetivoEspecifico}">
+                    <f:facet name="header">Id objetivo especifico</f:facet>
+                    <h:outputText value="#{_objetivoEspecifico.idObjetivoEspecifico}"/>
+                </rich:column>
+                <rich:column sortBy="#{_objetivoEspecifico.descripcionObjetivoEspecifico}">
+                    <f:facet name="header">Descripcion objetivo especifico</f:facet>
+                    <h:outputText value="#{_objetivoEspecifico.descripcionObjetivoEspecifico}"/>
+                </rich:column>
+                <rich:column sortBy="#{_objetivoEspecifico.fechaObjetivoEspecifico}">
+                    <f:facet name="header">Fecha objetivo especifico</f:facet>
+                    <h:outputText value="#{_objetivoEspecifico.fechaObjetivoEspecifico}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="objetivoEspecificos">
+        <div class="actionButtons">
+            <s:button id="addobjetivoEspecifico"
+                   value="Add objetivoEspecifico"
+                    view="/ObjetivoEspecificoEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="objetivoEspecificoFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Objetivo generals">
+        <h:form styleClass="association" id="objetivoGeneralsChildren">
+
+            <h:outputText value="There are no objetivoGenerals associated with this idea."
+                       rendered="#{empty ideaHome.objetivoGenerals}"/>
+
+            <rich:dataTable value="#{ideaHome.objetivoGenerals}"
+                           var="_objetivoGeneral"
+                      rendered="#{not empty ideaHome.objetivoGenerals}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="objetivoGeneralsTable">
+                <rich:column sortBy="#{_objetivoGeneral.idObjetivoGeneral}">
+                    <f:facet name="header">Id objetivo general</f:facet>
+                    <h:outputText value="#{_objetivoGeneral.idObjetivoGeneral}"/>
+                </rich:column>
+                <rich:column sortBy="#{_objetivoGeneral.descripcionObjetivoGeneral}">
+                    <f:facet name="header">Descripcion objetivo general</f:facet>
+                    <h:outputText value="#{_objetivoGeneral.descripcionObjetivoGeneral}"/>
+                </rich:column>
+                <rich:column sortBy="#{_objetivoGeneral.fechaObjetivoGeneral}">
+                    <f:facet name="header">Fecha objetivo general</f:facet>
+                    <h:outputText value="#{_objetivoGeneral.fechaObjetivoGeneral}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="objetivoGenerals">
+        <div class="actionButtons">
+            <s:button id="addobjetivoGeneral"
+                   value="Add objetivoGeneral"
+                    view="/ObjetivoGeneralEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="objetivoGeneralFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Preguntas">
+        <h:form styleClass="association" id="preguntasChildren">
+
+            <h:outputText value="There are no preguntas associated with this idea."
+                       rendered="#{empty ideaHome.preguntas}"/>
+
+            <rich:dataTable value="#{ideaHome.preguntas}"
+                           var="_pregunta"
+                      rendered="#{not empty ideaHome.preguntas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="preguntasTable">
+                <rich:column sortBy="#{_pregunta.idPregunta}">
+                    <f:facet name="header">Id pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.idPregunta}"/>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.fechaCreacionPregunta}">
+                    <f:facet name="header">Fecha creacion pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.fechaCreacionPregunta}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.fechaFinPregunta}">
+                    <f:facet name="header">Fecha fin pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.fechaFinPregunta}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.preguntaPregunta}">
+                    <f:facet name="header">Pregunta pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.preguntaPregunta}"/>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.respuestaPregunta}">
+                    <f:facet name="header">Respuesta pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.respuestaPregunta}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="preguntas">
+        <div class="actionButtons">
+            <s:button id="addpregunta"
+                   value="Add pregunta"
+                    view="/PreguntaEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="preguntaFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Reporte abusos">
+        <h:form styleClass="association" id="reporteAbusosChildren">
+
+            <h:outputText value="There are no reporteAbusos associated with this idea."
+                       rendered="#{empty ideaHome.reporteAbusos}"/>
+
+            <rich:dataTable value="#{ideaHome.reporteAbusos}"
+                           var="_reporteAbuso"
+                      rendered="#{not empty ideaHome.reporteAbusos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="reporteAbusosTable">
+                <rich:column sortBy="#{_reporteAbuso.idReporteAbuso}">
+                    <f:facet name="header">Id reporte abuso</f:facet>
+                    <h:outputText value="#{_reporteAbuso.idReporteAbuso}"/>
+                </rich:column>
+                <rich:column sortBy="#{_reporteAbuso.fechaReporteAbuso}">
+                    <f:facet name="header">Fecha reporte abuso</f:facet>
+                    <h:outputText value="#{_reporteAbuso.fechaReporteAbuso}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_reporteAbuso.notaReporteAbuso}">
+                    <f:facet name="header">Nota reporte abuso</f:facet>
+                    <h:outputText value="#{_reporteAbuso.notaReporteAbuso}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="reporteAbusos">
+        <div class="actionButtons">
+            <s:button id="addreporteAbuso"
+                   value="Add reporteAbuso"
+                    view="/ReporteAbusoEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="reporteAbusoFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Seguidors">
+        <h:form styleClass="association" id="seguidorsChildren">
+
+            <h:outputText value="There are no seguidors associated with this idea."
+                       rendered="#{empty ideaHome.seguidors}"/>
+
+            <rich:dataTable value="#{ideaHome.seguidors}"
+                           var="_seguidor"
+                      rendered="#{not empty ideaHome.seguidors}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="seguidorsTable">
+                <rich:column sortBy="#{_seguidor.id.ideaId}">
+                    <f:facet name="header">Idea id</f:facet>
+                    <h:outputText value="#{_seguidor.id.ideaId}"/>
+                </rich:column>
+                <rich:column sortBy="#{_seguidor.id.usuarioId}">
+                    <f:facet name="header">Usuario id</f:facet>
+                    <h:outputText value="#{_seguidor.id.usuarioId}"/>
+                </rich:column>
+                <rich:column sortBy="#{_seguidor.fechaFinSeguidor}">
+                    <f:facet name="header">Fecha fin seguidor</f:facet>
+                    <h:outputText value="#{_seguidor.fechaFinSeguidor}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_seguidor.fechaInicioSeguidor}">
+                    <f:facet name="header">Fecha inicio seguidor</f:facet>
+                    <h:outputText value="#{_seguidor.fechaInicioSeguidor}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="seguidors">
+        <div class="actionButtons">
+            <s:button id="addseguidor"
+                   value="Add seguidor"
+                    view="/SeguidorEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="seguidorFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Usuario *" labelClass="required">
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this idea."
+                   rendered="#{ideaHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{ideaHome.instance.usuario}"
+                rendered="#{ideaHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{ideaHome.instance.usuario != null ? 'changeParentusuario' : 'selectParentusuario'}" value="#{ideaHome.instance.usuario != null ? 'Change' : 'Select'} usuario"
+                       view="/UsuarioList.xhtml">
+                <f:param name="from" value="IdeaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Visitas">
+        <h:form styleClass="association" id="visitasChildren">
+
+            <h:outputText value="There are no visitas associated with this idea."
+                       rendered="#{empty ideaHome.visitas}"/>
+
+            <rich:dataTable value="#{ideaHome.visitas}"
+                           var="_visita"
+                      rendered="#{not empty ideaHome.visitas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="visitasTable">
+                <rich:column sortBy="#{_visita.idVisita}">
+                    <f:facet name="header">Id visita</f:facet>
+                    <h:outputText value="#{_visita.idVisita}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.coordenadaGeograficaLatitudVisita}">
+                    <f:facet name="header">Coordenada geografica latitud visita</f:facet>
+                    <h:outputText value="#{_visita.coordenadaGeograficaLatitudVisita}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.coordenadaGeograficaLongitudVisita}">
+                    <f:facet name="header">Coordenada geografica longitud visita</f:facet>
+                    <h:outputText value="#{_visita.coordenadaGeograficaLongitudVisita}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.direccionIpVisita}">
+                    <f:facet name="header">Direccion ip visita</f:facet>
+                    <h:outputText value="#{_visita.direccionIpVisita}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.fechaFinVisita}">
+                    <f:facet name="header">Fecha fin visita</f:facet>
+                    <h:outputText value="#{_visita.fechaFinVisita}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_visita.fechaInicioVisita}">
+                    <f:facet name="header">Fecha inicio visita</f:facet>
+                    <h:outputText value="#{_visita.fechaInicioVisita}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_visita.limiteFinal}">
+                    <f:facet name="header">Limite final</f:facet>
+                    <h:outputText value="#{_visita.limiteFinal}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.limiteInicial}">
+                    <f:facet name="header">Limite inicial</f:facet>
+                    <h:outputText value="#{_visita.limiteInicial}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.sesionid}">
+                    <f:facet name="header">Sesionid</f:facet>
+                    <h:outputText value="#{_visita.sesionid}"/>
+                </rich:column>
+                <rich:column sortBy="#{_visita.textoABuscar}">
+                    <f:facet name="header">Texto a buscar</f:facet>
+                    <h:outputText value="#{_visita.textoABuscar}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ideaHome.managed}" id="visitas">
+        <div class="actionButtons">
+            <s:button id="addvisita"
+                   value="Add visita"
+                    view="/VisitaEdit.xhtml"
+             propagation="none">
+                 <f:param name="ideaIdIdea"
+                         value="#{ideaHome.instance.idIdea}"/>
+                 <f:param name="visitaFrom" value="Idea"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

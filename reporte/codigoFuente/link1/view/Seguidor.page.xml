@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="seguidorFrom"/>
+   <param name="seguidorIdeaId" value="#{seguidorHome.seguidorId.ideaId}"/>
+   <param name="seguidorUsuarioId" value="#{seguidorHome.seguidorId.usuarioId}"/>
+   <param name="estatusSeguidorFrom"/>
+   <param name="estatusSeguidorIdEstatusSeguidor" value="#{estatusSeguidorHome.estatusSeguidorIdEstatusSeguidor}"/>
+
+   <param name="ideaFrom"/>
+   <param name="ideaIdIdea" value="#{ideaHome.ideaIdIdea}"/>
+   <param name="estatusAyudaMonetariaFrom"/>
+   <param name="estatusAyudaMonetariaIdEstatusAyudaMonetaria" value="#{estatusAyudaMonetariaHome.estatusAyudaMonetariaIdEstatusAyudaMonetaria}"/>
+
+   <param name="estatusAyudaRecursosHumanosFrom"/>
+   <param name="estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos" value="#{estatusAyudaRecursosHumanosHome.estatusAyudaRecursosHumanosIdEstatusAyudaRecursosHumanos}"/>
+
+   <param name="estatusIdeaFrom"/>
+   <param name="estatusIdeaIdEstatusIdea" value="#{estatusIdeaHome.estatusIdeaIdEstatusIdea}"/>
+
+   <param name="lugarFrom"/>
+   <param name="lugarIdLugar" value="#{lugarHome.lugarIdLugar}"/>
+   <param name="tipoLugarFrom"/>
+   <param name="tipoLugarIdTipoLugar" value="#{tipoLugarHome.tipoLugarIdTipoLugar}"/>
+
+   <param name="usuarioFrom"/>
+   <param name="usuarioIdUsuario" value="#{usuarioHome.usuarioIdUsuario}"/>
+   <param name="configuracionUsuarioFrom"/>
+   <param name="configuracionUsuarioIdConfiguracionUsuario" value="#{configuracionUsuarioHome.configuracionUsuarioIdConfiguracionUsuario}"/>
+
+   <param name="estatusUsuarioFrom"/>
+   <param name="estatusUsuarioIdEstatusUsuario" value="#{estatusUsuarioHome.estatusUsuarioIdEstatusUsuario}"/>
+
+   <param name="institucionFrom"/>
+   <param name="institucionIdInstitucion" value="#{institucionHome.institucionIdInstitucion}"/>
+
+
+
+
+
+
+</page>

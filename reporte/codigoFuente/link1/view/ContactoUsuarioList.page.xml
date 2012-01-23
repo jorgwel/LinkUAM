@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="firstResult" value="#{contactoUsuarioList.firstResult}"/>
+   <param name="sort" value="#{contactoUsuarioList.orderColumn}"/>
+   <param name="dir" value="#{contactoUsuarioList.orderDirection}"/>
+   <param name="logic" value="#{contactoUsuarioList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="textoComplementario1" value="#{contactoUsuarioList.contactoUsuario.textoComplementario1}"/>
+   <param name="textoComplementario2" value="#{contactoUsuarioList.contactoUsuario.textoComplementario2}"/>
+   <param name="textoComplementario3" value="#{contactoUsuarioList.contactoUsuario.textoComplementario3}"/>
+   <param name="textoContactoUsuario" value="#{contactoUsuarioList.contactoUsuario.textoContactoUsuario}"/>
+
+</page>

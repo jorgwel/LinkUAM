@@ -1,0 +1,448 @@
+<rich:toolBar
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich">
+    <rich:toolBarGroup>
+        <h:outputText value="#{projectName}:"/>
+        <s:link id="menuHomeId" view="/home.xhtml" value="Home" propagation="none"/>
+    </rich:toolBarGroup>
+    <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+        <f:facet name="label">Browse data</f:facet>
+	<rich:menuItem>
+    	<s:link view="/IdeaList.xhtml"
+           	value="Idea List"
+           	id="IdeaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusInvitacionList.xhtml"
+           	value="EstatusInvitacion List"
+           	id="EstatusInvitacionId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/MiembroComunidadList.xhtml"
+           	value="MiembroComunidad List"
+           	id="MiembroComunidadId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusIdeaList.xhtml"
+           	value="EstatusIdea List"
+           	id="EstatusIdeaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/UsuarioList.xhtml"
+           	value="Usuario List"
+           	id="UsuarioId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/VisitaList.xhtml"
+           	value="Visita List"
+           	id="VisitaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoEnvioList.xhtml"
+           	value="TipoEnvio List"
+           	id="TipoEnvioId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusUsuarioList.xhtml"
+           	value="EstatusUsuario List"
+           	id="EstatusUsuarioId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/CanicaList.xhtml"
+           	value="Canica List"
+           	id="CanicaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/PermisoList.xhtml"
+           	value="Permiso List"
+           	id="PermisoId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EnvioList.xhtml"
+           	value="Envio List"
+           	id="EnvioId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusSeguidorList.xhtml"
+           	value="EstatusSeguidor List"
+           	id="EstatusSeguidorId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/ObjetivoGeneralList.xhtml"
+           	value="ObjetivoGeneral List"
+           	id="ObjetivoGeneralId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/ObjetivoEspecificoList.xhtml"
+           	value="ObjetivoEspecifico List"
+           	id="ObjetivoEspecificoId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoVistaList.xhtml"
+           	value="TipoVista List"
+           	id="TipoVistaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/ComoLograrloList.xhtml"
+           	value="ComoLograrlo List"
+           	id="ComoLograrloId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/VistaList.xhtml"
+           	value="Vista List"
+           	id="VistaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoReporteAbusoList.xhtml"
+           	value="TipoReporteAbuso List"
+           	id="TipoReporteAbusoId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/NecesidadList.xhtml"
+           	value="Necesidad List"
+           	id="NecesidadId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoTicketRegistroList.xhtml"
+           	value="TipoTicketRegistro List"
+           	id="TipoTicketRegistroId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/SeguidorList.xhtml"
+           	value="Seguidor List"
+           	id="SeguidorId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoContactoUsuarioList.xhtml"
+           	value="TipoContactoUsuario List"
+           	id="TipoContactoUsuarioId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/ClasificacionIdeaList.xhtml"
+           	value="ClasificacionIdea List"
+           	id="ClasificacionIdeaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoAvisoList.xhtml"
+           	value="TipoAviso List"
+           	id="TipoAvisoId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusIntegranteList.xhtml"
+           	value="EstatusIntegrante List"
+           	id="EstatusIntegranteId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusPreguntaList.xhtml"
+           	value="EstatusPregunta List"
+           	id="EstatusPreguntaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/PreguntaList.xhtml"
+           	value="Pregunta List"
+           	id="PreguntaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoLugarList.xhtml"
+           	value="TipoLugar List"
+           	id="TipoLugarId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/IntegranteList.xhtml"
+           	value="Integrante List"
+           	id="IntegranteId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusReporteAbusoList.xhtml"
+           	value="EstatusReporteAbuso List"
+           	id="EstatusReporteAbusoId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoBitacoraList.xhtml"
+           	value="TipoBitacora List"
+           	id="TipoBitacoraId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/ImagenList.xhtml"
+           	value="Imagen List"
+           	id="ImagenId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/BitacoraList.xhtml"
+           	value="Bitacora List"
+           	id="BitacoraId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/FraseList.xhtml"
+           	value="Frase List"
+           	id="FraseId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/ReporteAbusoList.xhtml"
+           	value="ReporteAbuso List"
+           	id="ReporteAbusoId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/ComunidadList.xhtml"
+           	value="Comunidad List"
+           	id="ComunidadId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/InvitacionList.xhtml"
+           	value="Invitacion List"
+           	id="InvitacionId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/ConfiguracionUsuarioList.xhtml"
+           	value="ConfiguracionUsuario List"
+           	id="ConfiguracionUsuarioId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/LugarList.xhtml"
+           	value="Lugar List"
+           	id="LugarId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusAyudaMonetariaList.xhtml"
+           	value="EstatusAyudaMonetaria List"
+           	id="EstatusAyudaMonetariaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/RolList.xhtml"
+           	value="Rol List"
+           	id="RolId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusMiembroComunidadList.xhtml"
+           	value="EstatusMiembroComunidad List"
+           	id="EstatusMiembroComunidadId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoCriticaList.xhtml"
+           	value="TipoCritica List"
+           	id="TipoCriticaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/AvisoList.xhtml"
+           	value="Aviso List"
+           	id="AvisoId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusComunidadList.xhtml"
+           	value="EstatusComunidad List"
+           	id="EstatusComunidadId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/CriticaList.xhtml"
+           	value="Critica List"
+           	id="CriticaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusFraseList.xhtml"
+           	value="EstatusFrase List"
+           	id="EstatusFraseId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/ContactoUsuarioList.xhtml"
+           	value="ContactoUsuario List"
+           	id="ContactoUsuarioId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusTicketRegistroList.xhtml"
+           	value="EstatusTicketRegistro List"
+           	id="EstatusTicketRegistroId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusCriticaList.xhtml"
+           	value="EstatusCritica List"
+           	id="EstatusCriticaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoVisitaList.xhtml"
+           	value="TipoVisita List"
+           	id="TipoVisitaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusEnvioList.xhtml"
+           	value="EstatusEnvio List"
+           	id="EstatusEnvioId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusNecesidadList.xhtml"
+           	value="EstatusNecesidad List"
+           	id="EstatusNecesidadId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TicketRegistroList.xhtml"
+           	value="TicketRegistro List"
+           	id="TicketRegistroId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/AccionReporteAbusoList.xhtml"
+           	value="AccionReporteAbuso List"
+           	id="AccionReporteAbusoId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/InstitucionList.xhtml"
+           	value="Institucion List"
+           	id="InstitucionId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/JustificacionList.xhtml"
+           	value="Justificacion List"
+           	id="JustificacionId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/TipoIdeaList.xhtml"
+           	value="TipoIdea List"
+           	id="TipoIdeaId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusAvisoList.xhtml"
+           	value="EstatusAviso List"
+           	id="EstatusAvisoId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusBitacoraList.xhtml"
+           	value="EstatusBitacora List"
+           	id="EstatusBitacoraId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+	<rich:menuItem>
+    	<s:link view="/EstatusAyudaRecursosHumanosList.xhtml"
+           	value="EstatusAyudaRecursosHumanos List"
+           	id="EstatusAyudaRecursosHumanosId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+    </rich:dropDownMenu>
+    <!-- @newMenuItem@ -->
+    <rich:toolBarGroup location="right">
+        <h:outputText id="menuWelcomeId" value="signed in as: #{credentials.username}" rendered="#{identity.loggedIn}"/>
+        <s:link id="menuLoginId" view="/login.xhtml" value="Login" rendered="#{not identity.loggedIn}" propagation="none"/>
+        <s:link id="menuLogoutId" view="/home.xhtml" action="#{identity.logout}" value="Logout" rendered="#{identity.loggedIn}" propagation="none"/>
+    </rich:toolBarGroup>
+</rich:toolBar>

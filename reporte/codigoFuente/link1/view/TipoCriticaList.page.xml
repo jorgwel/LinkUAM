@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="firstResult" value="#{tipoCriticaList.firstResult}"/>
+   <param name="sort" value="#{tipoCriticaList.orderColumn}"/>
+   <param name="dir" value="#{tipoCriticaList.orderDirection}"/>
+   <param name="logic" value="#{tipoCriticaList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="definicionTipoCritica" value="#{tipoCriticaList.tipoCritica.definicionTipoCritica}"/>
+   <param name="nombreTipoCritica" value="#{tipoCriticaList.tipoCritica.nombreTipoCritica}"/>
+
+</page>

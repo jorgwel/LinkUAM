@@ -1,0 +1,279 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta
+                http-equiv="Content-Type"
+                content=
+                "text/html;
+                charset=UTF-8"
+                />
+
+            <title>
+                #{messages['panelcontrol.preguntas.porcontestar']}
+            </title>
+
+
+        <p:resources/>
+        <ui:include src="layout/codigoJavascript.xhtml"/>
+        <ui:include src="layout/codigoCss.xhtml"/>
+        </head>
+        <body style="width: 620px !important; height: 400px !important">
+        <p:growl id="msg" life="6000"/>
+
+        <h:form style="margin-top: 20px !important" prependId="false">
+
+            <p:panel 
+                style="width: 850px !important" >
+
+                <f:facet name="header">
+                    <h:outputText
+                        value=
+                        "#{messages['panelcontrol.preguntas.porcontestar']}: #{usuarioActual.nickUsuario}"
+                        style=
+                        "font-size: 14pt !important;"
+                        />
+                </f:facet>
+
+                <p:dataTable
+                    id="tablapreguntas"
+                    value="#{preguntasDeUsuarioSinResponder.resultList}"
+                    var="_pregunta"
+                    style="text-align: left !important;border-color: transparent !important"
+                    paginator="true"
+                    paginatorAlwaysVisible="false"
+                    paginatorPosition="both"
+                    paginatorTemplate=
+                    "{CurrentPageReport}
+                    {FirstPageLink}
+                    {PreviousPageLink}
+                    {PageLinks}
+                    {NextPageLink}
+                    {LastPageLink}"
+                    rows="5"
+                    emptyMessage="#{messages['panelcontrol.nohaypreguntas']}"
+                    >
+
+                    <p:column styleClass="izq">
+
+
+
+
+
+
+                        <p:panel>
+                        <h:panelGrid
+                            style="text-align: left !important;"
+                            columns="4"
+                            >
+                            <h:panelGrid
+                                columns="1"
+                                style=
+                                "width: 150px !important;
+                                text-align: left !important;"
+                                >
+
+                                <h:outputText
+                                    value=
+                                    "#{messages['pregunta.pregunta']}: #{_pregunta.usuarioByUsuarioPreguntaId.nickUsuario}"
+                                    style=
+                                    "font-weight: bold;
+                                    font-size: 11pt;"
+                                    />
+                                <h:outputText
+                                    value=
+                                    "#{_pregunta.fechaCreacionPregunta}"
+                                    style=
+                                    "font-size: 10px;"
+                                    >
+                                    <f:convertDateTime
+                                        locale="es"
+                                        pattern="EEEEEEEE, dd 'de' MMMMMM 'de' yyyy"
+                                        />
+                                </h:outputText>
+
+                            </h:panelGrid>
+
+                            <h:panelGrid
+                                style="width: 400px !important"
+                                >
+                                <h:outputText
+                                    value="#{_pregunta.preguntaPregunta}"
+                                    style=
+                                    "text-align: left !important;
+                                    font-weight: bold !important;
+                                    font-size: 11pt !important;"
+                                    />
+                            </h:panelGrid>
+                            <h:panelGrid
+                                style="width: 80px !important"
+                                >
+
+                                    <s:link
+                                        value=
+                                        "#{messages['panelcontrol.administrador.preguntas.veridea']}"
+                                        view="/IdeaDetalle.seam?ideaIdIdea=#{_pregunta.idea.idIdea}"
+                                        target="_blank"
+                                        />
+
+                            </h:panelGrid>
+                            <h:panelGrid
+                                style="width: 100px !important"
+                                >
+                                
+                                    <p:commandLink
+                                        value="#{messages['panelcontrol.preguntas.contestar.solo']}"
+                                        styleClass="botonnaranja"
+                                        ajax="true"
+                                        style=
+                                        "font-family: arial;"                                       
+                                        onclick="popupCenter('/#{valoresGlobales.nombreDeAplicacion}/ContestarPregunta.seam?preguntaIdPregunta=#{_pregunta.idPregunta}',420, 300)"
+                                        />
+
+                            </h:panelGrid>
+
+                        </h:panelGrid>
+                        </p:panel>
+                    </p:column>
+
+
+
+                </p:dataTable>
+            </p:panel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <p:dialog
+                    id="dialogoRespuesta"
+                    header="#{messages['panelcontrol.contestapregunta']}"
+                    widgetVar="dialogoRespuesta"
+                    resizable="false"
+                    styleClass="backdialogo"
+                    width="400"
+                    height="300"
+                    showEffect="clip"
+                    hideEffect="explode"
+                    >
+                    <s:div style="height: 15px !important"/>
+
+                    <p:outputPanel id="displayrespuestas">
+                        <h:panelGrid
+                            columns="2"
+                            style="margin-bottom:10px"
+                            id="displaypreguntas"
+                            >
+                            <p:message for="inputTextoRespuesta">
+                                <p:effect type="pulsate" event="load">
+                                    <f:param name="mode" value="'show'" />
+                                </p:effect>
+                            </p:message>
+
+                            <s:span id="counterTextoRespuesta"
+                                    style="font-size: 17pt;
+                                    color: gray"
+                                    >
+                                #{seamSizeColumna.pregunta}
+                                #{' '}
+                                #{messages['idea.contador.caracteresmax']}
+                            </s:span>
+
+                            <h:outputText
+                                value="#{messages['panelcontrol.preguntas.intro']}:#{preguntaHome.instance.preguntaPregunta}"
+                                styleClass="textodialogo"
+                                />
+
+                            <h:inputTextarea
+                                required="true"
+                                rows="5"
+                                value="#{preguntaHome.instance.respuestaPregunta}"
+                                id="inputTextoRespuesta"
+                                onkeypress=
+                                "javascript:actualizarContador(this,'counterTextoRespuesta')"
+                                >
+                                <s:validate/>
+                            </h:inputTextarea>
+                            
+                            <p:commandButton
+                                value="#{messages['panelcontrol.preguntas.contestar.solo']}"
+                                action="#{preguntaHome.responder}"
+                                styleClass=" ui-button botonnaranja"
+                                process="@this @parent inputTextoRespuesta"
+                                oncomplete="dialogoRespuesta.hide();window.location.reload()"
+                                update="msg tablapreguntas"
+
+                                />
+                        </h:panelGrid>
+</p:outputPanel>
+
+<!--oncomplete="manejaRespuestaDePregunta(xhr, status, args)"-->
+                    
+                </p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <s:div 
+                style=
+                "margin-top: 15px !important;
+                text-align: center !important"
+                >
+                
+                    <p:commandLink
+                        value="#{messages['panelcontrol.dialogo.aceptar']}"
+                        onclick="window.close()"
+                        styleClass="botonnaranja"
+                        ajax="true"
+                        style=
+                        "font-family: arial;
+                        position: absolute;
+                        left: 330px;"
+                        />
+                
+            </s:div>
+        </h:form>
+        </body>
+    </html>
+
+</f:view>

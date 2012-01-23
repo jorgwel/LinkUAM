@@ -1,0 +1,260 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="contactoUsuario" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{contactoUsuarioHome.managed ? 'Edit' : 'Add'} Contacto usuario</f:facet>
+
+
+            <s:decorate id="idContactoUsuarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Id contacto usuario</ui:define>
+                <h:inputText id="idContactoUsuario"
+                       required="true"
+                       disabled="#{contactoUsuarioHome.managed}"
+                          value="#{contactoUsuarioHome.instance.idContactoUsuario}">
+                    <a:support event="onblur" reRender="idContactoUsuarioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="textoComplementario1Field" template="layout/edit.xhtml">
+                <ui:define name="label">Texto complementario1</ui:define>
+                <h:inputText id="textoComplementario1"
+                           size="100"
+                      maxlength="100"
+                          value="#{contactoUsuarioHome.instance.textoComplementario1}">
+                    <a:support event="onblur" reRender="textoComplementario1Field" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="textoComplementario2Field" template="layout/edit.xhtml">
+                <ui:define name="label">Texto complementario2</ui:define>
+                <h:inputText id="textoComplementario2"
+                           size="100"
+                      maxlength="100"
+                          value="#{contactoUsuarioHome.instance.textoComplementario2}">
+                    <a:support event="onblur" reRender="textoComplementario2Field" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="textoComplementario3Field" template="layout/edit.xhtml">
+                <ui:define name="label">Texto complementario3</ui:define>
+                <h:inputTextarea id="textoComplementario3"
+                               cols="80"
+                               rows="3"
+                              value="#{contactoUsuarioHome.instance.textoComplementario3}"/>
+            </s:decorate>
+
+
+            <s:decorate id="textoContactoUsuarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Texto contacto usuario</ui:define>
+                <h:inputText id="textoContactoUsuario"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{contactoUsuarioHome.instance.textoContactoUsuario}">
+                    <a:support event="onblur" reRender="textoContactoUsuarioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{contactoUsuarioHome.persist}"
+                       disabled="#{!contactoUsuarioHome.wired}"
+                       rendered="#{!contactoUsuarioHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{contactoUsuarioHome.update}"
+                       rendered="#{contactoUsuarioHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{contactoUsuarioHome.remove}"
+                      immediate="true"
+                       rendered="#{contactoUsuarioHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/ContactoUsuario.xhtml"
+                rendered="#{contactoUsuarioHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty contactoUsuarioFrom ? 'ContactoUsuarioList' : contactoUsuarioFrom}.xhtml"
+                rendered="#{!contactoUsuarioHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Tipo contacto usuario *" labelClass="required">
+    <div class="association" id="tipoContactoUsuarioParent">
+
+        <h:outputText value="There is no tipoContactoUsuario associated with this contactoUsuario."
+                   rendered="#{contactoUsuarioHome.instance.tipoContactoUsuario == null}"/>
+
+        <rich:dataTable var="_tipoContactoUsuario"
+                   value="#{contactoUsuarioHome.instance.tipoContactoUsuario}"
+                rendered="#{contactoUsuarioHome.instance.tipoContactoUsuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipoContactoUsuarioTable">
+            <h:column>
+                <f:facet name="header">Id tipo contacto usuario</f:facet>
+                <h:outputText value="#{_tipoContactoUsuario.idTipoContactoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Dato1</f:facet>
+                <h:outputText value="#{_tipoContactoUsuario.dato1}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Dato2</f:facet>
+                <h:outputText value="#{_tipoContactoUsuario.dato2}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Dato3</f:facet>
+                <h:outputText value="#{_tipoContactoUsuario.dato3}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Dato4</f:facet>
+                <h:outputText value="#{_tipoContactoUsuario.dato4}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion tipo contacto usuario</f:facet>
+                <h:outputText value="#{_tipoContactoUsuario.definicionTipoContactoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre tipo contacto usuario</f:facet>
+                <h:outputText value="#{_tipoContactoUsuario.nombreTipoContactoUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{contactoUsuarioHome.instance.tipoContactoUsuario != null ? 'changeParenttipoContactoUsuario' : 'selectParenttipoContactoUsuario'}" value="#{contactoUsuarioHome.instance.tipoContactoUsuario != null ? 'Change' : 'Select'} tipoContactoUsuario"
+                       view="/TipoContactoUsuarioList.xhtml">
+                <f:param name="from" value="ContactoUsuarioEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Usuario *" labelClass="required">
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this contactoUsuario."
+                   rendered="#{contactoUsuarioHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{contactoUsuarioHome.instance.usuario}"
+                rendered="#{contactoUsuarioHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{contactoUsuarioHome.instance.usuario != null ? 'changeParentusuario' : 'selectParentusuario'}" value="#{contactoUsuarioHome.instance.usuario != null ? 'Change' : 'Select'} usuario"
+                       view="/UsuarioList.xhtml">
+                <f:param name="from" value="ContactoUsuarioEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,116 @@
+=======================================================================
+geolicalization
+
+Esta idea podría interesarle a..
+
+Invita a tus amigos a unirse a linkUAM
+
+Twitealo
+
+Facebook
+
+CAPTCHA
+
+Botón de terminada con éxito en panel de control
+
+Agregar al topSearh (If you don't know the project, click here.) 
+=======================================================================
+
+Mandar a edicion
+------------------------------------------------------------------------X
+-Desde PanelDeControl.xhtml en la pestaña ADMINISTRADOR->Aprobar Ideas
+Poner un botón con nombre "Mandar a edición" que servirá para poder 
+decirle a un usuario que su idea no cumple con las políticas de ML
+y que necesita editarla para poder ser aprobada.
+------------------------------------------------------------------------X
+-Cuando el botón sea presionado aparecerá un dialogo que permitirá
+introducir el texto de retroalimentación para el usuario. Este
+dialogo tendrá un botón "Enviar retroalimentación", 
+------------------------------------------------------------------------X
+-Cuando el botón "Enviar retroalimentación" sea presionado almacenará
+el mensaje, creará un aviso con el mensaje y un envío para que le
+llegue al usuario. Así como cambiar el estatus de la idea a
+"EN_EDICION (o equivalente)".
+------------------------------------------------------------------------X
+-Crear una nueva sección en el panel de control por default donde estén
+las ideas que el administrador ha rechazado, proporcionando un botón
+para editarlas.
+------------------------------------------------------------------------------------------------
+-Agregar una funcionalidad al panel de control que permita al dueño de
+la idea "desecharla" y/o editarla.
+------------------------------------------------------------------------------------------------
+****Continua con el caso de uso editar idea. Al editar una idea siempre 
+terminará con el estatus de NO_APROBADA para que el administrador tenga
+la oportunidad de aprobarla desde la sección "Aprobar Ideas".
+=======================================================================
+
+Cambiar la bitácora de posición.
+------------------------------------------------------------------------------------------------
+-Cambiar de lugar la bitácora para que actue como la sección "Agregado 
+por usuario" de ML. Ponerla debajo de las necesidades. Ponla retractil.
+------------------------------------------------------------------------------------------------
+-Intentar recalcular el tamaño del layout central dependiendo del
+número de preguntas y bitácoras.
+=======================================================================
+
+Editar idea
+------------------------------------------------------------------------------------------------
+-Oservar el formulario de insertar idea y ANOTAR EN UN CUADERNO lo que
+se necesita editar.
+------------------------------------------------------------------------------------------------
+-Crear una nueva página llamada IdeaEditar. Checar cómo está mapeado 
+el id de la idea cuando se abre IdeaDetalle.xhtml y hacer lo mismo
+para editar, solo que esta vez fijarse si es necesario cargar algo
+extra como la imagen, las necesidades y esas cosas. De hecho sería
+bueno correr una action para cargar todo ese contenido NECESARIO que no
+se carga solo.
+------------------------------------------------------------------------------------------------
+-Hacer una prueba de si el botón persist funciona para actualizar. En
+caso de que no, crea un nuevo método actualizar, o sobreescribe el 
+update. También puedes meter el código de persist en un método
+independiente y llamarlo así desde update. Poner atención en las
+cosas que necesitan ser borradas y reescritas como las comunidades.
+=======================================================================
+
+Editar usuario
+------------------------------------------------------------------------------------------------
+-Oservar el formulario de insertar usuario y ANOTAR EN UN CUADERNO lo
+que se necesita editar. TENER CUIDADO con lo que no se puede editar,
+como el nick de usuario.
+------------------------------------------------------------------------------------------------
+-Crear una nueva página llamada UsuarioEditar. Checar cómo está mapeado 
+el id del usuario cuando se abre UsuarioCrear.xhtml y hacer lo mismo
+para editar, solo que esta vez fijarse si es necesario cargar algo
+extra como las imágenes, los intereses y esas cosas. De hecho sería
+bueno correr una action para cargar todo ese contenido NECESARIO que no
+se carga solo.
+------------------------------------------------------------------------------------------------
+-Hacer una prueba de si el botón persist funciona para actualizar. En
+caso de que no, crea un nuevo método actualizar, o sobreescribe el 
+update. También puedes meter el código de persist en un método
+independiente y llamarlo así desde update. Poner atención en las
+cosas que necesitan ser borradas y reescritas como los intereses.
+=======================================================================
+
+------------------------------------------------------------------------------------------------
+En los popups que se abren para contestar preguntas y eso, en lugar de
+poner validación por login, aplicar lógica con identity.loggedIn para
+renderizar un mensaje de error en caso de no estar logueado.
+=======================================================================
+
+------------------------------------------------------------------------------------------------
+Escoger las páginas generadas por SEAM-GEN que se quedarán para llenar
+catálogos. Utilizar las páginas generadas por SchemaSpy para darme una
+mejor idea.
+=======================================================================
+Activar usuario por correo
+------------------------------------------------------------------------------------------------
+Cuando un usuario se registra se le envía un mail con el número de
+ticket necesario par activar su cuenta.
+=======================================================================
+Demonios para "modo vacaciones"
+------------------------------------------------------------------------------------------------
+=======================================================================
+Al momento de crear una idea, redirigir al Home.xhtml, diciendo que el
+administrador deberá aprobarla (o algo por el estilo :)).
+------------------------------------------------------------------------------------------------

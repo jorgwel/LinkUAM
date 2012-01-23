@@ -1,0 +1,63 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta
+                http-equiv="Content-Type"
+                content=
+                "text/html;
+                charset=UTF-8"
+                />
+
+            <title>
+                #{messages['panelcontrol.rechazada']}
+            </title>
+
+
+        <p:resources/>
+        <ui:include src="layout/codigoJavascript.xhtml"/>
+        <ui:include src="layout/codigoCss.xhtml"/>
+        </head>
+        <body style="width: 400px !important;">
+<p:growl id="msg" life="6000"/>
+        <h:form style=
+                "margin-top: 70px !important;
+                margin-left: 70px !important"
+                >
+            <h:panelGrid style=
+                    "font-family: 'arial';
+                     margin-top: 70px !important;">
+
+                <h:outputText
+                    value="#{messages['panelcontrol.ideas.rechazaridea.rechazada']}"
+                    styleClass="textodialogo"
+                    style=
+                    "font-family: 'arial';"
+                    />
+
+
+                <p:commandButton
+                    value="#{messages['panelcontrol.dialogo.aceptar']}"
+                    onclick=
+                    "window.close();"
+                    styleClass=" ui-button botonnaranja"
+                    style=
+                    "text-align: center !important;
+                     margin-left: 30px !important"
+                    />
+
+            </h:panelGrid>
+
+        </h:form>
+
+
+        </body>
+    </html>
+
+</f:view>

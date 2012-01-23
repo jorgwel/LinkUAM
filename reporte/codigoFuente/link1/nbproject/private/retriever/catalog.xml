@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://jboss.com/products/seam/core-2.2.xsd" uri="jboss.com/products/seam/core-2.2.xsd"/>
+    <system systemId="http://jboss.com/products/seam/persistence-2.2.xsd" uri="jboss.com/products/seam/persistence-2.2.xsd"/>
+    <system systemId="http://jboss.com/products/seam/drools-2.2.xsd" uri="jboss.com/products/seam/drools-2.2.xsd"/>
+    <system systemId="http://jboss.com/products/seam/bpm-2.2.xsd" uri="jboss.com/products/seam/bpm-2.2.xsd"/>
+    <system systemId="http://jboss.com/products/seam/security-2.2.xsd" uri="jboss.com/products/seam/security-2.2.xsd"/>
+    <system systemId="http://jboss.com/products/seam/mail-2.2.xsd" uri="jboss.com/products/seam/mail-2.2.xsd"/>
+    <system systemId="http://jboss.com/products/seam/web-2.2.xsd" uri="jboss.com/products/seam/web-2.2.xsd"/>
+    <system systemId="http://jboss.com/products/seam/components-2.2.xsd" uri="jboss.com/products/seam/components-2.2.xsd"/>
+    <system systemId="http://jboss.com/products/seam/pages-2.2.xsd" uri="jboss.com/products/seam/pages-2.2.xsd"/>
+</catalog>

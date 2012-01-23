@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/TipoBitacoraList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{tipoBitacoraHome.wire}"/>
+
+   <param name="tipoBitacoraFrom"/>
+   <param name="tipoBitacoraIdTipoBitacora" value="#{tipoBitacoraHome.tipoBitacoraIdTipoBitacora}"/>
+
+
+   <navigation from-action="#{tipoBitacoraHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/TipoBitacora.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{tipoBitacoraHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/TipoBitacora.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{tipoBitacoraHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/TipoBitacoraList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

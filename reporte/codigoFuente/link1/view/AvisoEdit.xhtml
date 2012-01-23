@@ -1,0 +1,763 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="aviso" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{avisoHome.managed ? 'Edit' : 'Add'} Aviso</f:facet>
+
+
+            <s:decorate id="idAvisoField" template="layout/edit.xhtml">
+                <ui:define name="label">Id aviso</ui:define>
+                <h:inputText id="idAviso"
+                       required="true"
+                       disabled="#{avisoHome.managed}"
+                          value="#{avisoHome.instance.idAviso}">
+                    <a:support event="onblur" reRender="idAvisoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+
+
+
+            <s:decorate id="fechaCreacionAvisoField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha creacion aviso</ui:define>
+                <rich:calendar id="fechaCreacionAviso"
+                       required="true"
+                          value="#{avisoHome.instance.fechaCreacionAviso}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+
+
+
+            <s:decorate id="textoAvisoField" template="layout/edit.xhtml">
+                <ui:define name="label">Texto aviso</ui:define>
+                <h:inputText id="textoAviso"
+                       required="true"
+                           size="100"
+                      maxlength="140"
+                          value="#{avisoHome.instance.textoAviso}">
+                    <a:support event="onblur" reRender="textoAvisoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{avisoHome.persist}"
+                       disabled="#{!avisoHome.wired}"
+                       rendered="#{!avisoHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{avisoHome.update}"
+                       rendered="#{avisoHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{avisoHome.remove}"
+                      immediate="true"
+                       rendered="#{avisoHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Aviso.xhtml"
+                rendered="#{avisoHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty avisoFrom ? 'AvisoList' : avisoFrom}.xhtml"
+                rendered="#{!avisoHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Bitacora">
+    <div class="association" id="bitacoraParent">
+
+        <h:outputText value="There is no bitacora associated with this aviso."
+                   rendered="#{avisoHome.instance.bitacora == null}"/>
+
+        <rich:dataTable var="_bitacora"
+                   value="#{avisoHome.instance.bitacora}"
+                rendered="#{avisoHome.instance.bitacora != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="bitacoraTable">
+            <h:column>
+                <f:facet name="header">Id bitacora</f:facet>
+                <h:outputText value="#{_bitacora.idBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion bitacora</f:facet>
+                <h:outputText value="#{_bitacora.descripcionBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus bitacora id estatus bitacora</f:facet>
+                <h:outputText value="#{_bitacora.estatusBitacora.idEstatusBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha bitacora</f:facet>
+                <h:outputText value="#{_bitacora.fechaBitacora}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Idea id idea</f:facet>
+                <h:outputText value="#{_bitacora.idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo bitacora id tipo bitacora</f:facet>
+                <h:outputText value="#{_bitacora.tipoBitacora.idTipoBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titulo bitacora</f:facet>
+                <h:outputText value="#{_bitacora.tituloBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_bitacora.usuario.idUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.bitacora != null ? 'changeParentbitacora' : 'selectParentbitacora'}" value="#{avisoHome.instance.bitacora != null ? 'Change' : 'Select'} bitacora"
+                       view="/BitacoraList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Canica">
+    <div class="association" id="canicaParent">
+
+        <h:outputText value="There is no canica associated with this aviso."
+                   rendered="#{avisoHome.instance.canica == null}"/>
+
+        <rich:dataTable var="_canica"
+                   value="#{avisoHome.instance.canica}"
+                rendered="#{avisoHome.instance.canica != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="canicaTable">
+            <h:column>
+                <f:facet name="header">Id canica</f:facet>
+                <h:outputText value="#{_canica.idCanica}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha canica</f:facet>
+                <h:outputText value="#{_canica.fechaCanica}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Necesidad id necesidad</f:facet>
+                <h:outputText value="#{_canica.necesidad.idNecesidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Texto aportado canica</f:facet>
+                <h:outputText value="#{_canica.textoAportadoCanica}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_canica.usuario.idUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.canica != null ? 'changeParentcanica' : 'selectParentcanica'}" value="#{avisoHome.instance.canica != null ? 'Change' : 'Select'} canica"
+                       view="/CanicaList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Envio">
+    <div class="association" id="envioParent">
+
+        <h:outputText value="There is no envio associated with this aviso."
+                   rendered="#{avisoHome.instance.envio == null}"/>
+
+        <rich:dataTable var="_envio"
+                   value="#{avisoHome.instance.envio}"
+                rendered="#{avisoHome.instance.envio != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="envioTable">
+            <h:column>
+                <f:facet name="header">Id envio</f:facet>
+                <h:outputText value="#{_envio.idEnvio}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Aviso id aviso</f:facet>
+                <h:outputText value="#{_envio.aviso.idAviso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Bitacora id bitacora</f:facet>
+                <h:outputText value="#{_envio.bitacora.idBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Canica id canica</f:facet>
+                <h:outputText value="#{_envio.canica.idCanica}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Comunidad id comunidad</f:facet>
+                <h:outputText value="#{_envio.comunidad.idComunidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus envio id estatus envio</f:facet>
+                <h:outputText value="#{_envio.estatusEnvio.idEstatusEnvio}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha envio envio</f:facet>
+                <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha registro envio</f:facet>
+                <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Idea id idea</f:facet>
+                <h:outputText value="#{_envio.idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Invitacion id invitacion</f:facet>
+                <h:outputText value="#{_envio.invitacion.idInvitacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero intentos envio</f:facet>
+                <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Pregunta id pregunta</f:facet>
+                <h:outputText value="#{_envio.pregunta.idPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Reporte abuso id reporte abuso</f:facet>
+                <h:outputText value="#{_envio.reporteAbuso.idReporteAbuso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Ticket registro id ticket registro</f:facet>
+                <h:outputText value="#{_envio.ticketRegistro.idTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo envio id tipo envio</f:facet>
+                <h:outputText value="#{_envio.tipoEnvio.idTipoEnvio}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_envio.usuario.idUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.envio != null ? 'changeParentenvio' : 'selectParentenvio'}" value="#{avisoHome.instance.envio != null ? 'Change' : 'Select'} envio"
+                       view="/EnvioList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Envios">
+        <h:form styleClass="association" id="enviosChildren">
+
+            <h:outputText value="There are no envios associated with this aviso."
+                       rendered="#{empty avisoHome.envios}"/>
+
+            <rich:dataTable value="#{avisoHome.envios}"
+                           var="_envio"
+                      rendered="#{not empty avisoHome.envios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="enviosTable">
+                <rich:column sortBy="#{_envio.idEnvio}">
+                    <f:facet name="header">Id envio</f:facet>
+                    <h:outputText value="#{_envio.idEnvio}"/>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                    <f:facet name="header">Fecha envio envio</f:facet>
+                    <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                    <f:facet name="header">Fecha registro envio</f:facet>
+                    <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                    <f:facet name="header">Numero intentos envio</f:facet>
+                    <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{avisoHome.managed}" id="envios">
+        <div class="actionButtons">
+            <s:button id="addenvio"
+                   value="Add envio"
+                    view="/EnvioEdit.xhtml"
+             propagation="none">
+                 <f:param name="avisoIdAviso"
+                         value="#{avisoHome.instance.idAviso}"/>
+                 <f:param name="envioFrom" value="Aviso"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Estatus aviso *" labelClass="required">
+    <div class="association" id="estatusAvisoParent">
+
+        <h:outputText value="There is no estatusAviso associated with this aviso."
+                   rendered="#{avisoHome.instance.estatusAviso == null}"/>
+
+        <rich:dataTable var="_estatusAviso"
+                   value="#{avisoHome.instance.estatusAviso}"
+                rendered="#{avisoHome.instance.estatusAviso != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusAvisoTable">
+            <h:column>
+                <f:facet name="header">Id estatus aviso</f:facet>
+                <h:outputText value="#{_estatusAviso.idEstatusAviso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus aviso</f:facet>
+                <h:outputText value="#{_estatusAviso.definicionEstatusAviso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus aviso</f:facet>
+                <h:outputText value="#{_estatusAviso.nombreEstatusAviso}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.estatusAviso != null ? 'changeParentestatusAviso' : 'selectParentestatusAviso'}" value="#{avisoHome.instance.estatusAviso != null ? 'Change' : 'Select'} estatusAviso"
+                       view="/EstatusAvisoList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Idea">
+    <div class="association" id="ideaParent">
+
+        <h:outputText value="There is no idea associated with this aviso."
+                   rendered="#{avisoHome.instance.idea == null}"/>
+
+        <rich:dataTable var="_idea"
+                   value="#{avisoHome.instance.idea}"
+                rendered="#{avisoHome.instance.idea != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ideaTable">
+            <h:column>
+                <f:facet name="header">Id idea</f:facet>
+                <h:outputText value="#{_idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion idea</f:facet>
+                <h:outputText value="#{_idea.calificacionIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido idea</f:facet>
+                <h:outputText value="#{_idea.contenidoIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda monetaria id estatus ayuda monetaria</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaMonetaria.idEstatusAyudaMonetaria}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda recursos humanos id estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaRecursosHumanos.idEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus idea id estatus idea</f:facet>
+                <h:outputText value="#{_idea.estatusIdea.idEstatusIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha creacion idea</f:facet>
+                <h:outputText value="#{_idea.fechaCreacionIdea}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lugar id lugar</f:facet>
+                <h:outputText value="#{_idea.lugar.idLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen</f:facet>
+                <h:outputText value="#{_idea.nombreImagen}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Resumen idea</f:facet>
+                <h:outputText value="#{_idea.resumenIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titulo idea</f:facet>
+                <h:outputText value="#{_idea.tituloIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_idea.usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos negativos idea</f:facet>
+                <h:outputText value="#{_idea.votosNegativosIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos positivos idea</f:facet>
+                <h:outputText value="#{_idea.votosPositivosIdea}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.idea != null ? 'changeParentidea' : 'selectParentidea'}" value="#{avisoHome.instance.idea != null ? 'Change' : 'Select'} idea"
+                       view="/IdeaList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Pregunta">
+    <div class="association" id="preguntaParent">
+
+        <h:outputText value="There is no pregunta associated with this aviso."
+                   rendered="#{avisoHome.instance.pregunta == null}"/>
+
+        <rich:dataTable var="_pregunta"
+                   value="#{avisoHome.instance.pregunta}"
+                rendered="#{avisoHome.instance.pregunta != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="preguntaTable">
+            <h:column>
+                <f:facet name="header">Id pregunta</f:facet>
+                <h:outputText value="#{_pregunta.idPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus pregunta id estatus pregunta</f:facet>
+                <h:outputText value="#{_pregunta.estatusPregunta.idEstatusPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha creacion pregunta</f:facet>
+                <h:outputText value="#{_pregunta.fechaCreacionPregunta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin pregunta</f:facet>
+                <h:outputText value="#{_pregunta.fechaFinPregunta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Idea id idea</f:facet>
+                <h:outputText value="#{_pregunta.idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Pregunta pregunta</f:facet>
+                <h:outputText value="#{_pregunta.preguntaPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Respuesta pregunta</f:facet>
+                <h:outputText value="#{_pregunta.respuestaPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario by usuario pregunta id id usuario</f:facet>
+                <h:outputText value="#{_pregunta.usuarioByUsuarioPreguntaId.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario by usuario respuesta id id usuario</f:facet>
+                <h:outputText value="#{_pregunta.usuarioByUsuarioRespuestaId.idUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.pregunta != null ? 'changeParentpregunta' : 'selectParentpregunta'}" value="#{avisoHome.instance.pregunta != null ? 'Change' : 'Select'} pregunta"
+                       view="/PreguntaList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Reporte abuso">
+    <div class="association" id="reporteAbusoParent">
+
+        <h:outputText value="There is no reporteAbuso associated with this aviso."
+                   rendered="#{avisoHome.instance.reporteAbuso == null}"/>
+
+        <rich:dataTable var="_reporteAbuso"
+                   value="#{avisoHome.instance.reporteAbuso}"
+                rendered="#{avisoHome.instance.reporteAbuso != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="reporteAbusoTable">
+            <h:column>
+                <f:facet name="header">Id reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.idReporteAbuso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Accion reporte abuso id accion reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.accionReporteAbuso.idAccionReporteAbuso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus reporte abuso id estatus reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.estatusReporteAbuso.idEstatusReporteAbuso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.fechaReporteAbuso}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Idea id idea</f:facet>
+                <h:outputText value="#{_reporteAbuso.idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nota reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.notaReporteAbuso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo reporte abuso id tipo reporte abuso</f:facet>
+                <h:outputText value="#{_reporteAbuso.tipoReporteAbuso.idTipoReporteAbuso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_reporteAbuso.usuario.idUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.reporteAbuso != null ? 'changeParentreporteAbuso' : 'selectParentreporteAbuso'}" value="#{avisoHome.instance.reporteAbuso != null ? 'Change' : 'Select'} reporteAbuso"
+                       view="/ReporteAbusoList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Ticket registro">
+    <div class="association" id="ticketRegistroParent">
+
+        <h:outputText value="There is no ticketRegistro associated with this aviso."
+                   rendered="#{avisoHome.instance.ticketRegistro == null}"/>
+
+        <rich:dataTable var="_ticketRegistro"
+                   value="#{avisoHome.instance.ticketRegistro}"
+                rendered="#{avisoHome.instance.ticketRegistro != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ticketRegistroTable">
+            <h:column>
+                <f:facet name="header">Id ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.idTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ticket registro id estatus ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.estatusTicketRegistro.idEstatusTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.fechaTicketRegistro}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ticket usado</f:facet>
+                <h:outputText value="#{_ticketRegistro.fechaTicketUsado}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Texto ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.textoTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo ticket registro id tipo ticket registro</f:facet>
+                <h:outputText value="#{_ticketRegistro.tipoTicketRegistro.idTipoTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_ticketRegistro.usuario.idUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.ticketRegistro != null ? 'changeParentticketRegistro' : 'selectParentticketRegistro'}" value="#{avisoHome.instance.ticketRegistro != null ? 'Change' : 'Select'} ticketRegistro"
+                       view="/TicketRegistroList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Tipo aviso *" labelClass="required">
+    <div class="association" id="tipoAvisoParent">
+
+        <h:outputText value="There is no tipoAviso associated with this aviso."
+                   rendered="#{avisoHome.instance.tipoAviso == null}"/>
+
+        <rich:dataTable var="_tipoAviso"
+                   value="#{avisoHome.instance.tipoAviso}"
+                rendered="#{avisoHome.instance.tipoAviso != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipoAvisoTable">
+            <h:column>
+                <f:facet name="header">Id tipo aviso</f:facet>
+                <h:outputText value="#{_tipoAviso.idTipoAviso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion tipo aviso</f:facet>
+                <h:outputText value="#{_tipoAviso.definicionTipoAviso}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre tipo aviso</f:facet>
+                <h:outputText value="#{_tipoAviso.nombreTipoAviso}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.tipoAviso != null ? 'changeParenttipoAviso' : 'selectParenttipoAviso'}" value="#{avisoHome.instance.tipoAviso != null ? 'Change' : 'Select'} tipoAviso"
+                       view="/TipoAvisoList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Usuario">
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this aviso."
+                   rendered="#{avisoHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{avisoHome.instance.usuario}"
+                rendered="#{avisoHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{avisoHome.instance.usuario != null ? 'changeParentusuario' : 'selectParentusuario'}" value="#{avisoHome.instance.usuario != null ? 'Change' : 'Select'} usuario"
+                       view="/UsuarioList.xhtml">
+                <f:param name="from" value="AvisoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,143 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusAviso" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusAvisoHome.managed ? 'Edit' : 'Add'} Estatus aviso</f:facet>
+
+
+            <s:decorate id="idEstatusAvisoField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus aviso</ui:define>
+                <h:inputText id="idEstatusAviso"
+                       required="true"
+                       disabled="#{estatusAvisoHome.managed}"
+                          value="#{estatusAvisoHome.instance.idEstatusAviso}">
+                    <a:support event="onblur" reRender="idEstatusAvisoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="definicionEstatusAvisoField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus aviso</ui:define>
+                <h:inputText id="definicionEstatusAviso"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusAvisoHome.instance.definicionEstatusAviso}">
+                    <a:support event="onblur" reRender="definicionEstatusAvisoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreEstatusAvisoField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus aviso</ui:define>
+                <h:inputText id="nombreEstatusAviso"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusAvisoHome.instance.nombreEstatusAviso}">
+                    <a:support event="onblur" reRender="nombreEstatusAvisoField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusAvisoHome.persist}"
+                       disabled="#{!estatusAvisoHome.wired}"
+                       rendered="#{!estatusAvisoHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusAvisoHome.update}"
+                       rendered="#{estatusAvisoHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusAvisoHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusAvisoHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusAviso.xhtml"
+                rendered="#{estatusAvisoHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusAvisoFrom ? 'EstatusAvisoList' : estatusAvisoFrom}.xhtml"
+                rendered="#{!estatusAvisoHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Avisos">
+        <h:form styleClass="association" id="avisosChildren">
+
+            <h:outputText value="There are no avisos associated with this estatusAviso."
+                       rendered="#{empty estatusAvisoHome.avisos}"/>
+
+            <rich:dataTable value="#{estatusAvisoHome.avisos}"
+                           var="_aviso"
+                      rendered="#{not empty estatusAvisoHome.avisos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="avisosTable">
+                <rich:column sortBy="#{_aviso.idAviso}">
+                    <f:facet name="header">Id aviso</f:facet>
+                    <h:outputText value="#{_aviso.idAviso}"/>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.fechaCreacionAviso}">
+                    <f:facet name="header">Fecha creacion aviso</f:facet>
+                    <h:outputText value="#{_aviso.fechaCreacionAviso}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.textoAviso}">
+                    <f:facet name="header">Texto aviso</f:facet>
+                    <h:outputText value="#{_aviso.textoAviso}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusAvisoHome.managed}" id="avisos">
+        <div class="actionButtons">
+            <s:button id="addaviso"
+                   value="Add aviso"
+                    view="/AvisoEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusAvisoIdEstatusAviso"
+                         value="#{estatusAvisoHome.instance.idEstatusAviso}"/>
+                 <f:param name="avisoFrom" value="EstatusAviso"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,81 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoHomeTemplate.xhtml">
+
+
+    <ui:define name="body">
+        <p:layoutUnit header="#{messages['idea.titulocrear']}" id="center"  scrollable="true" position="center">
+            <h:form id="form">
+
+                <p:growl id="msgs" />
+
+                <p:panel header="Create a new book">
+                    <h:panelGrid columns="2" id="grid">
+                        <h:outputLabel value="Title : *" for="txt_title"></h:outputLabel>
+                        <h:inputText id="txt_title"
+                                     value="#{collectorBean.book.title}" required="true"/>
+
+                        <h:outputLabel value="Author : *" for="txt_author"></h:outputLabel>
+                        <h:inputText id="txt_author" required="true"
+                                     value="#{collectorBean.book.author}" />
+
+                        <p:commandButton value="Reset" type="reset"/>
+                        <p:commandButton value="Add" update="books msgs @parent"
+                                         action="#{collectorBean.reinit}" >
+                            <p:collector value="#{collectorBean.book}"
+                                         addTo="#{collectorBean.books}" />
+                        </p:commandButton>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:ajaxStatus style="width:16px;height:16px;">
+                    <f:facet name="start">
+                        <h:graphicImage value="../design/ajaxloading.gif" />
+                    </f:facet>
+
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+
+                <p:outputPanel id="books">
+                    <p:dataTable value="#{collectorBean.books}" var="book">
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Title" />
+                            </f:facet>
+                            <h:outputText value="#{book.title}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Author" />
+                            </f:facet>
+                            <h:outputText value="#{book.author}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Operation" />
+                            </f:facet>
+                            <p:commandLink value="Remove" update="form:books" process="@this">
+                                <p:collector value="#{book}"
+                                             removeFrom="#{collectorBean.books}" />
+                            </p:commandLink>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:outputPanel>
+
+            </h:form>
+        </p:layoutUnit>
+    </ui:define>
+
+</ui:composition>

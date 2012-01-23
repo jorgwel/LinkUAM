@@ -1,0 +1,174 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="objetivoGeneral" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{objetivoGeneralHome.managed ? 'Edit' : 'Add'} Objetivo general</f:facet>
+
+
+            <s:decorate id="idObjetivoGeneralField" template="layout/edit.xhtml">
+                <ui:define name="label">Id objetivo general</ui:define>
+                <h:inputText id="idObjetivoGeneral"
+                       required="true"
+                       disabled="#{objetivoGeneralHome.managed}"
+                          value="#{objetivoGeneralHome.instance.idObjetivoGeneral}">
+                    <a:support event="onblur" reRender="idObjetivoGeneralField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="descripcionObjetivoGeneralField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion objetivo general</ui:define>
+                <h:inputTextarea id="descripcionObjetivoGeneral"
+                               cols="80"
+                               rows="3"
+                           required="true"
+                              value="#{objetivoGeneralHome.instance.descripcionObjetivoGeneral}"/>
+            </s:decorate>
+
+
+            <s:decorate id="fechaObjetivoGeneralField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha objetivo general</ui:define>
+                <rich:calendar id="fechaObjetivoGeneral"
+                          value="#{objetivoGeneralHome.instance.fechaObjetivoGeneral}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{objetivoGeneralHome.persist}"
+                       disabled="#{!objetivoGeneralHome.wired}"
+                       rendered="#{!objetivoGeneralHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{objetivoGeneralHome.update}"
+                       rendered="#{objetivoGeneralHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{objetivoGeneralHome.remove}"
+                      immediate="true"
+                       rendered="#{objetivoGeneralHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/ObjetivoGeneral.xhtml"
+                rendered="#{objetivoGeneralHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty objetivoGeneralFrom ? 'ObjetivoGeneralList' : objetivoGeneralFrom}.xhtml"
+                rendered="#{!objetivoGeneralHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Idea *" labelClass="required">
+    <div class="association" id="ideaParent">
+
+        <h:outputText value="There is no idea associated with this objetivoGeneral."
+                   rendered="#{objetivoGeneralHome.instance.idea == null}"/>
+
+        <rich:dataTable var="_idea"
+                   value="#{objetivoGeneralHome.instance.idea}"
+                rendered="#{objetivoGeneralHome.instance.idea != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ideaTable">
+            <h:column>
+                <f:facet name="header">Id idea</f:facet>
+                <h:outputText value="#{_idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion idea</f:facet>
+                <h:outputText value="#{_idea.calificacionIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido idea</f:facet>
+                <h:outputText value="#{_idea.contenidoIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda monetaria id estatus ayuda monetaria</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaMonetaria.idEstatusAyudaMonetaria}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda recursos humanos id estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaRecursosHumanos.idEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus idea id estatus idea</f:facet>
+                <h:outputText value="#{_idea.estatusIdea.idEstatusIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha creacion idea</f:facet>
+                <h:outputText value="#{_idea.fechaCreacionIdea}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lugar id lugar</f:facet>
+                <h:outputText value="#{_idea.lugar.idLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen</f:facet>
+                <h:outputText value="#{_idea.nombreImagen}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Resumen idea</f:facet>
+                <h:outputText value="#{_idea.resumenIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titulo idea</f:facet>
+                <h:outputText value="#{_idea.tituloIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_idea.usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos negativos idea</f:facet>
+                <h:outputText value="#{_idea.votosNegativosIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos positivos idea</f:facet>
+                <h:outputText value="#{_idea.votosPositivosIdea}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{objetivoGeneralHome.instance.idea != null ? 'changeParentidea' : 'selectParentidea'}" value="#{objetivoGeneralHome.instance.idea != null ? 'Change' : 'Select'} idea"
+                       view="/IdeaList.xhtml">
+                <f:param name="from" value="ObjetivoGeneralEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

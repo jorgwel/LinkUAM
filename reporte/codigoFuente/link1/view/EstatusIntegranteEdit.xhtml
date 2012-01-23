@@ -1,0 +1,157 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusIntegrante" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusIntegranteHome.managed ? 'Edit' : 'Add'} Estatus integrante</f:facet>
+
+
+            <s:decorate id="idEstatusIntegranteField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus integrante</ui:define>
+                <h:inputText id="idEstatusIntegrante"
+                       required="true"
+                       disabled="#{estatusIntegranteHome.managed}"
+                          value="#{estatusIntegranteHome.instance.idEstatusIntegrante}">
+                    <a:support event="onblur" reRender="idEstatusIntegranteField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionEstatusIntegranteField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus integrante</ui:define>
+                <h:inputText id="definicionEstatusIntegrante"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusIntegranteHome.instance.definicionEstatusIntegrante}">
+                    <a:support event="onblur" reRender="definicionEstatusIntegranteField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreEstatusIntegranteField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus integrante</ui:define>
+                <h:inputText id="nombreEstatusIntegrante"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusIntegranteHome.instance.nombreEstatusIntegrante}">
+                    <a:support event="onblur" reRender="nombreEstatusIntegranteField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusIntegranteHome.persist}"
+                       disabled="#{!estatusIntegranteHome.wired}"
+                       rendered="#{!estatusIntegranteHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusIntegranteHome.update}"
+                       rendered="#{estatusIntegranteHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusIntegranteHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusIntegranteHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusIntegrante.xhtml"
+                rendered="#{estatusIntegranteHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusIntegranteFrom ? 'EstatusIntegranteList' : estatusIntegranteFrom}.xhtml"
+                rendered="#{!estatusIntegranteHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Integrantes">
+        <h:form styleClass="association" id="integrantesChildren">
+
+            <h:outputText value="There are no integrantes associated with this estatusIntegrante."
+                       rendered="#{empty estatusIntegranteHome.integrantes}"/>
+
+            <rich:dataTable value="#{estatusIntegranteHome.integrantes}"
+                           var="_integrante"
+                      rendered="#{not empty estatusIntegranteHome.integrantes}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="integrantesTable">
+                <rich:column sortBy="#{_integrante.id.ideaId}">
+                    <f:facet name="header">Idea id</f:facet>
+                    <h:outputText value="#{_integrante.id.ideaId}"/>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.id.usuarioId}">
+                    <f:facet name="header">Usuario id</f:facet>
+                    <h:outputText value="#{_integrante.id.usuarioId}"/>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.calificacionIntegrante}">
+                    <f:facet name="header">Calificacion integrante</f:facet>
+                    <h:outputText value="#{_integrante.calificacionIntegrante}"/>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.esliderIntegrante}">
+                    <f:facet name="header">Eslider integrante</f:facet>
+                    <h:outputText value="#{_integrante.esliderIntegrante}"/>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.fechaFinIntegrante}">
+                    <f:facet name="header">Fecha fin integrante</f:facet>
+                    <h:outputText value="#{_integrante.fechaFinIntegrante}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_integrante.fechaInicioIntegrante}">
+                    <f:facet name="header">Fecha inicio integrante</f:facet>
+                    <h:outputText value="#{_integrante.fechaInicioIntegrante}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusIntegranteHome.managed}" id="integrantes">
+        <div class="actionButtons">
+            <s:button id="addintegrante"
+                   value="Add integrante"
+                    view="/IntegranteEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusIntegranteIdEstatusIntegrante"
+                         value="#{estatusIntegranteHome.instance.idEstatusIntegrante}"/>
+                 <f:param name="integranteFrom" value="EstatusIntegrante"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,430 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Bitacora Details</f:facet>
+
+        <s:decorate id="idBitacora" template="layout/display.xhtml">
+            <ui:define name="label">Id bitacora</ui:define>
+            <h:outputText value="#{bitacoraHome.instance.idBitacora}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcionBitacora" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion bitacora</ui:define>
+            <h:outputText value="#{bitacoraHome.instance.descripcionBitacora}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaBitacora" template="layout/display.xhtml">
+            <ui:define name="label">Fecha bitacora</ui:define>
+            <h:outputText value="#{bitacoraHome.instance.fechaBitacora}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="tituloBitacora" template="layout/display.xhtml">
+            <ui:define name="label">Titulo bitacora</ui:define>
+            <h:outputText value="#{bitacoraHome.instance.tituloBitacora}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/BitacoraEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty bitacoraFrom ? 'BitacoraList' : bitacoraFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Avisos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="avisosChildren">
+
+        <h:outputText value="There are no avisos associated with this bitacora."
+                   rendered="#{empty bitacoraHome.avisos}"/>
+
+        <rich:dataTable value="#{bitacoraHome.avisos}"
+                       var="_aviso"
+                  rendered="#{not empty bitacoraHome.avisos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="avisosTable">
+            <rich:column sortBy="#{_aviso.idAviso}">
+                <f:facet name="header">Id aviso</f:facet>
+                <h:outputText value="#{_aviso.idAviso}"/>
+            </rich:column>
+            <rich:column sortBy="#{_aviso.fechaCreacionAviso}">
+                <f:facet name="header">Fecha creacion aviso</f:facet>
+                <h:outputText value="#{_aviso.fechaCreacionAviso}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_aviso.textoAviso}">
+                <f:facet name="header">Texto aviso</f:facet>
+                <h:outputText value="#{_aviso.textoAviso}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectaviso"
+                     value="Select"
+                      view="/Aviso.xhtml">
+                    <f:param name="avisoIdAviso"
+                            value="#{_aviso.idAviso}"/>
+                    <f:param name="avisoFrom" value="Bitacora"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add aviso"
+                view="/AvisoEdit.xhtml">
+            <f:param name="bitacoraIdBitacora"
+                    value="#{bitacoraHome.instance.idBitacora}"/>
+            <f:param name="avisoFrom" value="Bitacora"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Envios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="enviosChildren">
+
+        <h:outputText value="There are no envios associated with this bitacora."
+                   rendered="#{empty bitacoraHome.envios}"/>
+
+        <rich:dataTable value="#{bitacoraHome.envios}"
+                       var="_envio"
+                  rendered="#{not empty bitacoraHome.envios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="enviosTable">
+            <rich:column sortBy="#{_envio.idEnvio}">
+                <f:facet name="header">Id envio</f:facet>
+                <h:outputText value="#{_envio.idEnvio}"/>
+            </rich:column>
+            <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                <f:facet name="header">Fecha envio envio</f:facet>
+                <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                <f:facet name="header">Fecha registro envio</f:facet>
+                <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                <f:facet name="header">Numero intentos envio</f:facet>
+                <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectenvio"
+                     value="Select"
+                      view="/Envio.xhtml">
+                    <f:param name="envioIdEnvio"
+                            value="#{_envio.idEnvio}"/>
+                    <f:param name="envioFrom" value="Bitacora"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add envio"
+                view="/EnvioEdit.xhtml">
+            <f:param name="bitacoraIdBitacora"
+                    value="#{bitacoraHome.instance.idBitacora}"/>
+            <f:param name="envioFrom" value="Bitacora"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Estatus bitacora</h:panelGroup>
+        </f:facet>
+    <div class="association" id="estatusBitacoraParent">
+
+        <h:outputText value="There is no estatusBitacora associated with this bitacora."
+                   rendered="#{bitacoraHome.instance.estatusBitacora == null}"/>
+
+        <rich:dataTable var="_estatusBitacora"
+                   value="#{bitacoraHome.instance.estatusBitacora}"
+                rendered="#{bitacoraHome.instance.estatusBitacora != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusBitacoraTable">
+            <h:column>
+                <f:facet name="header">Id estatus bitacora</f:facet>
+                <h:outputText value="#{_estatusBitacora.idEstatusBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus bitacora</f:facet>
+                <h:outputText value="#{_estatusBitacora.definicionEstatusBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus bitacora</f:facet>
+                <h:outputText value="#{_estatusBitacora.nombreEstatusBitacora}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewestatusBitacora"
+                     value="View"
+                      view="/EstatusBitacora.xhtml">
+                    <f:param name="estatusBitacoraIdEstatusBitacora"
+                           value="#{_estatusBitacora.idEstatusBitacora}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Idea</h:panelGroup>
+        </f:facet>
+    <div class="association" id="ideaParent">
+
+        <h:outputText value="There is no idea associated with this bitacora."
+                   rendered="#{bitacoraHome.instance.idea == null}"/>
+
+        <rich:dataTable var="_idea"
+                   value="#{bitacoraHome.instance.idea}"
+                rendered="#{bitacoraHome.instance.idea != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ideaTable">
+            <h:column>
+                <f:facet name="header">Id idea</f:facet>
+                <h:outputText value="#{_idea.idIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion idea</f:facet>
+                <h:outputText value="#{_idea.calificacionIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido idea</f:facet>
+                <h:outputText value="#{_idea.contenidoIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda monetaria id estatus ayuda monetaria</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaMonetaria.idEstatusAyudaMonetaria}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus ayuda recursos humanos id estatus ayuda recursos humanos</f:facet>
+                <h:outputText value="#{_idea.estatusAyudaRecursosHumanos.idEstatusAyudaRecursosHumanos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus idea id estatus idea</f:facet>
+                <h:outputText value="#{_idea.estatusIdea.idEstatusIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha creacion idea</f:facet>
+                <h:outputText value="#{_idea.fechaCreacionIdea}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lugar id lugar</f:facet>
+                <h:outputText value="#{_idea.lugar.idLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen</f:facet>
+                <h:outputText value="#{_idea.nombreImagen}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Resumen idea</f:facet>
+                <h:outputText value="#{_idea.resumenIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titulo idea</f:facet>
+                <h:outputText value="#{_idea.tituloIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario id usuario</f:facet>
+                <h:outputText value="#{_idea.usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos negativos idea</f:facet>
+                <h:outputText value="#{_idea.votosNegativosIdea}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Votos positivos idea</f:facet>
+                <h:outputText value="#{_idea.votosPositivosIdea}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewidea"
+                     value="View"
+                      view="/Idea.xhtml">
+                    <f:param name="ideaIdIdea"
+                           value="#{_idea.idIdea}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Tipo bitacora</h:panelGroup>
+        </f:facet>
+    <div class="association" id="tipoBitacoraParent">
+
+        <h:outputText value="There is no tipoBitacora associated with this bitacora."
+                   rendered="#{bitacoraHome.instance.tipoBitacora == null}"/>
+
+        <rich:dataTable var="_tipoBitacora"
+                   value="#{bitacoraHome.instance.tipoBitacora}"
+                rendered="#{bitacoraHome.instance.tipoBitacora != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipoBitacoraTable">
+            <h:column>
+                <f:facet name="header">Id tipo bitacora</f:facet>
+                <h:outputText value="#{_tipoBitacora.idTipoBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion tipo bitacora</f:facet>
+                <h:outputText value="#{_tipoBitacora.definicionTipoBitacora}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre tipo bitacora</f:facet>
+                <h:outputText value="#{_tipoBitacora.nombreTipoBitacora}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewtipoBitacora"
+                     value="View"
+                      view="/TipoBitacora.xhtml">
+                    <f:param name="tipoBitacoraIdTipoBitacora"
+                           value="#{_tipoBitacora.idTipoBitacora}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuario</h:panelGroup>
+        </f:facet>
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this bitacora."
+                   rendered="#{bitacoraHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{bitacoraHome.instance.usuario}"
+                rendered="#{bitacoraHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewusuario"
+                     value="View"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioIdUsuario"
+                           value="#{_usuario.idUsuario}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

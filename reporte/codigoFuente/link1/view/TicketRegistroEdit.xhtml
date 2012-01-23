@@ -1,0 +1,412 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="ticketRegistro" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{ticketRegistroHome.managed ? 'Edit' : 'Add'} Ticket registro</f:facet>
+
+
+            <s:decorate id="idTicketRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Id ticket registro</ui:define>
+                <h:inputText id="idTicketRegistro"
+                       required="true"
+                       disabled="#{ticketRegistroHome.managed}"
+                          value="#{ticketRegistroHome.instance.idTicketRegistro}">
+                    <a:support event="onblur" reRender="idTicketRegistroField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+
+            <s:decorate id="fechaTicketRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha ticket registro</ui:define>
+                <rich:calendar id="fechaTicketRegistro"
+                       required="true"
+                          value="#{ticketRegistroHome.instance.fechaTicketRegistro}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="fechaTicketUsadoField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha ticket usado</ui:define>
+                <rich:calendar id="fechaTicketUsado"
+                          value="#{ticketRegistroHome.instance.fechaTicketUsado}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+
+            <s:decorate id="textoTicketRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Texto ticket registro</ui:define>
+                <h:inputText id="textoTicketRegistro"
+                       required="true"
+                           size="100"
+                      maxlength="128"
+                          value="#{ticketRegistroHome.instance.textoTicketRegistro}">
+                    <a:support event="onblur" reRender="textoTicketRegistroField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{ticketRegistroHome.persist}"
+                       disabled="#{!ticketRegistroHome.wired}"
+                       rendered="#{!ticketRegistroHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{ticketRegistroHome.update}"
+                       rendered="#{ticketRegistroHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{ticketRegistroHome.remove}"
+                      immediate="true"
+                       rendered="#{ticketRegistroHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TicketRegistro.xhtml"
+                rendered="#{ticketRegistroHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty ticketRegistroFrom ? 'TicketRegistroList' : ticketRegistroFrom}.xhtml"
+                rendered="#{!ticketRegistroHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Avisos">
+        <h:form styleClass="association" id="avisosChildren">
+
+            <h:outputText value="There are no avisos associated with this ticketRegistro."
+                       rendered="#{empty ticketRegistroHome.avisos}"/>
+
+            <rich:dataTable value="#{ticketRegistroHome.avisos}"
+                           var="_aviso"
+                      rendered="#{not empty ticketRegistroHome.avisos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="avisosTable">
+                <rich:column sortBy="#{_aviso.idAviso}">
+                    <f:facet name="header">Id aviso</f:facet>
+                    <h:outputText value="#{_aviso.idAviso}"/>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.fechaCreacionAviso}">
+                    <f:facet name="header">Fecha creacion aviso</f:facet>
+                    <h:outputText value="#{_aviso.fechaCreacionAviso}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_aviso.textoAviso}">
+                    <f:facet name="header">Texto aviso</f:facet>
+                    <h:outputText value="#{_aviso.textoAviso}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ticketRegistroHome.managed}" id="avisos">
+        <div class="actionButtons">
+            <s:button id="addaviso"
+                   value="Add aviso"
+                    view="/AvisoEdit.xhtml"
+             propagation="none">
+                 <f:param name="ticketRegistroIdTicketRegistro"
+                         value="#{ticketRegistroHome.instance.idTicketRegistro}"/>
+                 <f:param name="avisoFrom" value="TicketRegistro"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Envios">
+        <h:form styleClass="association" id="enviosChildren">
+
+            <h:outputText value="There are no envios associated with this ticketRegistro."
+                       rendered="#{empty ticketRegistroHome.envios}"/>
+
+            <rich:dataTable value="#{ticketRegistroHome.envios}"
+                           var="_envio"
+                      rendered="#{not empty ticketRegistroHome.envios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="enviosTable">
+                <rich:column sortBy="#{_envio.idEnvio}">
+                    <f:facet name="header">Id envio</f:facet>
+                    <h:outputText value="#{_envio.idEnvio}"/>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaEnvioEnvio}">
+                    <f:facet name="header">Fecha envio envio</f:facet>
+                    <h:outputText value="#{_envio.fechaEnvioEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.fechaRegistroEnvio}">
+                    <f:facet name="header">Fecha registro envio</f:facet>
+                    <h:outputText value="#{_envio.fechaRegistroEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_envio.numeroIntentosEnvio}">
+                    <f:facet name="header">Numero intentos envio</f:facet>
+                    <h:outputText value="#{_envio.numeroIntentosEnvio}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ticketRegistroHome.managed}" id="envios">
+        <div class="actionButtons">
+            <s:button id="addenvio"
+                   value="Add envio"
+                    view="/EnvioEdit.xhtml"
+             propagation="none">
+                 <f:param name="ticketRegistroIdTicketRegistro"
+                         value="#{ticketRegistroHome.instance.idTicketRegistro}"/>
+                 <f:param name="envioFrom" value="TicketRegistro"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Estatus ticket registro *" labelClass="required">
+    <div class="association" id="estatusTicketRegistroParent">
+
+        <h:outputText value="There is no estatusTicketRegistro associated with this ticketRegistro."
+                   rendered="#{ticketRegistroHome.instance.estatusTicketRegistro == null}"/>
+
+        <rich:dataTable var="_estatusTicketRegistro"
+                   value="#{ticketRegistroHome.instance.estatusTicketRegistro}"
+                rendered="#{ticketRegistroHome.instance.estatusTicketRegistro != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusTicketRegistroTable">
+            <h:column>
+                <f:facet name="header">Id estatus ticket registro</f:facet>
+                <h:outputText value="#{_estatusTicketRegistro.idEstatusTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus ticket registro</f:facet>
+                <h:outputText value="#{_estatusTicketRegistro.definicionEstatusTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus ticket registro</f:facet>
+                <h:outputText value="#{_estatusTicketRegistro.nombreEstatusTicketRegistro}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{ticketRegistroHome.instance.estatusTicketRegistro != null ? 'changeParentestatusTicketRegistro' : 'selectParentestatusTicketRegistro'}" value="#{ticketRegistroHome.instance.estatusTicketRegistro != null ? 'Change' : 'Select'} estatusTicketRegistro"
+                       view="/EstatusTicketRegistroList.xhtml">
+                <f:param name="from" value="TicketRegistroEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Invitacions">
+        <h:form styleClass="association" id="invitacionsChildren">
+
+            <h:outputText value="There are no invitacions associated with this ticketRegistro."
+                       rendered="#{empty ticketRegistroHome.invitacions}"/>
+
+            <rich:dataTable value="#{ticketRegistroHome.invitacions}"
+                           var="_invitacion"
+                      rendered="#{not empty ticketRegistroHome.invitacions}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="invitacionsTable">
+                <rich:column sortBy="#{_invitacion.idInvitacion}">
+                    <f:facet name="header">Id invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.idInvitacion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_invitacion.correoUsuarioInvitacion}">
+                    <f:facet name="header">Correo usuario invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.correoUsuarioInvitacion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_invitacion.fechaRegistroInvitacion}">
+                    <f:facet name="header">Fecha registro invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.fechaRegistroInvitacion}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_invitacion.fechaUsuarioRegistradoInvitacion}">
+                    <f:facet name="header">Fecha usuario registrado invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.fechaUsuarioRegistradoInvitacion}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_invitacion.textoInvitacion}">
+                    <f:facet name="header">Texto invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.textoInvitacion}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ticketRegistroHome.managed}" id="invitacions">
+        <div class="actionButtons">
+            <s:button id="addinvitacion"
+                   value="Add invitacion"
+                    view="/InvitacionEdit.xhtml"
+             propagation="none">
+                 <f:param name="ticketRegistroIdTicketRegistro"
+                         value="#{ticketRegistroHome.instance.idTicketRegistro}"/>
+                 <f:param name="invitacionFrom" value="TicketRegistro"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Tipo ticket registro *" labelClass="required">
+    <div class="association" id="tipoTicketRegistroParent">
+
+        <h:outputText value="There is no tipoTicketRegistro associated with this ticketRegistro."
+                   rendered="#{ticketRegistroHome.instance.tipoTicketRegistro == null}"/>
+
+        <rich:dataTable var="_tipoTicketRegistro"
+                   value="#{ticketRegistroHome.instance.tipoTicketRegistro}"
+                rendered="#{ticketRegistroHome.instance.tipoTicketRegistro != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipoTicketRegistroTable">
+            <h:column>
+                <f:facet name="header">Id tipo ticket registro</f:facet>
+                <h:outputText value="#{_tipoTicketRegistro.idTipoTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion tipo ticket registro</f:facet>
+                <h:outputText value="#{_tipoTicketRegistro.descripcionTipoTicketRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre tipo ticket registro</f:facet>
+                <h:outputText value="#{_tipoTicketRegistro.nombreTipoTicketRegistro}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{ticketRegistroHome.instance.tipoTicketRegistro != null ? 'changeParenttipoTicketRegistro' : 'selectParenttipoTicketRegistro'}" value="#{ticketRegistroHome.instance.tipoTicketRegistro != null ? 'Change' : 'Select'} tipoTicketRegistro"
+                       view="/TipoTicketRegistroList.xhtml">
+                <f:param name="from" value="TicketRegistroEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Usuario *" labelClass="required">
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this ticketRegistro."
+                   rendered="#{ticketRegistroHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{ticketRegistroHome.instance.usuario}"
+                rendered="#{ticketRegistroHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{ticketRegistroHome.instance.usuario != null ? 'changeParentusuario' : 'selectParentusuario'}" value="#{ticketRegistroHome.instance.usuario != null ? 'Change' : 'Select'} usuario"
+                       view="/UsuarioList.xhtml">
+                <f:param name="from" value="TicketRegistroEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

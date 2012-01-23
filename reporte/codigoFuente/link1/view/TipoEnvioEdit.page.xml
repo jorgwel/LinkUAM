@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/TipoEnvioList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{tipoEnvioHome.wire}"/>
+
+   <param name="tipoEnvioFrom"/>
+   <param name="tipoEnvioIdTipoEnvio" value="#{tipoEnvioHome.tipoEnvioIdTipoEnvio}"/>
+
+
+   <navigation from-action="#{tipoEnvioHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/TipoEnvio.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{tipoEnvioHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/TipoEnvio.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{tipoEnvioHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/TipoEnvioList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

@@ -1,0 +1,108 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Tipo bitacora Details</f:facet>
+
+        <s:decorate id="idTipoBitacora" template="layout/display.xhtml">
+            <ui:define name="label">Id tipo bitacora</ui:define>
+            <h:outputText value="#{tipoBitacoraHome.instance.idTipoBitacora}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionTipoBitacora" template="layout/display.xhtml">
+            <ui:define name="label">Definicion tipo bitacora</ui:define>
+            <h:outputText value="#{tipoBitacoraHome.instance.definicionTipoBitacora}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreTipoBitacora" template="layout/display.xhtml">
+            <ui:define name="label">Nombre tipo bitacora</ui:define>
+            <h:outputText value="#{tipoBitacoraHome.instance.nombreTipoBitacora}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/TipoBitacoraEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty tipoBitacoraFrom ? 'TipoBitacoraList' : tipoBitacoraFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Bitacoras</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="bitacorasChildren">
+
+        <h:outputText value="There are no bitacoras associated with this tipoBitacora."
+                   rendered="#{empty tipoBitacoraHome.bitacoras}"/>
+
+        <rich:dataTable value="#{tipoBitacoraHome.bitacoras}"
+                       var="_bitacora"
+                  rendered="#{not empty tipoBitacoraHome.bitacoras}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="bitacorasTable">
+            <rich:column sortBy="#{_bitacora.idBitacora}">
+                <f:facet name="header">Id bitacora</f:facet>
+                <h:outputText value="#{_bitacora.idBitacora}"/>
+            </rich:column>
+            <rich:column sortBy="#{_bitacora.descripcionBitacora}">
+                <f:facet name="header">Descripcion bitacora</f:facet>
+                <h:outputText value="#{_bitacora.descripcionBitacora}"/>
+            </rich:column>
+            <rich:column sortBy="#{_bitacora.fechaBitacora}">
+                <f:facet name="header">Fecha bitacora</f:facet>
+                <h:outputText value="#{_bitacora.fechaBitacora}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_bitacora.tituloBitacora}">
+                <f:facet name="header">Titulo bitacora</f:facet>
+                <h:outputText value="#{_bitacora.tituloBitacora}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectbitacora"
+                     value="Select"
+                      view="/Bitacora.xhtml">
+                    <f:param name="bitacoraIdBitacora"
+                            value="#{_bitacora.idBitacora}"/>
+                    <f:param name="bitacoraFrom" value="TipoBitacora"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add bitacora"
+                view="/BitacoraEdit.xhtml">
+            <f:param name="tipoBitacoraIdTipoBitacora"
+                    value="#{tipoBitacoraHome.instance.idTipoBitacora}"/>
+            <f:param name="bitacoraFrom" value="TipoBitacora"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,158 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+        
+        <p:resources/>
+        </head>
+        <body>
+
+
+        <h:form>
+
+            <p:wizard widgetVar="wiz"
+                      flowListener="#{userWizard.onFlowProcess}">
+
+                <p:tab id="personal" title="">
+
+                    <p:panel header="Personal Details">
+
+                        <h:messages errorClass="error"/>
+
+                        <h:panelGrid columns="2" columnClasses="label, value" styleClass="grid">
+                            <h:outputText value="Firstname: *" />
+                            <h:inputText required="true" label="Firstname"
+                                         value="#{userWizard.user.firstname}" />
+
+                            <h:outputText value="HOOLA Lastname: *" />
+                            <h:inputText required="true" label="Lastname"
+                                         value="#{userWizard.user.lastname}" />
+
+                            <h:outputText value="Age: " />
+                            <h:inputText value="#{userWizard.user.age}" />
+
+                            <h:outputText value="Skip to last: " />
+                            <h:selectBooleanCheckbox value="#{userWizard.skip}" />
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="address" title="">
+                    <p:panel header="Adress Details">
+
+                        <h:messages errorClass="error"/>
+
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="Street: " />
+                            <h:inputText value="#{userWizard.user.street}" />
+
+                            <h:outputText value="Postal Code: " />
+                            <h:inputText value="#{userWizard.user.postalCode}" />
+
+                            <h:outputText value="City: " />
+                            <h:inputText value="#{userWizard.user.city}" />
+
+                            <h:outputText value="Skip to last: " />
+                            <h:selectBooleanCheckbox value="#{userWizard.skip}" />
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="contact" title="">
+                    <p:panel header="Contact Information">
+
+                        <h:messages errorClass="error"/>
+
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="Email: *" />
+                            <h:inputText required="true" label="Email"
+                                         value="#{userWizard.user.email}" />
+
+                            <h:outputText value="Phone: " />
+                            <h:inputText value="#{userWizard.user.phone}"/>
+
+                            <h:outputText value="Additional Info: " />
+                            <h:inputText value="#{userWizard.user.info}"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="confirm" title="">
+                    <p:panel header="Confirmation">
+
+                        <p:growl id="growl" sticky="true" showDetail="true"/>
+
+                        <h:panelGrid id="confirmation" columns="6">
+                            <h:outputText value="Firstname: " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{userWizard.user.firstname}" />
+
+                            <h:outputText value="Lastname: " />
+                            <h:outputText  styleClass="outputLabel"
+                                           value="#{userWizard.user.lastname}"/>
+
+                            <h:outputText value="Age: " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{userWizard.user.age}" />>
+
+                            <h:outputText value="Street: " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{userWizard.user.street}" />
+
+                            <h:outputText value="Postal Code: " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{userWizard.user.postalCode}" />
+
+                            <h:outputText value="City: " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{userWizard.user.city}" />
+
+                            <h:outputText value="Email: " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{userWizard.user.email}" />
+
+                            <h:outputText value="Phone " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{userWizard.user.phone}"/>
+
+                            <h:outputText value="Info: " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{userWizard.user.info}" />
+
+                            <h:outputText />
+                            <h:outputText />
+                        </h:panelGrid>
+
+                        <p:commandButton value="Submit" update="growl"
+                                         actionListener="#{userWizard.save}"/>
+
+                    </p:panel>
+                </p:tab>
+
+            </p:wizard>
+
+            <p:ajaxStatus>
+                <f:facet name="start">
+                    <h:graphicImage value="../design/ajaxloading.gif" />
+                </f:facet>
+
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>
+            </p:ajaxStatus>
+
+        </h:form>
+
+        </body>
+    </html>
+
+</f:view>

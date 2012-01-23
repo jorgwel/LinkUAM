@@ -1,0 +1,162 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    ARCHIVO QUE DEFINE LA PÁGINA PRINCIPAL
+-->
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoHomeTemplate.xhtml">
+
+    <!--
+        DEFINIENDO EL CONTENIDO DE UNA PÁGINA
+    -->
+    <ui:define name="body">
+        <p:layoutUnit
+            id="center"
+            position="center"
+            style="text-align:center;"
+            scrollable="true"
+            >
+            <!-- Growl para mensajes -->
+            <p:growl id="msg" life="2500"/>
+            <p:panel
+                style=
+                "border: 2px outset;padding: 0px;
+                margin: 7px;margin-bottom: 0px"
+                >
+                <f:facet name="header">
+                    <h:outputText
+                        value="#{'hi'}"
+                        style="visibility: hidden"/>
+                </f:facet>
+
+
+                <p:graphicImage value="/img/uam_logo.png"/>
+                <p style="text-align: left" >
+                    <h:outputText 
+                        style=
+                        "text-align: left;
+                        font-size: 14pt;
+                        font-weight: bold"
+                        value="¿Qué es LinkUAM?"
+                        />
+                </p>
+                <p style="text-align: left;font-size: 12pt">
+                    LinkUAM es un sistema informático que <strong>pretende promover una cultura innovadora y emprendedora
+                        dentro de nuestra Universidad</strong>, a través de una aplicación web que
+                    facilite la difusión y ayude en la gestión de ideas generadas por miembros de la
+                    UAM.
+                </p>
+
+                <p style="text-align: left;font-size: 12pt">
+                    Este sistema fue creado por cuatro razones, principalmente:
+                </p>
+                <p>
+                    <ol>
+                        <li style="text-align: left;font-size: 12pt" >Demostrar mi teoría: <i>"Los alumnos de la UAM son emprendedores, solo hace falta un medio para describir, comunicar, encontrar apoyo y comenzar sus ideas."</i></li>
+                        <li style="text-align: left;font-size: 12pt" >Facilitar, provocar y/o esperar el surgimiento y desarrollo de ideas que realmente cambien al mundo, poniendo mi confianza principalmente en alumnos universitarios, académicos y en mí (¿En quién más?).</li>
+                        <li style="text-align: left;font-size: 12pt" >En algún blog leí que: <i>"...para pedir algo primero hay que ofrecer algo..."</i>. Pido un mundo diferente, LinkUAM es lo que ofrezco, de momento.</li>
+                        <li style="text-align: left;font-size: 12pt" >Hacer el intento de evitar que este proyecto se pudra en lo más profundo (literalmente) de la biblioteca de la UAM Azcapotzalco.</li>
+
+                    </ol>
+
+                </p>
+
+                <p style="text-align: left;font-size: 12pt">
+                    Traduciendo:
+                </p>
+                <p style="text-align: left;font-size: 12pt">
+                    LinkUAM es una página web cuya intención es <strong>facilitar el contacto entre miembros de diferentes carreras de la
+                        UAM</strong> que desean concretar sus ideas y emprendimientos. Estas ideas pueden comprender desde las más
+                    burdas hasta más complejas, temerarias, ambiciosas y/o descabelladas...como implica la naturaleza de cualquier idea.
+                </p>
+
+                <p style="text-align: left;font-size: 12pt">
+                    Algunos ejemplos que vienen a mi limitada imaginación:
+                </p>
+                <p style="text-align: left;font-size: 12pt">
+                    <ol style="text-align: left !important">
+
+                        <li style="text-align: left;font-size: 12pt" >Encontrar credenciales extraviadas.</li>                        
+                        <li style="text-align: left;font-size: 12pt" >Ofrecer una camada de perritos corrientes.</li>
+                        <li style="text-align: left;font-size: 12pt" >Crear grupos de estudio en materias difíciles.</li>
+                        <li style="text-align: left;font-size: 12pt" ><strong>Crear un sistema que remplace a LinkUAM.</strong></li>
+                        <li style="text-align: left;font-size: 12pt" >Crear un <strong>equipo de beisbol</strong> dentro de la UAM.</li>
+                        <li style="text-align: left;font-size: 12pt" >Crear un <strong>equipo de lucha libre</strong> dentro de la UAM.</li>
+                        <li style="text-align: left;font-size: 12pt" >Intercambiar libros para evitar gastos innecesarios.</li>
+                        <li style="text-align: left;font-size: 12pt" >Proponer ideas para <strong>conservación del medio ambiente</strong>.</li>
+                        <li style="text-align: left;font-size: 12pt" >Anunciar la creación de un nuevo plan de maestría y darle seguimiento.</li>
+                        <li style="text-align: left;font-size: 12pt" >¡<strong>Pasar la pista de películas mexicanas increíbles</strong> que nadie puede ver!.</li>
+                        <li style="text-align: left;font-size: 12pt" >Encontrar en la UAM miembros y apoyo faltantes para crear un equipo de futbol.</li>
+                        <li style="text-align: left;font-size: 12pt" >Encontrar en la UAM miembros faltantes para poner un puesto de hamburguesas.</li>
+                        <li style="text-align: left;font-size: 12pt" >Encontrar al vocalista para completar la banda más exitosa de <strong>rock internacional</strong>.</li>
+                        <li style="text-align: left;font-size: 12pt" >Encontrar en la UAM miembros faltantes para <strong>iniciar un despacho de abogados</strong>.</li>
+                        <li style="text-align: left;font-size: 12pt" >Encontrar en la UAM miembros de otras carreras para <strong>iniciar una casa de diseño</strong>.</li>
+                        <li style="text-align: left;font-size: 12pt" >Promover el surgimiento de nuevas alternativas para hacer nuestro <strong>servicio social</strong>.</li>
+
+
+                        <li style="text-align: left;font-size: 12pt" >Encontrar en la UAM miembros faltantes para <strong>iniciar una consultoría de software</strong>.</li>
+                        <li style="text-align: left;font-size: 12pt" >Encontrar al contador que necesito para iniciar mi empresa y <strong>hacerlo socio para evitar pagarle honorarios</strong>.</li>
+
+                        <li style="text-align: left;font-size: 12pt" ><strong>Que los alumnos publiquen propuestas de proyectos terminales</strong> para que los profesores busquen a sus asesorados.</li>
+                        <li style="text-align: left;font-size: 12pt" ><strong>Que los profesores publiquen propuestas de proyectos terminales</strong> para que los alumnos busquen al asesor que más les convenga.</li>
+                        <li style="text-align: left;font-size: 12pt" ><strong>Que los alumnos publiquen sus proyectos terminales</strong> ya concluídos, evitando así que se echen a perder en la biblioteca...en el mejor de los casos.</li>
+
+                        <li style="text-align: left;font-size: 12pt" ><strong>Que personas o empresas externas a la UAM puedan comunicar sus problemas</strong> a la comunidad estudiantil y establecer al fin ese lazo entre ambas.</li>
+                        <li style="text-align: left;font-size: 12pt" ><strong>Que alumnos egresados de la UAM puedan mantenerse enterados</strong> de proyectos e ideas que ocurren dentro de la que siempre será su universidad. Y no solo eso, sino que ellos mismos propongan nuevos proyectos dentro de la UAM, retroalimentándonos con su nueva experiencia profesional.</li>
+                        <li style="text-align: left;font-size: 12pt" >Redirigir los fondos de la Universidad para <strong>comprar el nuevo estadio de las chivas</strong> y bajar los precios de los boletos. Después, traer al Barcelona, Real Madrid, Metállica, Tool y Pastilla para jalar más gente y con las ganancias comprar iPads para cada estudiante de la UAM, al menos de Azcapotzalco :).</li>
+
+
+
+
+
+
+                    </ol>
+                </p>
+
+
+                <p style="text-align: center">
+
+                    <p style="text-align: center;font-size: 12pt">
+                        Esperamos que te guste LinkUAM, y si no, nos hagas saber el porque.
+                    </p>
+                    <p style="text-align: center;font-size: 12pt;font-style: italic">
+                        Atte
+                    </p>
+                    <p style="text-align: center;font-size: 12pt;">
+                        <span style="font-size: 14pt;font-weight: bold" >Jorge</span> <span style="font-size: 10pt;font-style: italic">"Moriré en un mundo diferente"</span> <span style="font-size: 14pt;font-weight: bold">Bautista</span>
+                    </p>
+                </p>
+                <br/>
+                <br/>
+
+                <p style="text-align: left;font-size: 12pt">
+                    LinkUAM se encuentra en una Versión BETA!<span style="color: red;font-weight: bold">*</span>. Agradeceremos cualquier comentario, crítica, aportación de ideas o reportes de error al correo: <i>linkuam@gmail.com</i>. También puedes hacerlo en la sección creada para ello presente en la  <s:link view="/Home.seam"> página principal</s:link>.
+
+
+                </p>
+                <p>
+                    <span style="color: red;font-weight: bold">*</span><span style="font-style: italic">Versión Beta:
+                        Es una versión temporal de software antes de la liberación de la versión definitiva, con el objetivo de realizar pruebas de campo al sistema.
+                        En el caso de LinkUAM, la Versión BETA! implica que estamos y estaremos siempre en continuo mejoramiento (mientras existamos) , con ayuda de sus críticas claro.
+                    </span>
+                </p>
+
+
+
+
+
+            </p:panel>
+
+        </p:layoutUnit>
+
+    </ui:define>
+
+
+</ui:composition>
+
+

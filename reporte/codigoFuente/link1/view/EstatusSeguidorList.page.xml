@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="firstResult" value="#{estatusSeguidorList.firstResult}"/>
+   <param name="sort" value="#{estatusSeguidorList.orderColumn}"/>
+   <param name="dir" value="#{estatusSeguidorList.orderDirection}"/>
+   <param name="logic" value="#{estatusSeguidorList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="definicionEstatusSeguidor" value="#{estatusSeguidorList.estatusSeguidor.definicionEstatusSeguidor}"/>
+   <param name="nombreEstatusSeguidor" value="#{estatusSeguidorList.estatusSeguidor.nombreEstatusSeguidor}"/>
+
+</page>

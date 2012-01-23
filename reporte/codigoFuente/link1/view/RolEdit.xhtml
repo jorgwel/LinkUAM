@@ -1,0 +1,137 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="rol" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{rolHome.managed ? 'Edit' : 'Add'} Rol</f:facet>
+
+
+            <s:decorate id="idRolField" template="layout/edit.xhtml">
+                <ui:define name="label">Id rol</ui:define>
+                <h:inputText id="idRol"
+                       required="true"
+                       disabled="#{rolHome.managed}"
+                          value="#{rolHome.instance.idRol}">
+                    <a:support event="onblur" reRender="idRolField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionRolField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion rol</ui:define>
+                <h:inputText id="definicionRol"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{rolHome.instance.definicionRol}">
+                    <a:support event="onblur" reRender="definicionRolField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreRolField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre rol</ui:define>
+                <h:inputText id="nombreRol"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{rolHome.instance.nombreRol}">
+                    <a:support event="onblur" reRender="nombreRolField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{rolHome.persist}"
+                       disabled="#{!rolHome.wired}"
+                       rendered="#{!rolHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{rolHome.update}"
+                       rendered="#{rolHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{rolHome.remove}"
+                      immediate="true"
+                       rendered="#{rolHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Rol.xhtml"
+                rendered="#{rolHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty rolFrom ? 'RolList' : rolFrom}.xhtml"
+                rendered="#{!rolHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Permisos">
+        <h:form styleClass="association" id="permisosChildren">
+
+            <h:outputText value="There are no permisos associated with this rol."
+                       rendered="#{empty rolHome.permisos}"/>
+
+            <rich:dataTable value="#{rolHome.permisos}"
+                           var="_permiso"
+                      rendered="#{not empty rolHome.permisos}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="permisosTable">
+                <rich:column sortBy="#{_permiso.id.rolId}">
+                    <f:facet name="header">Rol id</f:facet>
+                    <h:outputText value="#{_permiso.id.rolId}"/>
+                </rich:column>
+                <rich:column sortBy="#{_permiso.id.usuarioId}">
+                    <f:facet name="header">Usuario id</f:facet>
+                    <h:outputText value="#{_permiso.id.usuarioId}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{rolHome.managed}" id="permisos">
+        <div class="actionButtons">
+            <s:button id="addpermiso"
+                   value="Add permiso"
+                    view="/PermisoEdit.xhtml"
+             propagation="none">
+                 <f:param name="rolIdRol"
+                         value="#{rolHome.instance.idRol}"/>
+                 <f:param name="permisoFrom" value="Rol"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

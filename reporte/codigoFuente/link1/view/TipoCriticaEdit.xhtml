@@ -1,0 +1,143 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoCritica" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{tipoCriticaHome.managed ? 'Edit' : 'Add'} Tipo critica</f:facet>
+
+
+            <s:decorate id="idTipoCriticaField" template="layout/edit.xhtml">
+                <ui:define name="label">Id tipo critica</ui:define>
+                <h:inputText id="idTipoCritica"
+                       required="true"
+                       disabled="#{tipoCriticaHome.managed}"
+                          value="#{tipoCriticaHome.instance.idTipoCritica}">
+                    <a:support event="onblur" reRender="idTipoCriticaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="definicionTipoCriticaField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion tipo critica</ui:define>
+                <h:inputText id="definicionTipoCritica"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{tipoCriticaHome.instance.definicionTipoCritica}">
+                    <a:support event="onblur" reRender="definicionTipoCriticaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreTipoCriticaField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre tipo critica</ui:define>
+                <h:inputText id="nombreTipoCritica"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{tipoCriticaHome.instance.nombreTipoCritica}">
+                    <a:support event="onblur" reRender="nombreTipoCriticaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{tipoCriticaHome.persist}"
+                       disabled="#{!tipoCriticaHome.wired}"
+                       rendered="#{!tipoCriticaHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{tipoCriticaHome.update}"
+                       rendered="#{tipoCriticaHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{tipoCriticaHome.remove}"
+                      immediate="true"
+                       rendered="#{tipoCriticaHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TipoCritica.xhtml"
+                rendered="#{tipoCriticaHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty tipoCriticaFrom ? 'TipoCriticaList' : tipoCriticaFrom}.xhtml"
+                rendered="#{!tipoCriticaHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Criticas">
+        <h:form styleClass="association" id="criticasChildren">
+
+            <h:outputText value="There are no criticas associated with this tipoCritica."
+                       rendered="#{empty tipoCriticaHome.criticas}"/>
+
+            <rich:dataTable value="#{tipoCriticaHome.criticas}"
+                           var="_critica"
+                      rendered="#{not empty tipoCriticaHome.criticas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="criticasTable">
+                <rich:column sortBy="#{_critica.idCritica}">
+                    <f:facet name="header">Id critica</f:facet>
+                    <h:outputText value="#{_critica.idCritica}"/>
+                </rich:column>
+                <rich:column sortBy="#{_critica.fechaCritica}">
+                    <f:facet name="header">Fecha critica</f:facet>
+                    <h:outputText value="#{_critica.fechaCritica}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_critica.textoCritica}">
+                    <f:facet name="header">Texto critica</f:facet>
+                    <h:outputText value="#{_critica.textoCritica}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{tipoCriticaHome.managed}" id="criticas">
+        <div class="actionButtons">
+            <s:button id="addcritica"
+                   value="Add critica"
+                    view="/CriticaEdit.xhtml"
+             propagation="none">
+                 <f:param name="tipoCriticaIdTipoCritica"
+                         value="#{tipoCriticaHome.instance.idTipoCritica}"/>
+                 <f:param name="criticaFrom" value="TipoCritica"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,120 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus integrante Details</f:facet>
+
+        <s:decorate id="idEstatusIntegrante" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus integrante</ui:define>
+            <h:outputText value="#{estatusIntegranteHome.instance.idEstatusIntegrante}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusIntegrante" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus integrante</ui:define>
+            <h:outputText value="#{estatusIntegranteHome.instance.definicionEstatusIntegrante}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusIntegrante" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus integrante</ui:define>
+            <h:outputText value="#{estatusIntegranteHome.instance.nombreEstatusIntegrante}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusIntegranteEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusIntegranteFrom ? 'EstatusIntegranteList' : estatusIntegranteFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Integrantes</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="integrantesChildren">
+
+        <h:outputText value="There are no integrantes associated with this estatusIntegrante."
+                   rendered="#{empty estatusIntegranteHome.integrantes}"/>
+
+        <rich:dataTable value="#{estatusIntegranteHome.integrantes}"
+                       var="_integrante"
+                  rendered="#{not empty estatusIntegranteHome.integrantes}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="integrantesTable">
+            <rich:column sortBy="#{_integrante.id.ideaId}">
+                <f:facet name="header">Idea id</f:facet>
+                <h:outputText value="#{_integrante.id.ideaId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_integrante.id.usuarioId}">
+                <f:facet name="header">Usuario id</f:facet>
+                <h:outputText value="#{_integrante.id.usuarioId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_integrante.calificacionIntegrante}">
+                <f:facet name="header">Calificacion integrante</f:facet>
+                <h:outputText value="#{_integrante.calificacionIntegrante}"/>
+            </rich:column>
+            <rich:column sortBy="#{_integrante.esliderIntegrante}">
+                <f:facet name="header">Eslider integrante</f:facet>
+                <h:outputText value="#{_integrante.esliderIntegrante}"/>
+            </rich:column>
+            <rich:column sortBy="#{_integrante.fechaFinIntegrante}">
+                <f:facet name="header">Fecha fin integrante</f:facet>
+                <h:outputText value="#{_integrante.fechaFinIntegrante}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_integrante.fechaInicioIntegrante}">
+                <f:facet name="header">Fecha inicio integrante</f:facet>
+                <h:outputText value="#{_integrante.fechaInicioIntegrante}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectintegrante"
+                     value="Select"
+                      view="/Integrante.xhtml">
+                    <f:param name="integranteIdeaId"
+                            value="#{_integrante.id.ideaId}"/>
+                    <f:param name="integranteUsuarioId"
+                            value="#{_integrante.id.usuarioId}"/>
+                    <f:param name="integranteFrom" value="EstatusIntegrante"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add integrante"
+                view="/IntegranteEdit.xhtml">
+            <f:param name="estatusIntegranteIdEstatusIntegrante"
+                    value="#{estatusIntegranteHome.instance.idEstatusIntegrante}"/>
+            <f:param name="integranteFrom" value="EstatusIntegrante"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,293 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="lugar" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{lugarHome.managed ? 'Edit' : 'Add'} Lugar</f:facet>
+
+
+            <s:decorate id="idLugarField" template="layout/edit.xhtml">
+                <ui:define name="label">Id lugar</ui:define>
+                <h:inputText id="idLugar"
+                       required="true"
+                       disabled="#{lugarHome.managed}"
+                          value="#{lugarHome.instance.idLugar}">
+                    <a:support event="onblur" reRender="idLugarField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="descripcionLugarField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion lugar</ui:define>
+                <h:inputText id="descripcionLugar"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{lugarHome.instance.descripcionLugar}">
+                    <a:support event="onblur" reRender="descripcionLugarField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreLugarField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre lugar</ui:define>
+                <h:inputText id="nombreLugar"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{lugarHome.instance.nombreLugar}">
+                    <a:support event="onblur" reRender="nombreLugarField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{lugarHome.persist}"
+                       disabled="#{!lugarHome.wired}"
+                       rendered="#{!lugarHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{lugarHome.update}"
+                       rendered="#{lugarHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{lugarHome.remove}"
+                      immediate="true"
+                       rendered="#{lugarHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Lugar.xhtml"
+                rendered="#{lugarHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty lugarFrom ? 'LugarList' : lugarFrom}.xhtml"
+                rendered="#{!lugarHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Ideas">
+        <h:form styleClass="association" id="ideasChildren">
+
+            <h:outputText value="There are no ideas associated with this lugar."
+                       rendered="#{empty lugarHome.ideas}"/>
+
+            <rich:dataTable value="#{lugarHome.ideas}"
+                           var="_idea"
+                      rendered="#{not empty lugarHome.ideas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="ideasTable">
+                <rich:column sortBy="#{_idea.idIdea}">
+                    <f:facet name="header">Id idea</f:facet>
+                    <h:outputText value="#{_idea.idIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.calificacionIdea}">
+                    <f:facet name="header">Calificacion idea</f:facet>
+                    <h:outputText value="#{_idea.calificacionIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.contenidoIdea}">
+                    <f:facet name="header">Contenido idea</f:facet>
+                    <h:outputText value="#{_idea.contenidoIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.fechaCreacionIdea}">
+                    <f:facet name="header">Fecha creacion idea</f:facet>
+                    <h:outputText value="#{_idea.fechaCreacionIdea}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_idea.nombreImagen}">
+                    <f:facet name="header">Nombre imagen</f:facet>
+                    <h:outputText value="#{_idea.nombreImagen}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.resumenIdea}">
+                    <f:facet name="header">Resumen idea</f:facet>
+                    <h:outputText value="#{_idea.resumenIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.tituloIdea}">
+                    <f:facet name="header">Titulo idea</f:facet>
+                    <h:outputText value="#{_idea.tituloIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.votosNegativosIdea}">
+                    <f:facet name="header">Votos negativos idea</f:facet>
+                    <h:outputText value="#{_idea.votosNegativosIdea}"/>
+                </rich:column>
+                <rich:column sortBy="#{_idea.votosPositivosIdea}">
+                    <f:facet name="header">Votos positivos idea</f:facet>
+                    <h:outputText value="#{_idea.votosPositivosIdea}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{lugarHome.managed}" id="ideas">
+        <div class="actionButtons">
+            <s:button id="addidea"
+                   value="Add idea"
+                    view="/IdeaEdit.xhtml"
+             propagation="none">
+                 <f:param name="lugarIdLugar"
+                         value="#{lugarHome.instance.idLugar}"/>
+                 <f:param name="ideaFrom" value="Lugar"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Tipo lugar *" labelClass="required">
+    <div class="association" id="tipoLugarParent">
+
+        <h:outputText value="There is no tipoLugar associated with this lugar."
+                   rendered="#{lugarHome.instance.tipoLugar == null}"/>
+
+        <rich:dataTable var="_tipoLugar"
+                   value="#{lugarHome.instance.tipoLugar}"
+                rendered="#{lugarHome.instance.tipoLugar != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipoLugarTable">
+            <h:column>
+                <f:facet name="header">Id tipo lugar</f:facet>
+                <h:outputText value="#{_tipoLugar.idTipoLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion tipo lugar</f:facet>
+                <h:outputText value="#{_tipoLugar.descripcionTipoLugar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre tipo lugar</f:facet>
+                <h:outputText value="#{_tipoLugar.nombreTipoLugar}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{lugarHome.instance.tipoLugar != null ? 'changeParenttipoLugar' : 'selectParenttipoLugar'}" value="#{lugarHome.instance.tipoLugar != null ? 'Change' : 'Select'} tipoLugar"
+                       view="/TipoLugarList.xhtml">
+                <f:param name="from" value="LugarEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Usuario">
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this lugar."
+                   rendered="#{lugarHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{lugarHome.instance.usuario}"
+                rendered="#{lugarHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{lugarHome.instance.usuario != null ? 'changeParentusuario' : 'selectParentusuario'}" value="#{lugarHome.instance.usuario != null ? 'Change' : 'Select'} usuario"
+                       view="/UsuarioList.xhtml">
+                <f:param name="from" value="LugarEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

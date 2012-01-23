@@ -1,0 +1,193 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="tipoContactoUsuario" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{tipoContactoUsuarioHome.managed ? 'Edit' : 'Add'} Tipo contacto usuario</f:facet>
+
+
+            <s:decorate id="idTipoContactoUsuarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Id tipo contacto usuario</ui:define>
+                <h:inputText id="idTipoContactoUsuario"
+                       required="true"
+                       disabled="#{tipoContactoUsuarioHome.managed}"
+                          value="#{tipoContactoUsuarioHome.instance.idTipoContactoUsuario}">
+                    <a:support event="onblur" reRender="idTipoContactoUsuarioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="dato1Field" template="layout/edit.xhtml">
+                <ui:define name="label">Dato1</ui:define>
+                <h:inputText id="dato1"
+                           size="100"
+                      maxlength="100"
+                          value="#{tipoContactoUsuarioHome.instance.dato1}">
+                    <a:support event="onblur" reRender="dato1Field" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="dato2Field" template="layout/edit.xhtml">
+                <ui:define name="label">Dato2</ui:define>
+                <h:inputText id="dato2"
+                           size="100"
+                      maxlength="100"
+                          value="#{tipoContactoUsuarioHome.instance.dato2}">
+                    <a:support event="onblur" reRender="dato2Field" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="dato3Field" template="layout/edit.xhtml">
+                <ui:define name="label">Dato3</ui:define>
+                <h:inputText id="dato3"
+                           size="100"
+                      maxlength="100"
+                          value="#{tipoContactoUsuarioHome.instance.dato3}">
+                    <a:support event="onblur" reRender="dato3Field" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="dato4Field" template="layout/edit.xhtml">
+                <ui:define name="label">Dato4</ui:define>
+                <h:inputText id="dato4"
+                           size="100"
+                      maxlength="100"
+                          value="#{tipoContactoUsuarioHome.instance.dato4}">
+                    <a:support event="onblur" reRender="dato4Field" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionTipoContactoUsuarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion tipo contacto usuario</ui:define>
+                <h:inputText id="definicionTipoContactoUsuario"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{tipoContactoUsuarioHome.instance.definicionTipoContactoUsuario}">
+                    <a:support event="onblur" reRender="definicionTipoContactoUsuarioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreTipoContactoUsuarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre tipo contacto usuario</ui:define>
+                <h:inputText id="nombreTipoContactoUsuario"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{tipoContactoUsuarioHome.instance.nombreTipoContactoUsuario}">
+                    <a:support event="onblur" reRender="nombreTipoContactoUsuarioField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{tipoContactoUsuarioHome.persist}"
+                       disabled="#{!tipoContactoUsuarioHome.wired}"
+                       rendered="#{!tipoContactoUsuarioHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{tipoContactoUsuarioHome.update}"
+                       rendered="#{tipoContactoUsuarioHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{tipoContactoUsuarioHome.remove}"
+                      immediate="true"
+                       rendered="#{tipoContactoUsuarioHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TipoContactoUsuario.xhtml"
+                rendered="#{tipoContactoUsuarioHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty tipoContactoUsuarioFrom ? 'TipoContactoUsuarioList' : tipoContactoUsuarioFrom}.xhtml"
+                rendered="#{!tipoContactoUsuarioHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Contacto usuarios">
+        <h:form styleClass="association" id="contactoUsuariosChildren">
+
+            <h:outputText value="There are no contactoUsuarios associated with this tipoContactoUsuario."
+                       rendered="#{empty tipoContactoUsuarioHome.contactoUsuarios}"/>
+
+            <rich:dataTable value="#{tipoContactoUsuarioHome.contactoUsuarios}"
+                           var="_contactoUsuario"
+                      rendered="#{not empty tipoContactoUsuarioHome.contactoUsuarios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="contactoUsuariosTable">
+                <rich:column sortBy="#{_contactoUsuario.idContactoUsuario}">
+                    <f:facet name="header">Id contacto usuario</f:facet>
+                    <h:outputText value="#{_contactoUsuario.idContactoUsuario}"/>
+                </rich:column>
+                <rich:column sortBy="#{_contactoUsuario.textoComplementario1}">
+                    <f:facet name="header">Texto complementario1</f:facet>
+                    <h:outputText value="#{_contactoUsuario.textoComplementario1}"/>
+                </rich:column>
+                <rich:column sortBy="#{_contactoUsuario.textoComplementario2}">
+                    <f:facet name="header">Texto complementario2</f:facet>
+                    <h:outputText value="#{_contactoUsuario.textoComplementario2}"/>
+                </rich:column>
+                <rich:column sortBy="#{_contactoUsuario.textoComplementario3}">
+                    <f:facet name="header">Texto complementario3</f:facet>
+                    <h:outputText value="#{_contactoUsuario.textoComplementario3}"/>
+                </rich:column>
+                <rich:column sortBy="#{_contactoUsuario.textoContactoUsuario}">
+                    <f:facet name="header">Texto contacto usuario</f:facet>
+                    <h:outputText value="#{_contactoUsuario.textoContactoUsuario}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{tipoContactoUsuarioHome.managed}" id="contactoUsuarios">
+        <div class="actionButtons">
+            <s:button id="addcontactoUsuario"
+                   value="Add contactoUsuario"
+                    view="/ContactoUsuarioEdit.xhtml"
+             propagation="none">
+                 <f:param name="tipoContactoUsuarioIdTipoContactoUsuario"
+                         value="#{tipoContactoUsuarioHome.instance.idTipoContactoUsuario}"/>
+                 <f:param name="contactoUsuarioFrom" value="TipoContactoUsuario"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

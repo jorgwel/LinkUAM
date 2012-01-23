@@ -1,0 +1,26 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+
+        <p:resources/>
+        </head>
+        <body>
+        <p:lightBox iframe="true" width="80%" height="80%" opacity=".03" style="color: white !important" >
+            <h:outputLink value="/link1/MostrarDatosUsuario.seam?usuarioIdUsuario=0" title="PrimeFaces HomePage">
+                <h:outputText value="PrimeFaces HomePage"/>
+            </h:outputLink>
+        </p:lightBox>  
+        </body>
+    </html>
+
+</f:view>

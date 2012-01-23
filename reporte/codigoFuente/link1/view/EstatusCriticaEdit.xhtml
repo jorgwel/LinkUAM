@@ -1,0 +1,143 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusCritica" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusCriticaHome.managed ? 'Edit' : 'Add'} Estatus critica</f:facet>
+
+
+            <s:decorate id="idEstatusCriticaField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus critica</ui:define>
+                <h:inputText id="idEstatusCritica"
+                       required="true"
+                       disabled="#{estatusCriticaHome.managed}"
+                          value="#{estatusCriticaHome.instance.idEstatusCritica}">
+                    <a:support event="onblur" reRender="idEstatusCriticaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="definicionEstatusCriticaField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus critica</ui:define>
+                <h:inputText id="definicionEstatusCritica"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusCriticaHome.instance.definicionEstatusCritica}">
+                    <a:support event="onblur" reRender="definicionEstatusCriticaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreEstatusCriticaField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus critica</ui:define>
+                <h:inputText id="nombreEstatusCritica"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusCriticaHome.instance.nombreEstatusCritica}">
+                    <a:support event="onblur" reRender="nombreEstatusCriticaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusCriticaHome.persist}"
+                       disabled="#{!estatusCriticaHome.wired}"
+                       rendered="#{!estatusCriticaHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusCriticaHome.update}"
+                       rendered="#{estatusCriticaHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusCriticaHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusCriticaHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusCritica.xhtml"
+                rendered="#{estatusCriticaHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusCriticaFrom ? 'EstatusCriticaList' : estatusCriticaFrom}.xhtml"
+                rendered="#{!estatusCriticaHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Criticas">
+        <h:form styleClass="association" id="criticasChildren">
+
+            <h:outputText value="There are no criticas associated with this estatusCritica."
+                       rendered="#{empty estatusCriticaHome.criticas}"/>
+
+            <rich:dataTable value="#{estatusCriticaHome.criticas}"
+                           var="_critica"
+                      rendered="#{not empty estatusCriticaHome.criticas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="criticasTable">
+                <rich:column sortBy="#{_critica.idCritica}">
+                    <f:facet name="header">Id critica</f:facet>
+                    <h:outputText value="#{_critica.idCritica}"/>
+                </rich:column>
+                <rich:column sortBy="#{_critica.fechaCritica}">
+                    <f:facet name="header">Fecha critica</f:facet>
+                    <h:outputText value="#{_critica.fechaCritica}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_critica.textoCritica}">
+                    <f:facet name="header">Texto critica</f:facet>
+                    <h:outputText value="#{_critica.textoCritica}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusCriticaHome.managed}" id="criticas">
+        <div class="actionButtons">
+            <s:button id="addcritica"
+                   value="Add critica"
+                    view="/CriticaEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusCriticaIdEstatusCritica"
+                         value="#{estatusCriticaHome.instance.idEstatusCritica}"/>
+                 <f:param name="criticaFrom" value="EstatusCritica"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

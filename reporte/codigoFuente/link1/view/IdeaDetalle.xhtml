@@ -1,0 +1,1397 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoMasEspacioTemplate.xhtml">
+
+
+    <ui:define name="body">
+        <p:layoutUnit  id="center" 
+                       position="center" style="text-align:center;"
+                       scrollable="true" width="2000"
+                       >
+            <p:growl id="msg" life="6000"/>
+
+
+            <p:panel style="border: 0px !important">
+                <f:facet name="header">
+                    <h:outputText
+                        value="#{messages['idea.titulodetalle']}"
+                        style=
+                        "font-size: 18pt !important;
+                        border-bottom: 6px solid #FFBF00;
+                        font-weight: bold !important;
+                        letter-spacing: 3px !important;
+                        text-shadow: 0px 3px 3px #AAAAAA;
+                        text-shadow: 0px 5px 4px #AAAAAA;"/>
+                </f:facet>
+                <h:form  style="text-align: right !important">
+                    <s:link value="#{messages['general.regresar']}"
+                            styleClass="ui-button black center buttonbold textbig"
+                            view="/Home.seam" style="color: white;
+                            width: inherit !important;padding: 3px !important"
+                            />
+                </h:form>
+                <h:panelGrid columns="2">
+
+
+                    <p:graphicImage
+                        value=
+                        "/img/ideas/big/principal/#{ideaHome.instance.nombreImagen}"
+                        />
+
+
+
+                    <h:panelGrid columns="1" style="text-align:left !important">
+                        <!--                        <h:outputText
+                                                    value="#{messages['idea.informaciongeneral']}"
+                                                    styleClass="tituloinpanel"
+                                                    />-->
+                        <h:panelGrid columns="2">
+
+                            <h:outputText 
+                                value="#{messages['idea.autor']}"
+                                style=
+                                "font-size: 14pt !important;
+                                color: #8F8F8F;
+                                text-shadow: 0px 0px 2px #D9D9D9;
+                                letter-spacing:2px"
+                                />
+                            <h:outputText 
+                                value="#{idea.usuario.nickUsuario}"
+                                style=
+                                "font-size: 14pt !important;
+                                font-weight: bold !important;"
+                                />
+
+                            <h:outputText 
+                                value="#{messages['idea.seguidores']}"
+                                style=
+                                "font-size: 14pt !important;
+                                color: #8F8F8F;
+                                text-shadow: 0px 0px 2px #D9D9D9;
+                                letter-spacing:2px"
+                                />
+                            <h:outputText 
+                                value="#{idea.seguidors.size}"
+                                id="ideaSeguidoresSize"
+                                style="font-size: 14pt !important;"
+                                />
+
+                            <h:outputText 
+                                value="#{messages['idea.integrantes']}"
+                                style=
+                                "font-size: 14pt !important;
+                                color: #8F8F8F;
+                                text-shadow: 0px 0px 2px #D9D9D9;
+                                letter-spacing:2px"
+                                />
+                            <h:outputText 
+                                value="#{idea.integrantes.size}"
+                                id="ideaIntegrantesSize"
+                                style="font-size: 14pt !important;"
+                                />
+
+                            <h:outputText 
+                                value="#{messages['idea.institucion']}"
+                                style=
+                                "font-size: 14pt !important;
+                                color: #8F8F8F;
+                                text-shadow: 0px 0px 2px #D9D9D9;
+                                letter-spacing:2px"
+                                />
+                            <s:div>
+
+                                <p:graphicImage
+                                    value=
+                                    "/img/instituciones/#{idea.usuario.institucion.nombreImagenInstitucion}"
+                                    />
+                                <h:outputText
+                                    value=
+                                    " #{idea.usuario.institucion.nombreInstitucion}"
+                                    style="font-size: 14pt !important;"
+                                    />
+                            </s:div>
+
+
+                            <h:outputText 
+                                value="#{messages['idea.fechacreacion']}"
+                                style=
+                                "font-size: 14pt !important;
+                                color: #8F8F8F;
+                                text-shadow: 0px 0px 2px #D9D9D9;
+                                letter-spacing:2px"
+                                />
+                            <h:outputText value="#{idea.fechaCreacionIdea}"
+                                          style="font-size: 14pt !important;">
+                                <f:convertDateTime
+                                    locale="ES"
+                                    pattern="dd 'de' MMMMMM 'de' yyyy"
+                                    />
+                            </h:outputText>
+
+                            <h:outputText
+                                value="#{messages['panelcontrol.usuario.temasinteres']}"
+                                style=
+                                "font-size: 14pt !important;
+                                color: #8F8F8F;
+                                text-shadow: 0px 0px 2px #D9D9D9;
+                                letter-spacing:2px"
+                                />
+
+                            <s:div style="margin-left: -25px !important">
+                                <p:dataList
+                                    value=
+                                    "#{idea.clasificacionIdeas.{clasificacion|clasificacion.tipoIdea}}"
+                                    var="_tipoIdea"
+
+                                    >
+                                    <h:outputText
+                                        value="#{messages['tipoidea.'.concat(_tipoIdea.nombreTipoIdea)]}"
+                                        style="font-size: 14pt !important;"
+                                        />
+                                </p:dataList>
+                            </s:div>
+                        </h:panelGrid>
+                        <h:outputText
+                            value="#{messages['idea.informacionayuda']}"
+                            styleClass="tituloinpanel"
+                            style=
+                            "font-size: 14pt !important;
+                            color: #8F8F8F;
+                            text-shadow: 0px 0px 2px #D9D9D9;
+                            letter-spacing:2px;
+                            font-weight: normal  !important"
+                            />
+                        <h:panelGrid columns="2" style="border: 2px">
+
+                            <p:graphicImage
+                                value="/img/need/#{messages['idea.ayuda.'.concat(idea.estatusAyudaRecursosHumanos.nombreEstatusAyudaRecursosHumanos)]}"
+                                rendered="#{idea.estatusAyudaRecursosHumanos.nombreEstatusAyudaRecursosHumanos != 'INACTIVO'}"
+                                />
+
+                            <h:outputText
+                                style="font-size: 14pt;"
+
+                                value="#{idea.estatusAyudaRecursosHumanos.definicionEstatusAyudaRecursosHumanos}"
+
+                                />
+                        </h:panelGrid>
+                        <h:panelGrid columns="2">
+                            <h:panelGrid>
+                                <h:panelGrid columns="2">
+
+                                    <h:outputText
+                                        value=
+                                        "#{messages['idea.calificacion']}: "
+                                        styleClass="tituloinpanel"
+                                        style=
+                                        "font-size: 14pt !important;
+                                        color: #8F8F8F;
+                                        text-shadow: 0px 0px 2px #D9D9D9;
+                                        letter-spacing:2px;
+                                        font-weight: normal  !important"
+                                        />
+                                    <s:div 
+                                        id="panelCalificacion"
+                                        style="font-weight: normal  !important">
+                                        <h:outputText
+                                            value=
+                                            "#{' '.concat(idea.calificacionIdea)} de 5 #{''.concat(messages['idea.puntos'])}"
+                                            styleClass="tituloinpanel"
+                                            style=
+                                            "font-size: 14pt !important;
+                                            font-weight: normal  !important"
+                                            />
+                                        <h:form
+                                            style="text-align: left !important"
+                                            >
+                                            <p:rating value="#{idea.calificacionIdea}"
+                                                      disabled="true"
+                                                      />
+                                        </h:form>
+                                    </s:div>
+
+                                </h:panelGrid>
+                                <h:panelGrid
+                                    columns="2"
+                                    style=
+                                    "text-align: left;"
+                                    id="formVotos"
+                                    >
+
+                                    <h:panelGrid
+                                        columns="2"
+
+                                        >
+                                        <s:div>
+                                            <h:outputText
+                                                value="#{messages['idea.votospositivos']}"
+                                                style=
+                                                "font-size: 11pt !important;
+                                                color: #8F8F8F;
+                                                text-shadow: 0px 0px 2px #D9D9D9;
+                                                letter-spacing:1px"
+                                                />
+                                            <h:outputText
+                                                value=" #{idea.votosPositivosIdea}"
+                                                style=
+                                                "font-size: 11pt !important;
+                                                font-weight: bold"
+                                                />
+                                        </s:div>
+                                        <s:div>
+                                            <h:outputText
+                                                value="#{messages['idea.votosnegativos']}"
+                                                style=
+                                                "font-size: 11pt !important;
+                                                color: #8F8F8F;
+                                                text-shadow: 0px 0px 2px #D9D9D9;
+                                                letter-spacing:1px"/>
+
+                                            <h:outputText
+                                                value=" #{idea.votosNegativosIdea}"
+                                                style=
+                                                "font-size: 11pt !important;
+                                                font-weight: bold"
+                                                >
+
+                                            </h:outputText>
+                                        </s:div>
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+                            <h:form prependId="false" style="margin-left: -30px !important">
+                                <h:panelGrid columns="1">
+
+                                    <p:commandButton
+                                        image="manoarriba"
+                                        style=
+                                        "margin-top: 0px !important;
+                                        padding-top: 0px !important;
+                                        padding-left: 7px !important;
+                                        width: 160px !important;
+                                        height: 23px !important"
+
+                                        action=
+                                        "#{ideaHome.votar(ideaHome.ideaIdIdea,'positivo')}"
+                                        update="formVotos,panelCalificacion,msg"
+                                        oncomplete=
+                                        "manejaRespuestaDeVoto(xhr, status, args)"
+                                        styleClass="botonnaranja"
+                                        value="#{messages['idea.megusta']}"
+                                        />
+
+                                    <p:commandButton
+                                        image="manoabajo"
+                                        style=
+                                        "margin-top: 0px !important;
+                                        padding-top: 0px !important;
+                                        padding-left: 7px !important;
+                                        width: 160px !important;
+                                        height: 23px !important"
+                                        action=
+                                        "#{ideaHome.votar(ideaHome.ideaIdIdea,'negativo')}"
+                                        update="formVotos,panelCalificacion,msg"
+                                        oncomplete="manejaRespuestaDeVoto(xhr, status, args)"
+                                        styleClass="botonnaranja black"
+                                        value="#{'  '.concat(messages['idea.nomegusta'])}"
+                                        />
+                                </h:panelGrid>
+
+                            </h:form>
+                        </h:panelGrid>
+
+
+
+
+
+
+
+
+                        <p:ajaxStatus style="width: 170px !important">
+                            <f:facet name="start">
+                                <h:panelGrid columns="2"  style="width: 270px !important">
+                                    <h:graphicImage value="img/ajax/ajaxloading.gif" />
+                                    <h:outputText
+                                        value="#{messages['general.ajax.trabajando']}"
+                                        style=
+                                        "font-size: 10pt !important;
+                                        font-weight: bold !important;
+                                        color: gray !important;
+                                        width: 110px !important"
+                                        />
+                                </h:panelGrid>
+                            </f:facet>
+
+                            <f:facet name="complete">
+                                <h:outputText
+                                    value=""
+                                    style=
+                                    "font-size: 10pt !important;
+                                    font-weight: bold !important;
+                                    color: gray !important"
+                                    />
+                            </f:facet>
+                        </p:ajaxStatus>
+
+                    </h:panelGrid>
+
+                </h:panelGrid>
+                <h:panelGrid>
+
+                    <p:panel style=
+                             "border: none !important;
+                             background: gainsboro !important;
+                             padding: 1px !important;
+                             margin-bottom: 20px !important" >
+                        <h:form
+                            prependId="false"
+                            id="formSeguir"
+                            style="text-align: center !important">
+                            <h:panelGrid
+                                columns="3"
+                                style="text-align: center !important"
+                                >
+
+                                <!--                            update="botonseguir,msg,@parent,@this,yaestassiguiendo"-->
+                                <s:div
+                                    rendered=
+                                    "#{seguidorHome.usuarioSiguiendo(ideaHome.ideaIdIdea)}"
+                                    style=
+                                    "width: 300px !important;
+                                    text-align: center !important"
+                                    >
+                                    <p:graphicImage
+                                        value="/img/redflag.png"
+                                        style="text-align: center !important"
+                                        height="20"
+                                        />
+                                    <h:outputText
+                                        value=
+                                        "#{messages['idea.detalle.necesidad.yaestassiguiendoestaidea']}"
+                                        style=
+                                        "color: gray  !important;
+                                        font-weight: bold  !important;
+                                        font-size: 12pt !important;
+                                        text-align: center !important;
+                                        margin-left: 14px"
+                                        id="yaestassiguiendo"
+                                        />
+                                </s:div>
+                                <p:commandLink
+                                    value="#{messages['idea.seguiridea']}"
+                                    styleClass="botonnaranja"
+                                    style=
+                                    "padding: 3px !important;
+                                    color: white;
+                                    text-align: center !important;
+                                    margin-left: 41px !important;
+                                    padding-left: 12px !important;
+                                    padding-right: 12px !important;"
+                                    action=
+                                    "#{ideaHome.seguir(ideaHome.ideaIdIdea)}"
+
+                                    update="formSeguir ideaSeguidoresSize, botonseguir, yaestassiguiendo"
+                                    process="@this"
+                                    id="botonseguir"
+                                    oncomplete=
+                                    "manejaRespuestaDeSeguir(xhr, status, args)"
+                                    rendered="#{!seguidorHome.usuarioSiguiendo(ideaHome.ideaIdIdea)}"
+                                    />
+
+                                <p:commandButton
+                                    value="#{messages['home.reportar']}"
+                                    styleClass="ui-button botonnaranja"
+                                    style=
+                                    "padding: 0px !important;
+                                    width: 157px !important;
+                                    margin-left: 20px !important;
+                                    padding-left: 6px !important;"
+                                    action="#{sessionStatus.isUserLoggedIn}"
+                                    update="msg"
+
+                                    oncomplete=
+                                    "manejaRespuestaDeReporte(xhr, status, args)"
+
+                                    image="reportar"
+
+                                    process="@this"
+
+
+
+
+
+                                    />
+
+
+
+
+
+
+
+
+
+
+
+                            </h:panelGrid>
+                        </h:form>
+
+                    </p:panel>
+
+                </h:panelGrid>
+
+                <p:panel style=
+                         "text-align: left;
+                         border: none;
+                         margin-bottom: 50px !important" >
+
+                    <f:facet name="header">
+                        <h:outputText
+                            value="#{messages['idea.descripcionidea']}"
+                            style="font-size: 15pt !important;
+                            font-weight: normal !important;
+                            border-bottom: 4px solid #FFBF00;
+                            letter-spacing: 3px !important;"/>
+
+                    </f:facet>
+
+                    <h:outputText value="#{ideaHome.instance.contenidoIdea}"
+                                  id="editorRich" escape="false" />
+
+                </p:panel>
+
+                <p:panel style="text-align: left;border: none;"
+                         rendered="#{ideaHome.necesidads.size > 0}">
+
+                    <f:facet name="header">
+                        <h:outputText
+                            value="#{messages['idea.necesidades.larga']}"
+                            style="font-size: 15pt !important;
+                            font-weight: normal !important;
+                            border-bottom: 4px solid #FFBF00;
+                            letter-spacing: 3px !important;"/>
+                    </f:facet>
+
+                    <p:dataTable var="_necesidad"
+                                 value="#{listaNecesidadesDeIdea.resultList}">
+
+
+                        <p:column width="250">
+                            <f:facet name="header">
+
+                                <h:outputText
+                                    value="#{messages['idea.necesidad.columnanecesidad']}"
+                                    style="font-size: 13pt !important"
+                                    />
+
+                            </f:facet>
+                            <h:outputText
+                                value="#{_necesidad.descripcionNecesidad}"
+                                style="
+                                text-align: left !important;
+                                width: 100% !important;
+                                text-shadow: 0px 0px 1px #AAAAAA;
+                                font-size: 16pt" />
+                        </p:column>
+                        <p:column width="400">
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{messages['idea.necesidad.columnabotonparticipar']}"
+                                    style="font-size: 13pt !important"
+                                    />
+
+                            </f:facet>
+                            <h:form prependId="false" id="formParticpacion" >
+                                <p:commandLink 
+                                    value=
+                                    "#{messages['idea.necesidad.botonnparticipar.yo']}"
+
+                                    style=
+                                    "color: blue !important;
+                                    padding: 3px !important;
+                                    text-shadow: 0px 0px 1px #CCF3FF;
+                                    font-size: 14pt;"
+                                    oncomplete=
+                                    "manejaRespuestaDeParticipacion(xhr, status, args)"
+                                    action="#{canicaHome.persist}"
+                                    update="msg @parent @this formParticpacion ideaIntegrantesSize"
+                                    rendered="#{!necesidadHome.usuarioParticipando(_necesidad.idNecesidad)}"
+                                    >
+                                    <f:setPropertyActionListener 
+                                        value="#{_necesidad}"
+                                        target=
+                                        "#{canicaHome.necesidadHome.instance}"
+                                        />
+                                </p:commandLink>
+
+
+                                <s:div
+
+                                    rendered=
+                                    "#{necesidadHome.usuarioParticipando(_necesidad.idNecesidad)}"
+                                    >
+                                    <p:graphicImage value="/img/redflag.png" height="15"/>
+                                    <h:outputText
+                                        value=
+                                        "#{messages['idea.detalle.necesidad.yaestasayudando']}"
+                                        style=
+                                        "color: gray  !important;
+                                        font-weight: bold  !important;
+                                        font-size: 11pt !important;margin-left: 14px"
+                                        />
+                                </s:div>
+
+
+                            </h:form>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:panel>
+                <div style="border-bottom: 3px;border-color: gainsboro; width: 90%;margin-bottom: 20px !important;" />
+                <h:outputText value="#{messages['idea.cuandoparticipas']}"
+                              style="text-shadow: 0px 0px 3px #AAAAAA;
+                              font-weight: bold !important;
+                              font-size: 14pt !important;
+                              margin-top: 150px !important;
+                              margin-bottom: 20px !important;
+                              letter-spacing: 2px !important"/>
+                <p:dialog 
+                    id="dialogoVotoAceptacion"
+                    header="#{messages['idea.votorealizado']}"
+                    widgetVar="dialogoVotoAceptacion"
+                    styleClass="backdialogo"
+                    width="400"
+                    height="250"
+                    showEffect="clip"
+                    hideEffect="explode"
+                    >
+                    <s:div style="height: 65px !important"/>
+                    <h:outputText 
+                        value="#{messages['idea.detalle.votorealizado']}"
+                        styleClass="textodialogo"
+                        style="text-align: center !important"
+                        />
+                    <h:form
+                        style=
+                        "margin-top: 15px !important;
+                        margin-bottom: 15px !important;
+                        text-align: center !important"
+
+                        >
+                        <p:commandLink                            
+                            value="#{messages['idea.boton.aceptar']}"
+                            onclick="dialogoVotoAceptacion.hide();"
+                            styleClass="botonnaranja"
+                            />
+                    </h:form>
+                </p:dialog>
+
+
+                <p:dialog id="dialogoParticipacionAceptacion"
+                          header="Login"
+                          widgetVar="dialogoParticipacionAceptacion"
+                          styleClass="backdialogo"
+                          width="400"
+                          height="300"
+                          showEffect="clip"
+                          hideEffect="explode"
+                          >
+                    <s:div style="height: 85px !important"/>
+                    <h:outputText
+                        value=
+                        "#{messages['idea.dialogoparticipacion.graciasporapoyar']}"
+                        styleClass="textodialogo"
+                        />
+                    <h:form
+                        style=
+                        "margin-top: 15px !important;
+                        margin-bottom: 15px !important;"
+                        >
+                        <p:commandLink
+                            value="#{messages['idea.boton.aceptar']}"
+                            onclick=
+                            "dialogoParticipacionAceptacion.hide();"
+                            styleClass="botonnaranja"
+                            />
+                        <!--                        <p:commandLink
+                                                    value=
+                                                    "#{messages['idea.dialogoparticipacion.verinformacionahora']}"
+                                                    styleClass="botonnaranja"
+                                                    />-->
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="dialogoParticipacionLogin"
+                          header=
+                          "#{messages['idea.dialogologin.logueateprimero']}"
+                          widgetVar="dialogoParticipacionLogin"
+                          styleClass="backdialogo"
+                          width="400"
+                          height="300"
+                          showEffect="clip"
+                          hideEffect="explode"
+                          >
+                    <s:div style="height: 80px !important"/>
+                    <h:outputText
+                        value=
+                        "#{messages['idea.dialogologin.logueateprimero.detalle']}"
+                        styleClass="textodialogo"
+                        />
+                    <h:form
+                        style=
+                        "margin-top: 15px !important;
+                        margin-bottom: 15px !important"
+                        >
+                        <p:commandLink
+                            value="#{messages['idea.dialogologin.iralogin']}"
+                            action="#{enviadorALogin.irALogin}" 
+                            ajax="false"
+                            styleClass="botonnaranja"
+                            />
+                        <p:commandLink
+                            value="#{messages['idea.dialogologin.boton.cancelar']}"
+                            onclick="dialogoParticipacionLogin.hide();"
+                            styleClass="botonnaranja"
+                            />
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="dialogoParticipacionYaEstaParticipando"
+                          header=
+                          "#{messages['idea.detalle.participacion.yaestasparticipando.titulo']}"
+                          widgetVar="dialogoParticipacionYaEstaParticipando"
+                          styleClass="backdialogo"
+                          width="400"
+                          height="300"
+                          showEffect="clip"
+                          hideEffect="explode"
+                          >
+                    <s:div style="height: 80px !important"/>
+                    <h:outputText
+                        value=
+                        "#{messages['idea.detalle.participacion.yaestasparticipando.contenido']}"
+                        styleClass="textodialogo"
+                        />
+                    <h:form
+                        style=
+                        "margin-top: 15px !important;
+                        margin-bottom: 15px !important"
+                        >
+                        <p:commandLink
+                            value="#{messages['idea.boton.cerrar']}"
+                            onclick=
+                            "dialogoParticipacionYaEstaParticipando.hide();"
+                            styleClass="botonnaranja"
+                            />
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="dialogoYaEstasSiguiendoIdea"
+                          header=
+                          "#{messages['idea.siguiendoidea.titulo']}"
+                          widgetVar="dialogoYaEstasSiguiendoIdea"
+                          styleClass="backdialogo"
+                          width="400"
+                          height="300"
+                          showEffect="clip"
+                          hideEffect="explode"
+                          >
+                    <s:div style="height: 80px !important"/>
+                    <h:outputText
+                        value=
+                        "#{messages['idea.siguiendoidea.contenido']}"
+                        styleClass="textodialogo"
+                        />
+                    <h:form
+                        style=
+                        "margin-top: 15px !important;
+                        margin-bottom: 15px !important"
+                        >
+                        <p:commandLink
+                            value="#{messages['idea.boton.cerrar']}"
+                            onclick=
+                            "dialogoYaEstasSiguiendoIdea.hide();"
+                            styleClass="botonnaranja"
+                            />
+                    </h:form>
+                </p:dialog>
+
+
+                <p:dialog id="dialogoError"
+                          header="#{messages['idea.error']}"
+                          widgetVar="dialogoError"
+                          styleClass="backdialogo"
+                          width="400"
+                          height="300"
+                          showEffect="clip"
+                          hideEffect="explode"
+                          >
+                    <s:div style="height: 80px !important"/>
+                    <h:outputText
+                        value="#{messages['idea.peticion.error']}"
+                        styleClass="textodialogo"
+                        />
+                    <h:form
+                        style=
+                        "margin-top: 15px !important;
+                        margin-bottom: 15px !important"
+                        >
+                        <p:commandLink
+                            value="#{messages['idea.boton.cerrar']}"
+                            onclick="dialogoError.hide();"
+                            styleClass="botonnaranja"
+                            />
+                    </h:form>
+                </p:dialog>
+
+
+
+                <p:dialog
+                    id="dialogoPregunta"
+                    header="#{messages['idea.hazpregunta']}"
+                    widgetVar="dialogoPregunta"
+                    resizable="false"
+                    styleClass="backdialogo"
+                    width="400"
+                    height="300"
+                    showEffect="clip"
+                    hideEffect="explode"
+                    >
+                    <s:div style="height: 15px !important"/>
+                    <h:form prependId="false"
+                            style=
+                            "margin-top: 15px !important;
+                            margin-bottom: 15px !important"
+                            >
+
+
+                        <h:panelGrid columns="2" style="margin-bottom:10px">
+                            <p:message for="inputTextoPregunta">
+                                <p:effect type="pulsate" event="load">
+                                    <f:param name="mode" value="'show'" />
+                                </p:effect>
+                            </p:message>
+
+                            <s:span id="counterTextoPregunta"
+                                    style="font-size: 17pt;
+                                    color: gray"
+                                    >
+                                #{seamSizeColumna.pregunta}
+                                #{' '}
+                                #{messages['idea.contador.caracteresmax']}
+                            </s:span>
+
+                            <h:outputText
+                                value="#{messages['idea.pregunta.intro']}"
+                                styleClass="textodialogo"
+                                />
+
+                            <h:inputTextarea
+                                required="true"
+                                rows="5"
+                                value="#{preguntaHome.instance.preguntaPregunta}"
+                                id="inputTextoPregunta"
+                                onkeypress=
+                                "javascript:actualizarContador(this,'counterTextoPregunta')"
+                                >
+                                <s:validate/>
+                            </h:inputTextarea>
+
+                        </h:panelGrid>
+
+                        <p:commandButton
+                            value="#{messages['idea.pregunta.enviar']}"
+                            action="#{preguntaHome.preguntar(ideaHome.ideaIdIdea)}"
+                            oncomplete="manejaRespuestaDePregunta(xhr, status, args)"
+                            styleClass=" ui-button botonnaranja"
+                            />
+
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="dialogoYaPreguntaste"
+                          header=
+                          "#{messages['idea.pregunta.yaparticipaste.titulo']}"
+                          widgetVar="dialogoYaPreguntaste"
+                          styleClass="backdialogo"
+                          width="400"
+                          height="300"
+                          showEffect="clip"
+                          hideEffect="explode"
+                          >
+                    <s:div style="height: 80px !important"/>
+                    <h:outputText
+                        value=
+                        "#{messages['idea.pregunta.yaparticipaste.contenido']}"
+                        styleClass="textodialogo"
+                        />
+                    <h:form
+                        style=
+                        "margin-top: 15px !important;
+                        margin-bottom: 15px !important"
+                        >
+                        <p:commandLink
+                            value="#{messages['idea.boton.aceptar']}"
+                            onclick=
+                            "dialogoYaPreguntaste.hide();document.getElementById('inputTextoPregunta').value=''"
+                            styleClass="botonnaranja"                            
+                            />
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog id="dialogoYaReportaste"
+                          header=
+                          "#{messages['idea.reporte.titulo']}"
+                          widgetVar="dialogoYaReportaste"
+                          styleClass="backdialogo"
+                          width="400"
+                          height="300"
+                          showEffect="clip"
+                          hideEffect="explode"
+                          >
+                    <s:div style="height: 80px !important"/>
+                    <h:outputText
+                        value=
+                        "#{messages['idea.reporte.contenido']}"
+                        styleClass="textodialogo"
+                        />
+                    <h:form
+                        style=
+                        "margin-top: 15px !important;
+                        margin-bottom: 15px !important"
+                        >
+                        <p:commandLink
+                            value="#{messages['idea.boton.aceptar']}"
+                            onclick=
+                            "dialogoYaReportaste.hide();document.getElementById('inputTextoReporte').value=''"
+                            styleClass="botonnaranja"
+                            />
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dialogoPreguntaLogin"
+                          header=
+                          "#{messages['idea.dialogologin.logueateprimero']}"
+                          widgetVar="dialogoPreguntaLogin"
+                          styleClass="backdialogo"
+                          width="400"
+                          height="300"
+                          showEffect="clip"
+                          hideEffect="explode"
+                          >
+                    <s:div style="height: 80px !important"/>
+                    <h:outputText
+                        value=
+                        "#{messages['idea.dialogologin.logueateprimero.detalle']}"
+                        styleClass="textodialogo"
+                        />
+                    <h:form
+                        style=
+                        "margin-top: 15px !important;
+                        margin-bottom: 15px !important"
+                        >
+                        <p:commandLink
+                            value="#{messages['idea.dialogologin.iralogin']}"
+                            action="#{sessionActions.goToLoginAndSaveCurrentPage}" ajax="false"
+                            styleClass="botonnaranja"
+                            />
+                        <p:commandLink
+                            value="#{messages['idea.dialogologin.boton.cancelar']}"
+                            onclick="dialogoPreguntaLogin.hide();"
+                            styleClass="botonnaranja"
+                            />
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog
+                    id="dialogoReporte"
+                    header="#{messages['idea.hazreporte']}"
+                    widgetVar="dialogoReporte"
+                    resizable="false"
+                    styleClass="backdialogo"
+                    width="550"
+                    height="310"
+                    showEffect="clip"
+                    hideEffect="explode"
+                    >
+                    <s:div style="height: 15px !important"/>
+                    <h:form prependId="false"
+                            style=
+                            "margin-top: 15px !important;
+                            margin-bottom: 15px !important"
+                            id="formReporte"
+                            >
+
+
+                        <h:panelGrid columns="2" style="margin-bottom:10px">
+                            <p:message for="inputTextoReporte">
+                                <p:effect type="pulsate" event="load">
+                                    <f:param name="mode" value="'show'" />
+                                </p:effect>
+                            </p:message>
+
+                            <s:span id="counterTextoReporte"
+                                    style="font-size: 17pt;
+                                    color: gray"
+                                    >
+                                #{seamSizeColumna.notaReporteAbuso}
+                                #{' '}
+                                #{messages['idea.contador.caracteresmax']}
+                            </s:span>
+                            <h:panelGrid>
+                                <h:outputText
+                                    value="#{messages['idea.reporte.intro']}"
+                                    styleClass="textodialogo"
+                                    />
+
+                                <h:panelGrid style=
+                                             "margin: 0px !important;
+                                             padding: 0px !important;">
+                                    <h:selectOneMenu
+                                        value="#{reporteAbusoHome.instance.tipoReporteAbuso}"
+                                        required="true"
+                                        style=
+                                        "font-size: 13pt !important;
+                                        font-weight: bold !important;"
+                                        >
+                                        <s:selectItems
+                                            var="_tipoReporteAbuso"
+                                            value="#{tipoReporteAbusoList.resultList}"
+                                            label=
+                                            "#{messages['idea.reporte.tipo.'.concat(_tipoReporteAbuso.nombreTipoReporteAbuso)]}"
+                                            id="menuTipoReporteaAbuso"
+                                            />
+                                        <s:convertEntity/>
+                                        <s:validate/>
+                                    </h:selectOneMenu>
+                                </h:panelGrid>
+
+                            </h:panelGrid>
+                            <h:panelGrid>
+                                <h:outputText
+                                    value="#{messages['idea.reporte.mensaje']}"
+                                    styleClass="textodialogo"
+                                    />
+                                <h:inputTextarea
+                                    required="true"
+                                    rows="5"
+                                    value="#{reporteAbusoHome.instance.notaReporteAbuso}"
+                                    id="inputTextoReporte"
+                                    onkeypress=
+                                    "javascript:actualizarContador(this,'counterTextoReporte')"
+                                    >
+                                    <s:validate/>
+                                </h:inputTextarea>
+                            </h:panelGrid>
+
+                        </h:panelGrid>
+
+                        <h:outputText value=""/>
+
+                        <p:commandButton
+                            value="#{messages['idea.reporte.enviar']}"
+                            action="#{reporteAbusoHome.reportar(ideaHome.ideaIdIdea)}"
+                            oncomplete="manejaRespuestaDeReporte(xhr, status, args)"
+                            styleClass=" ui-button botonnaranja"
+                            />
+
+                    </h:form>
+                </p:dialog>
+                <script type="text/javascript">
+                        function manejaRespuestaDeParticipacion(xhr, status, args) {
+                                if(args.loggedIn==false) {
+                                        dialogoParticipacionLogin.show();
+                                }
+                                else if(args.loggedIn==true){
+                                        dialogoParticipacionAceptacion.show();
+                                }else{
+//                                        alert("Aquí no debí haber llegado");
+                                }
+                        }
+
+                        function manejaRespuestaDeVoto(xhr, status, args){
+                            if(args.respuesta == 'ideanoencontrada'){
+                                dialogoError.show();
+                            }else if(args.respuesta == 'notLoggedIn'){
+                                dialogoParticipacionLogin.show();
+                            }else{
+                                dialogoVotoAceptacion.show();
+
+                            }
+                        }
+
+                        function manejaRespuestaDeSeguir(xhr, status, args){
+                            if(args.respuesta == 'ideanoencontrada'){
+                                dialogoError.show();
+                            }else if(args.respuesta == 'notLoggedIn'){
+                                dialogoParticipacionLogin.show();
+                            }else if(args.respuesta == 'siguiendo'){
+                                dialogoYaEstasSiguiendoIdea.show();
+                            }
+                        }
+
+                        function manejaRespuestaDePregunta(xhr, status, args){
+                            
+                            if(args.respuesta == 'ideanoencontrada'){
+                                dialogoPregunta.hide();
+                                dialogoError.show();
+                            }else if(args.respuesta == 'notLoggedIn'){
+                                dialogoPregunta.hide();
+                                dialogoPreguntaLogin.show();
+                            }else if(args.respuesta== 'loggedIn'){                                
+                                dialogoPregunta.show();
+                            }else if(args.respuesta == 'preguntahecha'){
+                                dialogoPregunta.hide();
+                                dialogoYaPreguntaste.show();
+                            }else{
+                                dialogoPregunta.hide();
+                                dialogoError.show();
+                            }
+                        }
+
+                        function manejaRespuestaDeReporte(xhr, status, args){
+                            
+                            if(args.respuesta == 'ideanoencontrada'){
+                                dialogoReporte.hide();
+                                dialogoError.show();
+                            }else if(args.respuesta == 'notLoggedIn'){
+                                dialogoReporte.hide();
+                                dialogoPreguntaLogin.show();
+                            }else if(args.respuesta== 'loggedIn'){
+                                dialogoReporte.show();
+                            }else if(args.respuesta == 'reportehecho'){
+                                dialogoReporte.hide();                                
+                                dialogoYaReportaste.show();
+                            }else{
+                                dialogoReporte.hide();
+                                dialogoError.show();
+                            }
+                        }
+                </script>
+
+                <s:div style="height: 30px !important">
+
+                </s:div>
+
+
+                <p:tabView effect="opacity" effectDuration="fast">
+                    <p:tab title="#{messages['idea.bitacora']}">
+
+
+                        <p:dataTable
+                            var="_bitacora"
+                            value="#{bitacorasAprobadas.resultList}"
+                            style="border: none !important;
+                            text-align: left !important;
+                            background: gainsboro !important"
+                            emptyMessage="#{messages['idea.pregunta.nohaybitacoras']}"
+                            rows="4"
+                            paginator="true"
+                            paginatorPosition="both"
+                            paginatorTemplate=
+                            "{CurrentPageReport}
+                            {FirstPageLink}
+                            {PreviousPageLink}
+                            {PageLinks}
+                            {NextPageLink}
+                            {LastPageLink}"
+                            paginatorAlwaysVisible="false"
+
+                            >
+                            <p:column>
+                                <p:panel
+                                    style="border: 2px outset;padding: 0px;
+                                    margin: 7px;margin-bottom: 0px;
+                                    width: 100% !important;text-align: left"
+                                    >
+                                    <h:panelGrid columns="1"
+                                                 style="width: 100% !important"
+                                                 >
+                                        <h:panelGrid>
+                                            <h:outputText
+                                                value=
+                                                "#{_bitacora.descripcionBitacora}"
+                                                style="font-size: 10pt;
+                                                width: 100% !important"
+                                                />
+                                        </h:panelGrid>
+
+                                    </h:panelGrid>
+                                    <f:facet name="header">
+
+                                        <h:outputText
+                                            value=
+                                            "#{_bitacora.tituloBitacora}"
+                                            style="font-size: 12pt;
+                                            font-weight: bold;
+                                            width: 100% !important"
+                                            />
+
+
+                                    </f:facet>
+                                </p:panel>
+                            </p:column>
+
+
+                        </p:dataTable>
+
+                    </p:tab>
+
+                </p:tabView>
+                <p:tabView effect="opacity" effectDuration="fast">
+
+                    <p:tab title="#{messages['idea.preguntascomentarios']}">
+
+                        <p:dataTable var="_idea" value="#{preguntasAprobadasDeIdea.resultList}"
+                                     style="border: none !important;
+                                     text-align: left !important;
+                                     background: gainsboro !important;"
+                                     emptyMessage="#{messages['idea.pregunta.nohayideas']}"
+                                     rows="4"
+                                     paginator="true"
+                                     paginatorPosition="both"
+                                     paginatorTemplate=
+                                     "{CurrentPageReport}
+                                     {FirstPageLink}
+                                     {PreviousPageLink}
+                                     {PageLinks}
+                                     {NextPageLink}
+                                     {LastPageLink}"
+                                     paginatorAlwaysVisible="false"
+
+                                     >
+                            <p:column>
+                                <p:panel 
+                                    style=
+                                    "border: 2px outset;padding: 0px;
+                                    margin: 7px;margin-bottom: 0px;
+                                    width: 100% !important;text-align: left;
+                                    background: transparent !important;"
+                                    >
+                                    <f:facet name="header">
+
+
+                                        <h:panelGrid
+                                            style=
+                                            "text-align: left !important;
+                                            width: 640px !important;
+                                            background: transparent !important;"
+                                            columns="2"
+                                            >
+                                            <h:panelGrid
+                                                columns="1"
+                                                style=
+                                                "width: 200px !important;
+                                                text-align: left !important;
+                                                background: transparent !important;"
+                                                >
+
+                                                <h:outputText
+                                                    value=
+                                                    "#{messages['pregunta.pregunta']}: #{_idea.usuarioByUsuarioPreguntaId.nickUsuario}"
+                                                    style=
+                                                    "font-weight: bold;
+                                                    font-size: 10pt;
+                                                    background: transparent !important;"
+                                                    />
+                                                <h:outputText
+                                                    value=
+                                                    "#{_idea.fechaCreacionPregunta}"
+                                                    style=
+                                                    "font-size: 10pt;
+                                                    background: transparent !important;
+                                                    font-weight: normal !important"
+                                                    >
+                                                    <f:convertDateTime
+                                                        locale="ES"
+                                                        pattern="EEEEEEEEE, dd 'de' MMMMMM 'de' yyyy"
+                                                        />
+                                                </h:outputText>
+
+                                            </h:panelGrid>
+
+                                            <h:panelGrid
+                                                style="width: 440px !important;
+                                                background: transparent !important;"
+                                                >
+                                                <h:outputText
+                                                    value="#{_idea.preguntaPregunta}"
+                                                    style=
+                                                    "text-align: left !important;
+                                                    font-weight: bold !important;
+                                                    font-size: 11pt !important;"
+                                                    rendered="#{_idea.estatusPregunta.nombreEstatusPregunta!='QUE_DESECHADA'}"
+                                                    />
+                                                <h:panelGrid style="background: yellow !important" rendered="#{_idea.estatusPregunta.nombreEstatusPregunta=='QUE_DESECHADA'}">
+
+                                                    #{messages['panelcontrol.administrador.preguntas.noesvalida']}
+                                                    <a target="_blank" href="/#{valoresGlobales.nombreDeAplicacion}/VisionMision.seam">#{messages['panelcontrol.administrador.preguntas.noesvalida.verpoliticas']}</a>
+
+                                                </h:panelGrid>
+
+                                            </h:panelGrid>
+
+                                        </h:panelGrid>
+
+                                    </f:facet>
+
+                                    <h:panelGrid columns="1" style="width: 100% !important">
+
+                                        <h:panelGrid
+                                            columns="2"
+                                            style=
+                                            "text-align: left !important;
+                                            width: 640px !important"
+                                            rendered="#{_idea.respuestaPregunta!=null and _idea.estatusPregunta.nombreEstatusPregunta=='CERRADA' or _idea.estatusPregunta.nombreEstatusPregunta=='ANS_DESECHADA'}"
+                                            >
+
+                                            <h:panelGrid
+                                                columns="1"
+                                                style=
+                                                "width: 200px !important;
+                                                text-align: left !important;"
+                                                >
+
+                                                <h:outputText
+                                                    value=
+                                                    "#{messages['pregunta.responde']}: #{_idea.usuarioByUsuarioRespuestaId.nickUsuario}"
+                                                    style=
+                                                    "font-weight: bold !important;
+                                                    font-size: 10pt !important;"
+                                                    />
+                                                <h:outputText
+                                                    value=
+                                                    "#{_idea.fechaFinPregunta}"
+                                                    style="font-size: 10pt; "
+                                                    >
+                                                    <f:convertDateTime
+                                                        locale="ES"
+                                                        pattern="EEEEEEEEE, dd 'de' MMMMMM 'de' yyyy"
+                                                        />
+                                                </h:outputText>
+
+                                            </h:panelGrid>
+                                            <h:panelGrid
+                                                style="width: 540px !important"
+                                                >
+                                                <h:outputText
+                                                    value="#{_idea.respuestaPregunta}"
+                                                    style=
+                                                    "text-align: left !important;
+                                                    font-size: 10pt !important;
+                                                    color: black !important;"
+                                                    rendered="#{_idea.estatusPregunta.nombreEstatusPregunta!='ANS_DESECHADA'}"
+                                                    />
+                                                <h:panelGrid style="background: yellow !important" rendered="#{_idea.estatusPregunta.nombreEstatusPregunta=='ANS_DESECHADA'}">
+
+                                                    #{messages['panelcontrol.administrador.respuestas.noesvalida']}
+                                                    <a target="_blank" href="/#{valoresGlobales.nombreDeAplicacion}/VisionMision.seam">#{messages['panelcontrol.administrador.respuestas.noesvalida.verpoliticas']}</a>
+
+                                                </h:panelGrid>
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:column>
+                        </p:dataTable>
+
+
+
+                    </p:tab>
+
+
+                </p:tabView>  
+
+            </p:panel>
+
+
+            <p:panel style="border: none !important;background: gainsboro !important;padding: 1px !important">
+
+                <h:panelGrid columns="1">
+
+                    <h:form prependId="false">
+                        <!--                            update="botonseguir,msg,@parent,@this,yaestassiguiendo"-->
+
+                        <p:commandLink value="#{messages['idea.comentaridea']}"
+                                       styleClass="botonnaranja"
+                                       style=
+                                       "padding: 3px !important;
+                                       color: white;
+                                       padding-left: 12px !important;
+                                       padding-right: 12px !important;"
+                                       action="#{sessionStatus.isUserLoggedIn}"
+                                       update="msg"
+                                       type="button"
+                                       oncomplete=
+                                       "manejaRespuestaDePregunta(xhr, status, args)"
+                                       />
+
+
+                    </h:form>
+
+                    <s:div style=
+                           "width: 220px !important;
+                           margin-left: 360px !important">
+                        <p:ajaxStatus >
+                            <f:facet name="start">
+                                <h:panelGrid columns="2"  >
+                                    <h:graphicImage value="img/ajax/ajaxloading.gif"/>
+                                    <h:outputText
+                                        value="#{messages['general.ajax.trabajando']}"
+                                        style=
+                                        "font-size: 10pt !important;
+                                        font-weight: bold !important;
+                                        color: gray !important;
+                                        width: 110px !important;"
+                                        />
+                                </h:panelGrid>
+                            </f:facet>
+
+                            <f:facet name="complete">
+                                <h:outputText
+                                    value=""
+                                    style=
+                                    "font-size: 10pt !important;
+                                    font-weight: bold !important;
+                                    color: gray !important"
+                                    />
+                            </f:facet>
+                        </p:ajaxStatus>
+                    </s:div>
+                </h:panelGrid>
+
+            </p:panel>
+
+        </p:layoutUnit>
+    </ui:define>
+
+
+
+
+
+
+</ui:composition>

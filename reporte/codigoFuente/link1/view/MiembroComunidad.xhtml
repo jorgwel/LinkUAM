@@ -1,0 +1,241 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Miembro comunidad Details</f:facet>
+
+        <s:decorate id="comunidadId" template="layout/display.xhtml">
+            <ui:define name="label">Comunidad id</ui:define>
+            <h:outputText value="#{miembroComunidadHome.instance.id.comunidadId}"/>
+        </s:decorate>
+        <s:decorate id="usuarioId" template="layout/display.xhtml">
+            <ui:define name="label">Usuario id</ui:define>
+            <h:outputText value="#{miembroComunidadHome.instance.id.usuarioId}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaFinMiembroComunidad" template="layout/display.xhtml">
+            <ui:define name="label">Fecha fin miembro comunidad</ui:define>
+            <h:outputText value="#{miembroComunidadHome.instance.fechaFinMiembroComunidad}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="fechaInicioMiembroComunidad" template="layout/display.xhtml">
+            <ui:define name="label">Fecha inicio miembro comunidad</ui:define>
+            <h:outputText value="#{miembroComunidadHome.instance.fechaInicioMiembroComunidad}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/MiembroComunidadEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty miembroComunidadFrom ? 'MiembroComunidadList' : miembroComunidadFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Comunidad</h:panelGroup>
+        </f:facet>
+    <div class="association" id="comunidadParent">
+
+        <h:outputText value="There is no comunidad associated with this miembroComunidad."
+                   rendered="#{miembroComunidadHome.instance.comunidad == null}"/>
+
+        <rich:dataTable var="_comunidad"
+                   value="#{miembroComunidadHome.instance.comunidad}"
+                rendered="#{miembroComunidadHome.instance.comunidad != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="comunidadTable">
+            <h:column>
+                <f:facet name="header">Id comunidad</f:facet>
+                <h:outputText value="#{_comunidad.idComunidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion comunidad</f:facet>
+                <h:outputText value="#{_comunidad.descripcionComunidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus comunidad id estatus comunidad</f:facet>
+                <h:outputText value="#{_comunidad.estatusComunidad.idEstatusComunidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre comunidad</f:facet>
+                <h:outputText value="#{_comunidad.nombreComunidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Titulo comunidad</f:facet>
+                <h:outputText value="#{_comunidad.tituloComunidad}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewcomunidad"
+                     value="View"
+                      view="/Comunidad.xhtml">
+                    <f:param name="comunidadIdComunidad"
+                           value="#{_comunidad.idComunidad}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Estatus miembro comunidad</h:panelGroup>
+        </f:facet>
+    <div class="association" id="estatusMiembroComunidadParent">
+
+        <h:outputText value="There is no estatusMiembroComunidad associated with this miembroComunidad."
+                   rendered="#{miembroComunidadHome.instance.estatusMiembroComunidad == null}"/>
+
+        <rich:dataTable var="_estatusMiembroComunidad"
+                   value="#{miembroComunidadHome.instance.estatusMiembroComunidad}"
+                rendered="#{miembroComunidadHome.instance.estatusMiembroComunidad != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusMiembroComunidadTable">
+            <h:column>
+                <f:facet name="header">Id estatus miembro comunidad</f:facet>
+                <h:outputText value="#{_estatusMiembroComunidad.idEstatusMiembroComunidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Definicion estatus miembro comunidad</f:facet>
+                <h:outputText value="#{_estatusMiembroComunidad.definicionEstatusMiembroComunidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus miembro comunidad</f:facet>
+                <h:outputText value="#{_estatusMiembroComunidad.nombreEstatusMiembroComunidad}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewestatusMiembroComunidad"
+                     value="View"
+                      view="/EstatusMiembroComunidad.xhtml">
+                    <f:param name="estatusMiembroComunidadIdEstatusMiembroComunidad"
+                           value="#{_estatusMiembroComunidad.idEstatusMiembroComunidad}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuario</h:panelGroup>
+        </f:facet>
+    <div class="association" id="usuarioParent">
+
+        <h:outputText value="There is no usuario associated with this miembroComunidad."
+                   rendered="#{miembroComunidadHome.instance.usuario == null}"/>
+
+        <rich:dataTable var="_usuario"
+                   value="#{miembroComunidadHome.instance.usuario}"
+                rendered="#{miembroComunidadHome.instance.usuario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="usuarioTable">
+            <h:column>
+                <f:facet name="header">Id usuario</f:facet>
+                <h:outputText value="#{_usuario.idUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido materno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoMaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Apellido paterno usuario</f:facet>
+                <h:outputText value="#{_usuario.apellidoPaternoUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Calificacion usuario</f:facet>
+                <h:outputText value="#{_usuario.calificacionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion usuario id configuracion usuario</f:facet>
+                <h:outputText value="#{_usuario.configuracionUsuario.idConfiguracionUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contrasena usuario</f:facet>
+                <h:outputText value="#{_usuario.contrasenaUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estatus usuario id estatus usuario</f:facet>
+                <h:outputText value="#{_usuario.estatusUsuario.idEstatusUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaFinUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ingreso usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaIngresoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha nacimiento usuario</f:facet>
+                <h:outputText value="#{_usuario.fechaNacimientoUsuario}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Institucion id institucion</f:facet>
+                <h:outputText value="#{_usuario.institucion.idInstitucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nick usuario</f:facet>
+                <h:outputText value="#{_usuario.nickUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre imagen usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreImagenUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre usuario</f:facet>
+                <h:outputText value="#{_usuario.nombreUsuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo usuario</f:facet>
+                <h:outputText value="#{_usuario.sexoUsuario}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewusuario"
+                     value="View"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioIdUsuario"
+                           value="#{_usuario.idUsuario}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

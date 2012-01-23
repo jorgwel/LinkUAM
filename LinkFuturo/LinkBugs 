@@ -1,0 +1,51 @@
+Personalizar el tiempo de mostrado de la pantalla "sigues ahí" externamente.
+Quitar la sombre de la descripción de las necesidades.
+Poner el registro "otro" en las clasificaciones, comunidades y así...
+Dejar de almacenar imágenes cuando el usuario decida no subir una, y tomar la imagen default de un path predefinido.
+Pasar lo de ideaActiva boolean a IdeaHome para que ya no moleste a la base de datos.
+Homogeneizar avisos/confirmaciones.
+
+Implantar lógica para capturar parámetros de entrada en RecuperarPassword y en NuevoPassword
+
+Servicio para las ideas normales (ideas de hoy)
+
+En el login cambiar la gravedad de los mensajes, no parecen de error. Poner mensajes junto a campos de texto.
+
+La palabra registrate no tiene acento en la vista de autenticación.
+
+Validar que si está logueado no puedas entrar a la página de registro de usuario.
+
+http://www.jstor.org/ a ideas
+
+Album a ideas
+
+Políticas de LinkUAM
+
+Sistema que permita checar el avance incividual en un proyecto de cada miembro del equipo, y si este va atrasado preguntarle porque u ofrecerle ayuda. Tambi\'en una matriz de humores con los demás.
+
+Idea: Sistema que permita publicar curriculums en forma de blogs
+
+Hacer de todos los proyectos metidos en la UAM, una IEEE...o al menos publicar su existencia.
+
+Deshabilitar inscripci\'on y solo habilitarla con invitación
+
+Agregar a link uam la capacidad de apoderarse de las ideas pero también la de ofrecer a alguien que se apodere de una idea.
+
+Poner permiso para rol admin en tooooodas las p\'aginas generadas por seam.
+
+Conformarse y dejar de insistir es como ver a alguien ahog\'andose y dejarlo morir.
+
+La historiapedia, donde todos manejan la línea de la historia del mundo, con inferencias!!! Como las cuentas que tiene yahoo interadas, que solo reporte un evento y pueda verlo como línea de tiempo, que pueda ver las líneas de todos si quiero.
+
+Eliminar del formulario de registro de idea: categorías o comunidades. A veces no es claro que se está haciendo.
+
+
+Encuestas a LinkUAM
+
+Formulario de preguntas hacerlo sin cambiar de popup.
+
+México y Frodo Baggings VS "El sistema"
+
+Que gente de diferentes departamentos pasen tiempo juntos. De esa forma puedes comenzar a hilar una telaraña interna, que bien manejada (sin mentiras ni traiciones del jefe a los trabajadores o visceversa) hará más fuerte tu empresa, además de que dará una mejor perspectiva de lo que se realiza en cada departamento y por lo tanto una mejor opinión sobre como mejorarlo.
+
+Sistema que permita subir tus eventos a un sistema y que se vea en una pantalla en tu casa. Además que haga algo con eso, por ejemplo hacer sonar alarmas. Además que puedas subir ese mismo mensaje a twitter, que el sistema verifique tu tweet y que con cierta sintaxis pueda agregarla a tu sistema como evento o así.

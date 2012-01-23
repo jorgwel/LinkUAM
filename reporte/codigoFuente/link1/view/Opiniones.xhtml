@@ -1,0 +1,156 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    ARCHIVO QUE DEFINE LA PÁGINA PRINCIPAL
+-->
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoHomeTemplate.xhtml">
+
+    <!--
+        DEFINIENDO EL CONTENIDO DE UNA PÁGINA
+    -->
+    <ui:define name="body">
+        <p:layoutUnit
+            id="center"
+            position="center"
+            style="text-align:left;"
+            scrollable="true"
+            >
+            <!-- Growl para mensajes -->
+            <p:growl id="msg" life="2500"/>
+            <p:panel
+                style=
+                "border: 2px outset;padding: 0px;
+                margin: 7px;margin-bottom: 0px"
+                >
+                <f:facet name="header">
+                    <h:outputText
+                        value="#{'Comentarios y opiniones sobre LinkUAM'}"
+                        style=
+                        "font-size: 15pt !important;
+                        font-weight: bold"
+                        />
+                </f:facet>
+
+                <h:panelGrid columns="4">
+
+                    <h:panelGrid columns="2" style="width: 100px !important" >
+                        <h:outputText
+                            value="#{messages['critica.tipocritica.GUSTAR']}"
+                            style="font-weight: bold"
+                            />
+                        <h:outputText
+                            value="#{tipoCriticaHome.contarCriticasSegunTipo(0)}"
+                            />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" style="width: 100px !important">
+                        <h:outputText
+                            value="#{messages['critica.tipocritica.NO_GUSTAR']}"
+                            style="font-weight: bold"
+                            />
+                        <h:outputText
+                            value="#{tipoCriticaHome.contarCriticasSegunTipo(1)}"
+                            />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" style="width: 100px !important">
+                        <h:outputText
+                            value="#{messages['critica.tipocritica.PROPUESTA']}"
+                            style="font-weight: bold"
+                            />
+                        <h:outputText
+                            value="#{tipoCriticaHome.contarCriticasSegunTipo(2)}"
+                            />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" style="width: 140px !important">
+                        <h:outputText
+                            value="#{messages['critica.tipocritica.BUG_ENCONTRADO']}"
+                            style="font-weight: bold"
+                            />
+                        <h:outputText
+                            value="#{tipoCriticaHome.contarCriticasSegunTipo(3)}"
+                            />
+                    </h:panelGrid>
+
+                </h:panelGrid>
+
+                <h:form>
+
+                    <p:dataTable
+                        paginator="true"
+                        var="_critica"
+                        value="#{listaTodasCriticas.resultList}"
+                        rows="5"
+                        paginatorPosition="both"
+                        paginatorTemplate=
+                        "{CurrentPageReport}
+                        {FirstPageLink}
+                        {PreviousPageLink}
+                        {PageLinks}
+                        {NextPageLink}
+                        {LastPageLink}"
+                        paginatorAlwaysVisible="false"
+                        
+                        >
+
+                        <p:column
+                            width="625"
+                            sortBy=
+                            "#{messages['critica.'.concat(_critica.tipoCritica.nombreTipoCritica)]}"
+                            >
+
+                            <f:facet name="header">
+                                #{'Comentarios y opiniones sobre LinkUAM'}
+                            </f:facet>
+                            
+                            <p:panel>
+                                <h:panelGrid>
+                                    <h:outputText
+                                        value="#{messages['critica.'.concat(_critica.tipoCritica.nombreTipoCritica)]}"
+                                        style="font-weight: bold;font-size: 12pt"
+                                        />
+
+                                    <s:div>
+                                        <h:outputText
+                                            value="#{messages['critica.comentario']}:   "
+                                            style="font-size: 11pt;font-weight: bold"
+                                            />
+                                        
+                                        <h:outputText
+                                            value="#{_critica.textoCritica}"
+                                            style="font-size: 12pt"
+                                            />
+                                    </s:div>
+                                    <h:outputText
+                                        value="#{_critica.fechaCritica}"
+                                        style=
+                                        "font-size: 9pt;
+                                        font-weight: lighter"
+                                        />
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:form>
+
+
+
+            </p:panel>
+
+        </p:layoutUnit>
+
+    </ui:define>
+
+
+</ui:composition>
+
+

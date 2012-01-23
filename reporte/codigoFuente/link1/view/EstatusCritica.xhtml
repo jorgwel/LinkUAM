@@ -1,0 +1,104 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus critica Details</f:facet>
+
+        <s:decorate id="idEstatusCritica" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus critica</ui:define>
+            <h:outputText value="#{estatusCriticaHome.instance.idEstatusCritica}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusCritica" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus critica</ui:define>
+            <h:outputText value="#{estatusCriticaHome.instance.definicionEstatusCritica}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusCritica" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus critica</ui:define>
+            <h:outputText value="#{estatusCriticaHome.instance.nombreEstatusCritica}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusCriticaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusCriticaFrom ? 'EstatusCriticaList' : estatusCriticaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Criticas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="criticasChildren">
+
+        <h:outputText value="There are no criticas associated with this estatusCritica."
+                   rendered="#{empty estatusCriticaHome.criticas}"/>
+
+        <rich:dataTable value="#{estatusCriticaHome.criticas}"
+                       var="_critica"
+                  rendered="#{not empty estatusCriticaHome.criticas}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="criticasTable">
+            <rich:column sortBy="#{_critica.idCritica}">
+                <f:facet name="header">Id critica</f:facet>
+                <h:outputText value="#{_critica.idCritica}"/>
+            </rich:column>
+            <rich:column sortBy="#{_critica.fechaCritica}">
+                <f:facet name="header">Fecha critica</f:facet>
+                <h:outputText value="#{_critica.fechaCritica}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_critica.textoCritica}">
+                <f:facet name="header">Texto critica</f:facet>
+                <h:outputText value="#{_critica.textoCritica}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectcritica"
+                     value="Select"
+                      view="/Critica.xhtml">
+                    <f:param name="criticaIdCritica"
+                            value="#{_critica.idCritica}"/>
+                    <f:param name="criticaFrom" value="EstatusCritica"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add critica"
+                view="/CriticaEdit.xhtml">
+            <f:param name="estatusCriticaIdEstatusCritica"
+                    value="#{estatusCriticaHome.instance.idEstatusCritica}"/>
+            <f:param name="criticaFrom" value="EstatusCritica"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

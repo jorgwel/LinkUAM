@@ -1,0 +1,143 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusNecesidad" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusNecesidadHome.managed ? 'Edit' : 'Add'} Estatus necesidad</f:facet>
+
+
+            <s:decorate id="idEstatusNecesidadField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus necesidad</ui:define>
+                <h:inputText id="idEstatusNecesidad"
+                       required="true"
+                       disabled="#{estatusNecesidadHome.managed}"
+                          value="#{estatusNecesidadHome.instance.idEstatusNecesidad}">
+                    <a:support event="onblur" reRender="idEstatusNecesidadField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="definicionEstatusNecesidadField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus necesidad</ui:define>
+                <h:inputText id="definicionEstatusNecesidad"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusNecesidadHome.instance.definicionEstatusNecesidad}">
+                    <a:support event="onblur" reRender="definicionEstatusNecesidadField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreEstatusNecesidadField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus necesidad</ui:define>
+                <h:inputText id="nombreEstatusNecesidad"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusNecesidadHome.instance.nombreEstatusNecesidad}">
+                    <a:support event="onblur" reRender="nombreEstatusNecesidadField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusNecesidadHome.persist}"
+                       disabled="#{!estatusNecesidadHome.wired}"
+                       rendered="#{!estatusNecesidadHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusNecesidadHome.update}"
+                       rendered="#{estatusNecesidadHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusNecesidadHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusNecesidadHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusNecesidad.xhtml"
+                rendered="#{estatusNecesidadHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusNecesidadFrom ? 'EstatusNecesidadList' : estatusNecesidadFrom}.xhtml"
+                rendered="#{!estatusNecesidadHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Necesidads">
+        <h:form styleClass="association" id="necesidadsChildren">
+
+            <h:outputText value="There are no necesidads associated with this estatusNecesidad."
+                       rendered="#{empty estatusNecesidadHome.necesidads}"/>
+
+            <rich:dataTable value="#{estatusNecesidadHome.necesidads}"
+                           var="_necesidad"
+                      rendered="#{not empty estatusNecesidadHome.necesidads}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="necesidadsTable">
+                <rich:column sortBy="#{_necesidad.idNecesidad}">
+                    <f:facet name="header">Id necesidad</f:facet>
+                    <h:outputText value="#{_necesidad.idNecesidad}"/>
+                </rich:column>
+                <rich:column sortBy="#{_necesidad.descripcionNecesidad}">
+                    <f:facet name="header">Descripcion necesidad</f:facet>
+                    <h:outputText value="#{_necesidad.descripcionNecesidad}"/>
+                </rich:column>
+                <rich:column sortBy="#{_necesidad.fechaNecesidad}">
+                    <f:facet name="header">Fecha necesidad</f:facet>
+                    <h:outputText value="#{_necesidad.fechaNecesidad}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusNecesidadHome.managed}" id="necesidads">
+        <div class="actionButtons">
+            <s:button id="addnecesidad"
+                   value="Add necesidad"
+                    view="/NecesidadEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusNecesidadIdEstatusNecesidad"
+                         value="#{estatusNecesidadHome.instance.idEstatusNecesidad}"/>
+                 <f:param name="necesidadFrom" value="EstatusNecesidad"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

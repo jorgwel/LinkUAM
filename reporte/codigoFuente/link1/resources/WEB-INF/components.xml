@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:drools="http://jboss.com/products/seam/drools"
+            xmlns:bpm="http://jboss.com/products/seam/bpm"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:mail="http://jboss.com/products/seam/mail"
+            xmlns:web="http://jboss.com/products/seam/web"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:async="http://jboss.com/products/seam/async"
+            xmlns:remote="http://jboss.com/products/seam/remoting"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.2.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.2.xsd
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.2.xsd
+                 http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.2.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.2.xsd
+                 http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.2.xsd
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.2.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.2.xsd">
+
+    <core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>
+
+    <core:manager concurrent-request-timeout="500"
+                 conversation-timeout="10800000"
+                 conversation-id-parameter="cid"
+                 parent-conversation-id-parameter="pid"/>
+
+   <!-- Make sure this URL pattern is the same as that used by the Faces Servlet -->
+    <web:hot-deploy-filter url-pattern="*.seam"/>
+
+   <!-- If you are still using JBoss 4, uncomment this to have your PU started -->
+   <!-- <persistence:entity-manager-factory name="entityManagerFactory"
+                      persistence-unit-name="link1"
+                                  installed="@seamBootstrapsPu@"/>-->
+
+    <persistence:managed-persistence-context name="entityManager" auto-create="true"
+                          entity-manager-factory="@seamEmfRef@"
+                      persistence-unit-jndi-name="@puJndiName@"/>
+
+    <drools:rule-base name="securityRules">
+        <drools:rule-files>
+            <value>/security.drl</value>
+        </drools:rule-files>
+    </drools:rule-base>
+
+    <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
+
+<!--    <security:identity authenticate-method="#{authenticator.authenticate}" remember-me="true"/>-->
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>
+
+    <event type="org.jboss.seam.security.notLoggedIn">
+        <action execute="#{redirect.captureCurrentView}"/>
+    </event>
+    <event type="org.jboss.seam.security.loginSuccessful">
+        <action execute="#{redirect.returnToCapturedView}"/>
+    </event>
+
+    <mail:mail-session 
+        host="smtp.googlemail.com"
+        port="465"
+        ssl="true" 
+        tls="true" 
+        username="usuariodegmail@gmail.com "
+        password="contraseñadegmail"
+        />
+
+    <core:resource-loader>
+        <core:bundle-names>
+            <value>messages</value>
+            <value>mensajes_critica</value>
+            <value>mensajes_home</value>
+            <value>mensajes_idea</value>
+            <value>mensajes_general</value>
+            <value>mensajes_pregunta</value>
+            <value>mensajes_bitacora</value>
+            <value>mensajes_login</value>
+            <value>mensajes_tipoidea</value>
+            <value>mensajes_estatus_ayuda_monetaria</value>
+            <value>mensajes_estatus_ayuda_recursos_humanos</value>
+            <value>mensajes_comunidad</value>
+            <value>mensajes_canica</value>
+            <value>mensajes_mail</value>
+            <value>mensajes_busqueda</value>
+            <value>mensajes_panelcontrol</value>
+            <value>mensajes_usuario</value>
+            <value>mensajes_validadores</value>
+            <value>mensajes_visita</value>
+        </core:bundle-names>
+    </core:resource-loader>
+    <component name="stringutils" class="org.apache.commons.lang.StringUtils"
+                                    scope="stateless"/>
+
+                                    <!-- queries -->
+    <framework:entity-query name="listaIdeasDelDia" scope="conversation"
+        ejbql="select idea from Idea idea
+                where 
+                    idea.usuario.estatusUsuario.idEstatusUsuario = 1
+                    AND
+                    (
+                        idea.estatusIdea.nombreEstatusIdea = 'ACTIVA'
+                    )"
+        max-results="3" order="idea.fechaCreacionIdea desc"/>
+            
+    <framework:entity-query name="listaIdeasRockstar"  scope="conversation"
+        ejbql="select idea from Idea idea
+                where
+                    idea.calificacionIdea BETWEEN 4.0 AND 5.0
+                    AND
+                    idea.usuario.estatusUsuario.idEstatusUsuario = 1
+                    AND
+                    (
+                        idea.estatusIdea.nombreEstatusIdea = 'ACTIVA'
+                    )"
+        order="idea.calificacionIdea desc"/>
+
+
+<!--    <framework:entity-query name="ideasUsuario"  scope="conversation"
+        ejbql="SELECT  idea
+               from Idea idea"
+               order="idea.fechaCreacionIdea DESC"
+               >
+        <framework:restrictions>
+            <value>
+                idea.usuario.idUsuario = #{usuario.idUsuario}
+            </value>
+        </framework:restrictions>
+                   
+    </framework:entity-query>-->
+    
+    <framework:entity-query name="canicasIdea"  scope="conversation"
+        ejbql="SELECT  canica
+               FROM Canica canica"
+               order="canica.fechaCanica DESC"
+               >
+        <framework:restrictions>
+            <value>
+                canica.necesidad.idea.idIdea = #{ideaHome.ideaIdIdea}
+            </value>
+        </framework:restrictions>
+                   
+    </framework:entity-query>
+    <!-- PREGUNTAS HECHAS A UN USUARIO EN UNA IDEA Y QUE NO HAN SIDO RESPONDIDAS -->
+    <framework:entity-query name="preguntasDeUsuarioSinResponder"  scope="conversation"
+        ejbql="SELECT DISTINCT pregunta
+               FROM Pregunta pregunta
+               WHERE
+                   pregunta.idea.usuario.idUsuario = #{usuario.idUsuario}
+               AND
+                   pregunta.estatusPregunta.nombreEstatusPregunta = 'ABIERTA'"
+               order="pregunta.fechaCreacionPregunta DESC"
+               />
+
+    <!-- IDEAS QUE SON SEGUIDAS POR UN USUARIO -->
+    <framework:entity-query name="ideasSeguidasPorUsuario"  scope="conversation"
+        ejbql="SELECT idea
+               FROM Seguidor seguidor
+               INNER JOIN seguidor.idea as idea
+               WHERE
+                idea.usuario.estatusUsuario.nombreEstatusUsuario='ACTIVO'
+                AND
+                idea.estatusIdea.nombreEstatusIdea = 'ACTIVA'
+                AND
+                seguidor.usuario.idUsuario = #{usuarioActual.idUsuario} "
+               order="seguidor.fechaInicioSeguidor DESC"
+               />
+
+
+    <!-- PARTICIPACIONES DE UN USUARIO-->
+    <framework:entity-query name="canicasDeUsuario"  scope="conversation"
+        ejbql="SELECT canica
+               FROM Canica canica
+               INNER JOIN canica.usuario as usuario
+               WHERE
+                canica.necesidad.idea.estatusIdea.nombreEstatusIdea = 'ACTIVA'
+                AND
+                usuario.idUsuario = #{usuarioActual.idUsuario}"
+
+               order="canica.fechaCanica DESC"
+               />
+<!--        <framework:restrictions>
+            <value>
+                
+            </value>
+        </framework:restrictions>
+    </framework:entity-query>-->
+
+    <framework:entity-query name="listaEstatusAyuda"  scope="conversation"
+        ejbql=
+        "SELECT estatusAyudaRecursosHumanos
+            FROM
+                EstatusAyudaRecursosHumanos estatusAyudaRecursosHumanos"
+       order="estatusAyudaRecursosHumanos.nombreEstatusAyudaRecursosHumanos ASC"
+       />
+
+<!--
+ejbql="SELECT idea from Idea idea
+               INNER JOIN FETCH idea.usuario as usuario
+               JOIN FETCH idea.seguidors as seguidores
+               JOIN FETCH idea.integrantes as integrantes
+               WHERE usuario.idUsuario =#{usuario.idUsuario}"-->
+<!--            <framework:restrictions>
+                <value>
+                idea.estatusIdea.idEstatusIdea=1
+                </value>
+            </framework:restrictions>
+    </framework:entity-query>-->
+
+<!-- Query que trae las canicas relacionadas con una necesidad ... NO PROBADA -->
+<!--    <framework:entity-query name="listaCanicasDeNecesidad" scope="conversation"
+        ejbql="select canica from Canica canica"
+        order="canica.fechaCanica desc">
+        <framework:restrictions>
+            <value>
+      #{necesidadHome.instance}=canica.necesidad
+            </value>
+        </framework:restrictions>
+    </framework:entity-query>-->
+    <!-- Query necesaria para obtener las necesidades ordenadas por fecha. -->
+    <framework:entity-query name="listaNecesidadesDeIdea" scope="conversation"
+        ejbql="select necesidad from Necesidad necesidad"
+        order="necesidad.fechaNecesidad desc">
+        <framework:restrictions>
+            <value>
+      #{ideaHome.instance}=necesidad.idea
+            </value>
+        </framework:restrictions>
+    </framework:entity-query>
+
+    <!-- PREGUNTAS QUE NO HAN SIDO APROBADAS POR UN ADMINISTRADOR-->
+    <framework:entity-query name="preguntasNoAprobadas"  scope="conversation"
+        ejbql="SELECT pregunta
+                FROM Pregunta pregunta
+                WHERE
+                    pregunta.estatusPregunta.nombreEstatusPregunta = 'NO_APROBADA'
+                    AND
+                    pregunta.idea.estatusIdea.nombreEstatusIdea='ACTIVA'
+                    AND
+                    pregunta.idea.usuario.estatusUsuario.nombreEstatusUsuario='ACTIVO'"
+               order="pregunta.fechaCreacionPregunta DESC"
+               >
+    </framework:entity-query>
+
+    <!-- PREGUNTAS QUE HAN SIDO APROBADAS POR UN ADMINISTRADOR-->
+    <framework:entity-query name="preguntasAprobadasDeIdea"  scope="conversation"
+        ejbql="SELECT pregunta
+                FROM Pregunta pregunta
+                INNER JOIN pregunta.idea as idea
+                WHERE
+                 idea.idIdea = #{ideaHome.instance.idIdea}
+                 AND
+                 pregunta.estatusPregunta.nombreEstatusPregunta IN ('ABIERTA','CERRADA','ANS_DESECHADA','QUE_DESECHADA','ANS_NO_APROBADA') "
+               order="pregunta.fechaCreacionPregunta DESC"
+               />
+
+    <!-- PREGUNTAS QUE HAN SIDO RESPONDIDAS PERO NO APROBADAS POR UN ADMINISTRADOR-->
+    <framework:entity-query name="respuestasNoAprobadas"  scope="conversation"
+        ejbql="SELECT pregunta
+                FROM Pregunta pregunta
+                WHERE
+                 pregunta.estatusPregunta.nombreEstatusPregunta = 'ANS_NO_APROBADA'
+                 AND
+                 pregunta.idea.estatusIdea.nombreEstatusIdea='ACTIVA'
+                 AND
+                 pregunta.idea.usuario.estatusUsuario.nombreEstatusUsuario='ACTIVO'"
+               order="pregunta.fechaCreacionPregunta DESC"
+               />
+
+    <!-- BITACORAS QUE NO HAN SIDO APROBADAS POR UN ADMINISTRADOR-->
+    <framework:entity-query name="bitacorasNoAprobadas"  scope="conversation"
+        ejbql="SELECT bitacora
+                FROM Bitacora bitacora
+                WHERE
+                bitacora.estatusBitacora.nombreEstatusBitacora = 'INACTIVO'
+                AND
+                bitacora.idea.estatusIdea.nombreEstatusIdea='ACTIVA'
+                AND
+                bitacora.usuario.estatusUsuario.nombreEstatusUsuario='ACTIVO'"
+               order="bitacora.fechaBitacora DESC"
+               />
+    <!-- BITACORAS APROBADAS DE IDEA -->
+    <framework:entity-query name="bitacorasAprobadas"  scope="conversation"
+        ejbql="SELECT bitacora
+                FROM Bitacora bitacora
+                WHERE
+                bitacora.idea.idIdea = #{ideaHome.instance.idIdea}
+                AND
+                bitacora.estatusBitacora.nombreEstatusBitacora = 'ACTIVO' "
+               order="bitacora.fechaBitacora DESC"
+               />
+
+    <!-- IDEAS DE USUARIO YA APROBADAS POR ADMIN -->
+    <framework:entity-query name="ideasDeUsuarioAprobadas"  scope="conversation"
+        ejbql="SELECT idea
+                FROM Idea idea
+                WHERE
+                idea.usuario.idUsuario = #{usuarioActual.idUsuario}
+                AND
+                (
+                    idea.estatusIdea.nombreEstatusIdea = 'ACTIVA'
+                    OR
+                    idea.estatusIdea.nombreEstatusIdea = 'INACTIVA'
+                )"
+               order="idea.fechaCreacionIdea DESC"
+               />
+
+    <!-- IDEAS DE USUARIO AÚN NO APROBADAS POR ADMIN -->
+    <framework:entity-query name="ideasDeUsuarioNoAprobadas"  scope="conversation"
+        ejbql="SELECT idea
+                FROM Idea idea
+                WHERE
+                 idea.estatusIdea.nombreEstatusIdea = 'NO_APROBADA'
+                 AND
+                 idea.usuario.idUsuario = #{usuarioActual.idUsuario}"
+               order="idea.fechaCreacionIdea DESC"
+               />
+    <!-- IDEAS DE USUARIO RECHAZADAS O EN_EDICION -->
+    <framework:entity-query name="ideasDeUsuarioAvisoEnEdicion"  scope="conversation"
+        ejbql="SELECT aviso
+                FROM Aviso aviso
+                WHERE
+                 aviso.idea.estatusIdea.nombreEstatusIdea = 'EN_EDICION'
+                 AND
+                 aviso.usuario.idUsuario = #{usuarioActual.idUsuario}"
+               order="aviso.fechaCreacionAviso DESC"
+               />
+    <!-- IDEAS AÚN NO APROBADAS POR ADMIN -->
+    <framework:entity-query name="ideasNoAprobadas"  scope="conversation"
+        ejbql="SELECT idea
+                FROM Idea idea
+                WHERE
+                 idea.estatusIdea.nombreEstatusIdea = 'NO_APROBADA'
+                 AND
+                 idea.usuario.estatusUsuario.nombreEstatusUsuario='ACTIVO'"
+               order="idea.fechaCreacionIdea DESC"
+               />
+    <!-- IDEAS SUSPENDIDAS POR ADMIN -->
+    <framework:entity-query name="ideasSuspendidas"  scope="conversation"
+        ejbql="SELECT idea
+                FROM Idea idea
+                WHERE
+                 idea.estatusIdea.nombreEstatusIdea = 'SUSPENDIDA'
+                 AND
+                 idea.usuario.estatusUsuario.nombreEstatusUsuario='ACTIVO'"
+               order="idea.fechaCreacionIdea DESC"
+               />
+    <!-- USUARIOS SUSPENDIDOS POR ADMIN -->
+    <framework:entity-query name="usuariosSuspendidos"  scope="conversation"
+        ejbql="SELECT usuario
+                FROM Usuario usuario
+                WHERE
+                 usuario.estatusUsuario.nombreEstatusUsuario = 'SUSPENDIDO'"
+               order="usuario.nickUsuario DESC"
+               />
+
+    <!-- CONTADORES -->
+    <framework:entity-query name="contadorUsuarios" scope="conversation"
+        ejbql="SELECT COUNT(*) FROM Usuario usuario"
+        />
+    <framework:entity-query name="contadorSeguidores" scope="conversation"
+        ejbql="SELECT COUNT(*) FROM Seguidor seguidor"
+        />
+    <framework:entity-query name="contadorPreguntas" scope="conversation"
+        ejbql="SELECT COUNT(*) FROM Pregunta pregunta"
+        />
+    <framework:entity-query name="contadorComunidades" scope="conversation"
+        ejbql="SELECT COUNT(*) FROM Comunidad comunidad"
+        />
+    <framework:entity-query name="contadorIdeas" scope="conversation"
+        ejbql="SELECT COUNT(*) FROM Idea idea"
+        />
+    <framework:entity-query name="contadorParticipaciones" scope="conversation"
+        ejbql="SELECT COUNT(*) FROM Canica canica"
+        />
+    <framework:entity-query name="contadorInstituciones" scope="conversation"
+        ejbql="SELECT COUNT(*) FROM Institucion institucion"
+        />
+    <framework:entity-query name="contadorCriticas" scope="conversation"
+        ejbql="SELECT COUNT(*) FROM Critica critica"
+        />
+
+    <!-- COLECCIONES COMPLETAS -->
+    <framework:entity-query name="listaTodasCriticas" scope="conversation"
+        ejbql="SELECT critica FROM Critica critica"
+        order="critica.fechaCritica DESC"
+        />
+
+    <framework:entity-query name="listaTodasRoles" scope="conversation"
+        ejbql="SELECT rol FROM Rol rol"
+        />
+
+    <framework:entity-query name="listaTodasReporteAbuso" scope="conversation"
+        ejbql="SELECT reporteAbuso 
+                FROM ReporteAbuso reporteAbuso
+                WHERE 
+                    reporteAbuso.idea.estatusIdea.nombreEstatusIdea='ACTIVA'
+                    AND
+                    reporteAbuso.estatusReporteAbuso.nombreEstatusReporteAbuso='NO_LEIDO'
+                    AND
+                    reporteAbuso.idea.usuario.estatusUsuario.nombreEstatusUsuario='ACTIVO' "
+        />
+
+    <framework:entity-query name="usuariosDelSistema" scope="conversation"
+        ejbql="SELECT usuario
+                FROM Usuario usuario
+                WHERE
+                    usuario.estatusUsuario.nombreEstatusUsuario='ACTIVO'"
+        />
+
+
+
+                                    <!-- factorias -->
+    <factory name="critica" value="#{criticaHome.instance}" scope="conversation" />
+    <factory name="idea" value="#{ideaHome.instance}" scope="conversation" />
+    <factory name="usuario" value="#{usuarioHome.instance}" scope="conversation" />
+
+
+       <!-- For use with jBPM pageflow or process management -->
+   <!--
+   <bpm:jbpm>
+      <bpm:process-definitions></bpm:process-definitions>
+      <bpm:pageflow-definitions></bpm:pageflow-definitions>
+   </bpm:jbpm>
+   -->
+<!--    <web:multipart-filter create-temp-files="true"
+                      max-request-size="5242880"
+                      max-upload-size="5242880"
+                      url-pattern="*.seam"/>-->
+
+    <event type="org.jboss.seam.security.loggedOut">
+        <action execute="#{facesMensajero.agregarMensaje()}"/>
+    </event>
+
+    <!-- Este tag es el que hizo la magia para que funcionara el uploadFile
+    de primefaces. Dehabilitó el filtro equivalente a multipart de SEAM.
+    Exclusivamente ese sin tocar otros: interceptores y demás-->
+    <web:multipart-filter disabled="true"/>
+    <!-- Para activar Quartz-->
+    <async:quartz-dispatcher/>
+
+    <component name="inicializadorQuartz"/>
+
+    <component name="valoresGlobales" startup="true" >
+        <!-- URL del servidor que contiene la aplicación. Sin incluir nombre de proyecto.-->
+        <property name="servidorWeb">http://localhost:8080/</property>
+        <!-- Nombre de la aplicación/proyecto.-->
+        <property name="nombreDeAplicacion">link1</property>
+        <!-- Correo electrónico de la aplicación.-->
+        <property name="correoDeLaAplicacion">linkuam@gmail.com</property>
+        <!-- IP del servidor de correo-->
+        <property name="servidorCorreo">localhost</property>
+        <!-- Puerto del servidor de correo-->
+        <property name="servidorCorreoPuerto">25</property>
+        <!-- Folder de despliegue de JBOSS, sin incluir el nombre del proy/aplicación-->
+        <property name="folderJbossDeploy">/home/jorgwel/Software/jboss/jboss-5.1.0.GA/server/default/deploy</property>
+        <!-- Si la aplicación se encuentra en desarrollo o no.-->
+        <property name="modoDebug">true</property>
+        <!-- Folder raíz donde está colocado el proyecto que se está desarrollando-->
+        <property name="folderRaizDesarrollo">/home/jorgwel/NetBeansProjects/link1</property>
+        <!-- El número de correos que se enviarán en cada período-->
+        <property name="numeroDeCorreosPorPeriodo">30</property>
+        <!-- El número de preguntas que se enviarán en cada período-->
+        <property name="numeroDePreguntasPorPeriodo">30</property>
+        <!-- El número de respuestas que se enviarán en cada período-->
+        <property name="numeroDeRespuestasPorPeriodo">30</property>
+        <!-- El número de bitacoras que se enviarán en cada período-->
+        <property name="numeroDeBitacorasPorPeriodo">30</property>
+        <!-- El número de ideas que se enviarán en cada período-->
+        <property name="numeroDeIdeasPorPeriodo">30</property>
+        <!-- El número de tweets que se traerán -->
+        <property name="numeroTweetsACargar">4</property>
+        <!-- El número de fotos que se traerán -->
+        <property name="numeroFotosACargar">28</property>
+        <!-- El número de otras ideas que se enviarán en cada período -->
+        <property name="numeroDeOtrasIdeasPorPeriodo">4</property>
+        <!-- La duración del período entre envío y envío de correo. En minutos. Valores aceptados: [1-59]-->
+        <property name="periodoCorreo">0 0/1 * * * ?</property>
+        <!-- La duración del período entre cada aprobación de preguntas. En minutos. Valores aceptados: [1-59]-->
+        <property name="periodoPreguntas">0 0/2 * * * ?</property>
+        <!-- La duración del período entre cada aprobación de respuestas. En minutos. Valores aceptados: [1-59]-->
+        <property name="periodoRespuestas">0 0/3 * * * ?</property>
+        <!-- La duración del período entre cada aprobación de bitácoras. En minutos. Valores aceptados: [1-59]-->
+        <property name="periodoBitacoras">0 0/2 * * * ?</property>
+        <!-- La duración del período entre cada aprobación de ideas. En minutos. Valores aceptados: [1-59]-->
+        <property name="periodoIdeas">0 0/1 * * * ?</property>
+        <!-- La duración del período entre cada aprobación de tweets. En minutos. Valores aceptados: [30-59]-->
+        <property name="periodoTweets">0 0/40 * * * ?</property>
+        <!-- La duración del período entre cada petición de fotos de usuario. En horas [1-7].-->
+        <property name="periodoFotosUsuarios">0 0 0/7 * * ?</property>
+        <!-- La duración del período entre cada carga de "otrasIdeas". -->
+        <property name="periodoOtrasIdeas">0/10 * * * * ?</property>
+        <!-- La duración del período entre cada carga de "estadisticas". -->
+        <property name="periodoEstadisticas">0/10 * * * * ?</property>
+        <!-- La URL necesaria para traer los tweets de linkUAM -->
+        <property name="urlParaCargarTweets">http://twitter.com/statuses/user_timeline/#####.json?count=</property>        
+        <!-- La URL necesaria para traer el detalle de los estatus en twitter -->
+        <property name="urlParaCargarStatuses">http://twitter.com/#####/statuses/</property>
+        <!-- El nombre de usuario de tweeter del que se traerán los tweets -->
+        <property name="screenNameTweeter">linkuam</property>
+
+        
+        
+        
+    </component>
+
+    <component name="controladorServicios" startup="true" >
+        <!-- Define si al iniciar linkUAM el servicio de correo está activo -->
+        <property name="correo">#{false}</property>
+        <!-- Define si al iniciar linkUAM el servicio de activar preguntas está activo -->
+        <property name="preguntas">#{false}</property>
+        <!-- Define si al iniciar linkUAM el servicio de activar respuestas está activo -->
+        <property name="respuestas">#{false}</property>
+        <!-- Define si al iniciar linkUAM el servicio de activar bitácoras está activo -->
+        <property name="bitacoras">#{false}</property>
+        <!-- Define si al iniciar linkUAM el servicio de activar ideas está activo -->
+        <property name="ideas">#{false}</property>
+        <!-- Define si al iniciar linkUAM el servicio de obtener los últimos tweets está activo -->
+        <property name="tweets">#{true}</property>
+        <!-- Define si al iniciar linkUAM el servicio de cargar imágenes de usuario está activo -->
+        <property name="fotosUsuarios">#{false}</property>
+        <!-- Define si al iniciar linkUAM el servicio de cargar otras ideas está activo -->
+        <property name="otrasIdeas">#{true}</property>
+        <!-- Define si al iniciar linkUAM el servicio de registrar visitas estará activo -->
+        <property name="visitas">#{true}</property>
+        <!-- Define si al iniciar linkUAM el servicio de actualizar estadísticas estará activo -->
+        <property name="estadisticas">#{false}</property>
+        <property name="favoritos">#{false}</property>
+    </component>
+
+
+                          
+</components>

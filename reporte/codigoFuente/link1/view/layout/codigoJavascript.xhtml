@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+
+    <script>
+
+        var tamanosMaximosDeInputs = new Array()
+        tamanosMaximosDeInputs["inputTituloIdea"]=#{seamSizeColumna.tituloIdea};
+        tamanosMaximosDeInputs["inputResumenIdea"]=#{seamSizeColumna.resumenIdea};
+        tamanosMaximosDeInputs["input_editor"]=#{seamSizeColumna.contenidoIdea};
+        tamanosMaximosDeInputs["textoNecesidad"]=#{seamSizeColumna.necesidad};
+        tamanosMaximosDeInputs["inputTextoPregunta"]=#{seamSizeColumna.pregunta};
+        tamanosMaximosDeInputs["inputTextoBitacora"]=#{seamSizeColumna.bitacora};
+        tamanosMaximosDeInputs["inputTextoRespuesta"]=#{seamSizeColumna.respuesta};
+        tamanosMaximosDeInputs["inputNombreUsuario"]=#{seamSizeColumna.nombreUsuario};
+        tamanosMaximosDeInputs["inputApellidoPaternoUsuario"]=#{seamSizeColumna.apellidoPaternoUsuario};
+        tamanosMaximosDeInputs["inputApellidoMaternoUsuario"]=#{seamSizeColumna.apellidoMaternoUsuario};
+        tamanosMaximosDeInputs["inputNickUsuario"]=#{seamSizeColumna.nickUsuario};
+        tamanosMaximosDeInputs["inputPasswordUsuario"]=#{seamSizeColumna.passwordUsuario};
+        tamanosMaximosDeInputs["inputPasswordUsuarioConfirmacion"]=#{seamSizeColumna.passwordUsuario};
+        tamanosMaximosDeInputs["inputCorreoUsuario"]=#{seamSizeColumna.textoContactoUsuario};
+        tamanosMaximosDeInputs["inputTextoReporte"]=#{seamSizeColumna.notaReporteAbuso};
+        tamanosMaximosDeInputs["inputMensajeRetroalimentacion"]=#{seamSizeColumna.textoAviso};
+        /**
+         * Funciones que me permiten manejar el contador de caracteres
+         */
+        function obtenerIdSinPrepend(cadenaParaRecortar){
+            var indiceParaRecortar = cadenaParaRecortar.lastIndexOf(':');
+            var nombreSinPrependId;
+            if(indiceParaRecortar != -1){
+                nombreSinPrependId =
+                    cadenaParaRecortar.substring(
+                        indiceParaRecortar+1, cadenaParaRecortar.length
+                                                );
+            }else{
+                nombreSinPrependId = cadenaParaRecortar;
+            }
+            return nombreSinPrependId;
+        }
+        
+        function obtenerSize(idConPrepend){
+            var nombreSinPrependId = obtenerIdSinPrepend(idConPrepend);
+            return tamanosMaximosDeInputs[nombreSinPrependId];
+
+        }
+
+        function mostrarLongitudRebasada(
+            numeroDeCaracteresActual, tamanoMaximo, counter){
+
+            if( numeroDeCaracteresActual > tamanoMaximo ){
+                counter.style.color = "red";
+                counter.style.fontSize = "13pt"
+            }else{
+                counter.style.color = "gray";
+                counter.style.fontSize = "12pt"
+            }
+
+        }
+
+        function actualizarContador(elementoActualizado, counterId){
+//            alert(counterId);
+            var tamanoMaximo = obtenerSize(elementoActualizado.id);
+            var counter = document.getElementById(counterId);
+            var numeroDeCaracteresActual = elementoActualizado.value.length;
+            var numeroDeCaracteresTotal =
+                tamanoMaximo - elementoActualizado.value.length;
+                counter.innerHTML =
+                    numeroDeCaracteresTotal +
+                    "#{' '} #{messages['idea.contador.caracteresrestantes']}";
+
+            mostrarLongitudRebasada(
+                numeroDeCaracteresActual, tamanoMaximo, counter
+            );
+
+        }
+
+
+        /**
+         * Funciones que me permiten manejar el contador de caracteres en un
+         * p:editor
+         */
+        function actualizarContadorDeEditor(
+            elementById, elementoCounter, numeroDeCaracteresActual){
+            var tamanoMaximo = obtenerSize(elementById.id);
+            var porcentajeOcupado =
+                100 - (numeroDeCaracteresActual*100)/tamanoMaximo;
+            porcentajeOcupado = porcentajeOcupado.toFixed(1);
+            elementoCounter.innerHTML = porcentajeOcupado +
+                "#{'% '} #{messages['idea.contador.porcentajelibre']}";
+
+            mostrarLongitudRebasadaEnEditor(
+                porcentajeOcupado, 100, elementoCounter
+            );
+
+        }
+
+        function cambiarContadorDeEditor(){
+            //                alert('Sí se registró');
+            var elementById =
+                document
+                .getElementById('form:wizart:inputContenidoIdea:input_editor');
+            var numeroDeCaracteresActuales =
+                document
+                .getElementById('form:wizart:inputContenidoIdea:input_editor')
+                    .contentWindow.document.body.innerHTML.length;
+            var elementoCounter =
+                document
+                    .getElementById('form:wizart:counterInputContenidoIdea');
+            actualizarContadorDeEditor(
+                elementById, elementoCounter, numeroDeCaracteresActuales
+            );
+        }
+
+        function mostrarLongitudRebasadaEnEditor(
+            porcentajeOcupado, tamanoMaximo, counter){
+
+            if( porcentajeOcupado > tamanoMaximo ){
+                counter.style.color = "red";
+                counter.style.fontSize = "18pt"
+            }else{
+                counter.style.color = "gray";
+                counter.style.fontSize = "17pt"
+            }
+
+        }
+
+
+
+        /**
+         * Código que se ejecuta hasta que la página se ha cargado por completo,
+         * agregando un listener a los elementos de p:editor
+         */
+        window.onload = function () {
+//            alert('Página cargada.')
+//            alert(document.getElementById('form:wizart:textoNecesidad'));
+            var elementToolBar =
+                document
+                .getElementById('form:wizart:inputContenidoIdea:input_toolbar');
+//            alert('Toolbar: ' + elementToolBar);
+            var element =
+                document
+                .getElementById('form:wizart:inputContenidoIdea:input_editor')
+                .contentWindow;
+//            alert('Editor: ' + element);
+            element
+                .addEventListener('keypress', cambiarContadorDeEditor, false);
+            element.addEventListener('click', cambiarContadorDeEditor, false);
+        }
+
+        Seam.Remoting.displayLoadingMessage = function() {
+            document.body.style.cursor='wait';
+        };
+        var discriminadorSAU = '';
+        Seam.Remoting.hideLoadingMessage = function() {
+//            Remoting.hideLoadingMessage();
+            document.body.style.cursor='default';
+            if(discriminadorSAU == 'cambioEstatusIdea'){
+                dialogoExitoCambioEstatusIdea.show();
+            }else if(discriminadorSAU == 'preguntaAprobada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formPreguntasNoAprobadas',global:true}
+                                ,{'primefacesPartialUpdate':'formPreguntasNoAprobadas'}
+                                ,{'primefacesPartialProcess':'formPreguntasNoAprobadas'}
+                                           );
+            }else if(discriminadorSAU == 'respuestaAprobada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formRespuestasNoAprobadas',global:true}
+                                ,{'primefacesPartialUpdate':'formRespuestasNoAprobadas'}
+                                ,{'primefacesPartialProcess':'formRespuestasNoAprobadas'}
+                                           );
+            }else if(discriminadorSAU == 'bitacoraAprobada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formBitacorasNoAprobadas',global:true}
+                                ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas'}
+                                ,{'primefacesPartialProcess':'formBitacorasNoAprobadas'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'ideaAprobada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formIdeasNoAprobadas',global:true}
+                                ,{'primefacesPartialUpdate':'formIdeasNoAprobadas, formReportes'}
+                                ,{'primefacesPartialProcess':'formIdeasNoAprobadas'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'ideaSuspendida'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formReportes',global:true}
+                                ,{'primefacesPartialUpdate':'formReportes, formRescatarIdeas'}
+                                ,{'primefacesPartialProcess':'formReportes'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'usuarioSuspendido'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formReportes',global:true}
+                                ,{'primefacesPartialUpdate':'formReportes, formRescatarUsuarios, formRescatarIdeas'}
+                                ,{'primefacesPartialProcess':'formReportes'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'reporteDesechado'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formReportes',global:true}
+                                ,{'primefacesPartialUpdate':'formReportes'}
+                                ,{'primefacesPartialProcess':'formReportes'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'ideaRescatada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formRescatarIdeas',global:true}
+                                ,{'primefacesPartialUpdate':'formRescatarIdeas, formIdeasNoAprobadas'}
+                                ,{'primefacesPartialProcess':'formRescatarIdeas'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'ideaDesaprobada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formIdeasNoAprobadas',global:true}
+                                ,{'primefacesPartialUpdate':'formIdeasNoAprobadas, formIdeasUsuarioNoAprobadas'}
+                                ,{'primefacesPartialProcess':'formIdeasNoAprobadas'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'bitacoraDesechada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formBitacorasNoAprobadas',global:true}
+                                ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas'}
+                                ,{'primefacesPartialProcess':'formBitacorasNoAprobadas'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'respuestaDesechada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formRespuestasNoAprobadas',global:true}
+                                ,{'primefacesPartialUpdate':'formRespuestasNoAprobadas'}
+                                ,{'primefacesPartialProcess':'formRespuestasNoAprobadas'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'preguntaDesechada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formPreguntasNoAprobadas',global:true}
+                                ,{'primefacesPartialUpdate':'formPreguntasNoAprobadas'}
+                                ,{'primefacesPartialProcess':'formPreguntasNoAprobadas'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'usuarioRescatado'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formRescatarUsuarios',global:true}
+                                ,{'primefacesPartialUpdate':'formRescatarUsuarios'}
+                                ,{'primefacesPartialProcess':'formRescatarUsuarios'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'usuarioDesechado'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formRescatarUsuarios',global:true}
+                                ,{'primefacesPartialUpdate':'formRescatarUsuarios'}
+                                ,{'primefacesPartialProcess':'formRescatarUsuarios'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }else if(discriminadorSAU == 'ideaDesechada'){
+                PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formRescatarIdeas',global:true}
+                                ,{'primefacesPartialUpdate':'formRescatarIdeas'}
+                                ,{'primefacesPartialProcess':'formRescatarIdeas'}
+                                           );
+//                                               ,{'primefacesPartialUpdate':'formBitacorasNoAprobadas, msg'}
+            }
+
+            discriminadorSAU = '';
+
+        };
+
+
+        /**
+         * Función para hacer llamadas remotas a seam
+         */
+        function cambiarEstatusDeIdea(idIdea){
+//            alert('Sí recibí la idea: ' + idIdea + ":)");
+            var ideaHome = Seam.Component.getInstance("ideaHome");
+            var respuesta = ideaHome.cambiarIdeaActivaInactiva(idIdea);
+        }
+
+        function activarIdea(idIdea){
+//            alert(idIdea);
+            var ideaHome = Seam.Component.getInstance("ideaHome");
+            var respuesta = ideaHome.activarIdea(idIdea);
+        }
+
+        function setearIdIdeaHome(idIdea){
+            var ideaHome = Seam.Component.getInstance("ideaHome");
+            ideaHome.setIdeaIdIdea(idIdea);
+        }
+
+        function popupCenter(pageURL, w,h) {
+            var left = (screen.width/2)-(w/2);
+            var top = (screen.height/2)-(h/2);
+            var targetWin = window.open (pageURL, '', 'titlebar=no, toolbars=no,menubar=no,toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+        }
+
+        function activarPregunta(idPregunta){
+//            alert(idIdea);
+            var preguntaHome = Seam.Component.getInstance("preguntaHome");
+            var respuesta = preguntaHome.activarPregunta(idPregunta);
+        }
+
+        function activarRespuesta(idPregunta){
+//            alert(idIdea);
+            var preguntaHome = Seam.Component.getInstance("preguntaHome");
+            var respuesta = preguntaHome.activarRespuesta(idPregunta);
+        }
+
+        function activarBitacora(idBitacora){
+//            alert(idIdea);
+            var bitacoraHome = Seam.Component.getInstance("bitacoraHome");
+            var respuesta = bitacoraHome.activarBitacora(idBitacora);
+        }
+
+        function suspenderIdea(idIdea){
+            var ideaHome = Seam.Component.getInstance("ideaHome");
+            var respuesta = ideaHome.suspenderIdea(idIdea);
+        }
+
+        function suspenderUsuario(idUsuario,idReporteAbuso){
+            var usuarioHome = Seam.Component.getInstance("usuarioHome");
+            var respuesta = usuarioHome.suspenderUsuario(idUsuario,idReporteAbuso);
+        }
+
+
+        function desecharReporteAbuso(idReporteAbuso){
+            var reporteAbusoHome = Seam.Component.getInstance("reporteAbusoHome");
+            var respuesta = reporteAbusoHome.desecharReporteAbuso(idReporteAbuso);
+        }
+
+        function rescatarIdea(idIdea){
+            var ideaHome = Seam.Component.getInstance("ideaHome");
+            var respuesta = ideaHome.rescatarIdea(idIdea);
+        }
+
+        function mandarAEdicionIdea(idIdea){
+            var ideaHome = Seam.Component.getInstance("ideaHome");
+            var respuesta = ideaHome.mandarAEdicionIdea(idIdea);
+        }
+
+
+        function desecharBitacora(idBitacora){
+            var bitacoraHome = Seam.Component.getInstance("bitacoraHome");
+            var respuesta = bitacoraHome.desecharBitacora(idBitacora);
+        }
+
+        function desecharRespuesta(idPregunta){
+            var preguntaHome = Seam.Component.getInstance("preguntaHome");
+            var respuesta = preguntaHome.desecharRespuesta(idPregunta);
+        }
+
+        function desecharPregunta(idPregunta){
+            var preguntaHome = Seam.Component.getInstance("preguntaHome");
+            var respuesta = preguntaHome.desecharPregunta(idPregunta);
+        }
+
+        function rescatarUsuario(idUsuario){
+            var usuarioHome = Seam.Component.getInstance("usuarioHome");
+            var respuesta = usuarioHome.rescatarUsuario(idUsuario);
+        }
+
+        function desecharUsuario(idUsuario){
+            var usuarioHome = Seam.Component.getInstance("usuarioHome");
+            var respuesta = usuarioHome.desecharUsuario(idUsuario);
+        }
+        
+        function desecharIdea(idIdea){
+            var ideaHome = Seam.Component.getInstance("ideaHome");
+            var respuesta = ideaHome.desecharIdea(idIdea);
+        }
+        
+
+        function actualizarIdeasNoAprobadas(){
+            PrimeFaces.ajax.AjaxRequest('/#{valoresGlobales.nombreDeAplicacion}/PanelControl.seam'
+                                ,{formId:'formIdeasNoAprobadas',global:true}
+                                ,{'primefacesPartialUpdate':'formIdeasNoAprobadas'}
+                                ,{'primefacesPartialProcess':'formIdeasNoAprobadas'}
+                                           );
+        }
+
+    </script>
+            
+
+    <p:ajaxStatus onstart="document.body.style.cursor='wait';" oncomplete="document.body.style.cursor='default';"/>
+
+</f:view>
+
+
+

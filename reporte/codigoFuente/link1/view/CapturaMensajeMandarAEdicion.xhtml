@@ -1,0 +1,103 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta
+                http-equiv="Content-Type"
+                content=
+                "text/html;
+                charset=UTF-8"
+                />
+
+            <title>
+                #{messages['panelcontrol.ideas.rechazaridea.intro']}
+            </title>
+
+
+        <p:resources/>
+        <ui:include src="layout/codigoJavascript.xhtml"/>
+        <ui:include src="layout/codigoCss.xhtml"/>
+        </head>
+        <body style="width: 400px !important;">
+        <p:growl id="msg" life="6000"/>
+
+        <h:form style="margin-top: 20px !important" prependId="false">
+
+                <s:div style="height: 15px !important"/>
+
+                <p:outputPanel id="displayrespuestas">
+                    <h:panelGrid
+                        columns="2"
+                        style="margin-bottom:10px"
+                        id="displaypreguntas"
+                        >
+                        <p:message for="inputMensajeRetroalimentacion">
+                            <p:effect type="pulsate" event="load">
+                                <f:param name="mode" value="'show'" />
+                            </p:effect>
+                        </p:message>
+
+                        <s:span id="counterMensajeRetroalimentacion"
+                                style="font-size: 17pt;
+                                color: gray"
+                                >
+                            #{seamSizeColumna.textoAviso}
+                            #{' '}
+                            #{messages['idea.contador.caracteresmax']}
+                        </s:span>
+                        <s:div>
+                        <h:outputText
+                            value="#{messages['panelcontrol.ideas.rechazaridea.intro']}: "
+                            styleClass="textodialogo"
+                            style="font-family: arial"
+                            />
+                        <h:outputText
+                            value="#{ideaHome.instance.tituloIdea}"
+                            styleClass="textodialogo"
+                            style="font-family: arial;font-weight: normal !important"
+                            />
+                        </s:div>
+
+                        <h:inputTextarea
+                            required="true"
+                            rows="5"
+                            value="#{ideaHome.avisoRetroalimentacionEdicion.textoAviso}"
+                            id="inputMensajeRetroalimentacion"
+                            onkeypress=
+                            "javascript:actualizarContador(this,'counterMensajeRetroalimentacion')"
+                            >
+                            <s:validate/>
+                        </h:inputTextarea>
+
+                        <p:commandButton
+                        id="botonCerrarMandarAEdicion"
+                        value="#{messages['idea.boton.cerrar']}"
+                        onclick=
+                        "window.close();"
+                        styleClass=" ui-button botonnaranja"
+                        />
+
+                        <p:commandButton
+                            value="#{messages['panelcontrol.ideas.rechazaridea.rechazar']}"
+                            styleClass=" ui-button botonnaranja"
+                            oncomplete="window.opener.actualizarIdeasNoAprobadas();window.close();popupCenter('/#{valoresGlobales.nombreDeAplicacion}/CapturaMensajeMandarAEdicionConfirmacion.seam',430, 300)"
+                            update="msg"
+                            action="#{ideaHome.mandarAEdicion}"
+                            />
+                        
+                    </h:panelGrid>
+                </p:outputPanel>
+
+
+        </h:form>
+
+        </body>
+    </html>
+
+</f:view>

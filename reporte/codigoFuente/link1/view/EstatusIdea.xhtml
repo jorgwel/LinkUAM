@@ -1,0 +1,128 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus idea Details</f:facet>
+
+        <s:decorate id="idEstatusIdea" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus idea</ui:define>
+            <h:outputText value="#{estatusIdeaHome.instance.idEstatusIdea}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusIdea" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus idea</ui:define>
+            <h:outputText value="#{estatusIdeaHome.instance.definicionEstatusIdea}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusIdea" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus idea</ui:define>
+            <h:outputText value="#{estatusIdeaHome.instance.nombreEstatusIdea}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusIdeaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusIdeaFrom ? 'EstatusIdeaList' : estatusIdeaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Ideas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="ideasChildren">
+
+        <h:outputText value="There are no ideas associated with this estatusIdea."
+                   rendered="#{empty estatusIdeaHome.ideas}"/>
+
+        <rich:dataTable value="#{estatusIdeaHome.ideas}"
+                       var="_idea"
+                  rendered="#{not empty estatusIdeaHome.ideas}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="ideasTable">
+            <rich:column sortBy="#{_idea.idIdea}">
+                <f:facet name="header">Id idea</f:facet>
+                <h:outputText value="#{_idea.idIdea}"/>
+            </rich:column>
+            <rich:column sortBy="#{_idea.calificacionIdea}">
+                <f:facet name="header">Calificacion idea</f:facet>
+                <h:outputText value="#{_idea.calificacionIdea}"/>
+            </rich:column>
+            <rich:column sortBy="#{_idea.contenidoIdea}">
+                <f:facet name="header">Contenido idea</f:facet>
+                <h:outputText value="#{_idea.contenidoIdea}"/>
+            </rich:column>
+            <rich:column sortBy="#{_idea.fechaCreacionIdea}">
+                <f:facet name="header">Fecha creacion idea</f:facet>
+                <h:outputText value="#{_idea.fechaCreacionIdea}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_idea.nombreImagen}">
+                <f:facet name="header">Nombre imagen</f:facet>
+                <h:outputText value="#{_idea.nombreImagen}"/>
+            </rich:column>
+            <rich:column sortBy="#{_idea.resumenIdea}">
+                <f:facet name="header">Resumen idea</f:facet>
+                <h:outputText value="#{_idea.resumenIdea}"/>
+            </rich:column>
+            <rich:column sortBy="#{_idea.tituloIdea}">
+                <f:facet name="header">Titulo idea</f:facet>
+                <h:outputText value="#{_idea.tituloIdea}"/>
+            </rich:column>
+            <rich:column sortBy="#{_idea.votosNegativosIdea}">
+                <f:facet name="header">Votos negativos idea</f:facet>
+                <h:outputText value="#{_idea.votosNegativosIdea}"/>
+            </rich:column>
+            <rich:column sortBy="#{_idea.votosPositivosIdea}">
+                <f:facet name="header">Votos positivos idea</f:facet>
+                <h:outputText value="#{_idea.votosPositivosIdea}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectidea"
+                     value="Select"
+                      view="/Idea.xhtml">
+                    <f:param name="ideaIdIdea"
+                            value="#{_idea.idIdea}"/>
+                    <f:param name="ideaFrom" value="EstatusIdea"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add idea"
+                view="/IdeaEdit.xhtml">
+            <f:param name="estatusIdeaIdEstatusIdea"
+                    value="#{estatusIdeaHome.instance.idEstatusIdea}"/>
+            <f:param name="ideaFrom" value="EstatusIdea"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

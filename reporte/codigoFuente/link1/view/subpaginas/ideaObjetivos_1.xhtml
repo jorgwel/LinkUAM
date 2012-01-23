@@ -1,0 +1,70 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>Link</title>
+
+
+        <p:resources/>
+        </head>
+        <body>
+
+
+        <h:form id="forma">
+
+                        <p:outputPanel id="cosas2">
+                <f:facet name="header">
+                    Cosas por tener
+                </f:facet>
+             </p:outputPanel>
+
+            <p:outputPanel id="cosas">
+                <f:facet name="header">
+                    Cosas por tener
+                </f:facet>
+                <p:dataTable value="#{collector.listaItems}" var="_item" id="cosasCapturadas" style="width: 100% !important;" emptyMessage="Cosas capturadas">
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Cadena" />
+                        </f:facet>
+                        <h:outputText value="#{_item.cadena}" />
+                    </p:column>
+
+                    <p:column id="colEliminar">
+                        <f:facet name="header">
+                            <h:outputText value="Eliminar cosa" />
+                        </f:facet>
+                        <p:commandLink value="#{_item.numero}" styleClass="button orange bigrounded" style="padding: 5px"  action="#{collector.eliminarItem(_item)}" update="forma:cosasCapturadas">
+<!--                            fsetPropertyActionListener value="{_item}"
+                                         target="{collector.itemEliminar}" />-->
+                            <s:conversationId/>
+                        </p:commandLink>
+                    </p:column>
+
+                </p:dataTable>
+            </p:outputPanel>
+
+            <p:ajaxStatus>
+                <f:facet name="start">
+                    <h:graphicImage value="../design/ajaxloading.gif" />
+                </f:facet>
+
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>
+            </p:ajaxStatus>
+
+        </h:form>
+
+        </body>
+    </html>
+
+</f:view>

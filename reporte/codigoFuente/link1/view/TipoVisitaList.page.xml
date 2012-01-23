@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="firstResult" value="#{tipoVisitaList.firstResult}"/>
+   <param name="sort" value="#{tipoVisitaList.orderColumn}"/>
+   <param name="dir" value="#{tipoVisitaList.orderDirection}"/>
+   <param name="logic" value="#{tipoVisitaList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="descripcionTipoVisita" value="#{tipoVisitaList.tipoVisita.descripcionTipoVisita}"/>
+   <param name="nombreTipoVisita" value="#{tipoVisitaList.tipoVisita.nombreTipoVisita}"/>
+
+</page>

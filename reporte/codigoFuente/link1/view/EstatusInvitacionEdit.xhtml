@@ -1,0 +1,153 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusInvitacion" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusInvitacionHome.managed ? 'Edit' : 'Add'} Estatus invitacion</f:facet>
+
+
+            <s:decorate id="idEstatusInvitacionField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus invitacion</ui:define>
+                <h:inputText id="idEstatusInvitacion"
+                       required="true"
+                       disabled="#{estatusInvitacionHome.managed}"
+                          value="#{estatusInvitacionHome.instance.idEstatusInvitacion}">
+                    <a:support event="onblur" reRender="idEstatusInvitacionField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="descripcionEstatusInvitacionField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion estatus invitacion</ui:define>
+                <h:inputText id="descripcionEstatusInvitacion"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusInvitacionHome.instance.descripcionEstatusInvitacion}">
+                    <a:support event="onblur" reRender="descripcionEstatusInvitacionField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreEstatusInvitacionField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus invitacion</ui:define>
+                <h:inputText id="nombreEstatusInvitacion"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusInvitacionHome.instance.nombreEstatusInvitacion}">
+                    <a:support event="onblur" reRender="nombreEstatusInvitacionField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusInvitacionHome.persist}"
+                       disabled="#{!estatusInvitacionHome.wired}"
+                       rendered="#{!estatusInvitacionHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusInvitacionHome.update}"
+                       rendered="#{estatusInvitacionHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusInvitacionHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusInvitacionHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusInvitacion.xhtml"
+                rendered="#{estatusInvitacionHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusInvitacionFrom ? 'EstatusInvitacionList' : estatusInvitacionFrom}.xhtml"
+                rendered="#{!estatusInvitacionHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Invitacions">
+        <h:form styleClass="association" id="invitacionsChildren">
+
+            <h:outputText value="There are no invitacions associated with this estatusInvitacion."
+                       rendered="#{empty estatusInvitacionHome.invitacions}"/>
+
+            <rich:dataTable value="#{estatusInvitacionHome.invitacions}"
+                           var="_invitacion"
+                      rendered="#{not empty estatusInvitacionHome.invitacions}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="invitacionsTable">
+                <rich:column sortBy="#{_invitacion.idInvitacion}">
+                    <f:facet name="header">Id invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.idInvitacion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_invitacion.correoUsuarioInvitacion}">
+                    <f:facet name="header">Correo usuario invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.correoUsuarioInvitacion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_invitacion.fechaRegistroInvitacion}">
+                    <f:facet name="header">Fecha registro invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.fechaRegistroInvitacion}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_invitacion.fechaUsuarioRegistradoInvitacion}">
+                    <f:facet name="header">Fecha usuario registrado invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.fechaUsuarioRegistradoInvitacion}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_invitacion.textoInvitacion}">
+                    <f:facet name="header">Texto invitacion</f:facet>
+                    <h:outputText value="#{_invitacion.textoInvitacion}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusInvitacionHome.managed}" id="invitacions">
+        <div class="actionButtons">
+            <s:button id="addinvitacion"
+                   value="Add invitacion"
+                    view="/InvitacionEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusInvitacionIdEstatusInvitacion"
+                         value="#{estatusInvitacionHome.instance.idEstatusInvitacion}"/>
+                 <f:param name="invitacionFrom" value="EstatusInvitacion"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

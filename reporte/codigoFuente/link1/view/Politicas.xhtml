@@ -1,0 +1,66 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    ARCHIVO QUE DEFINE LA PÁGINA PRINCIPAL
+-->
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoHomeTemplate.xhtml">
+
+    <!--
+        DEFINIENDO EL CONTENIDO DE UNA PÁGINA
+    -->
+    <ui:define name="body">
+        <p:layoutUnit
+            id="center"
+            position="center"
+            style="text-align:center;"
+            scrollable="true"
+            >
+            <!-- Growl para mensajes -->
+            <p:growl id="msg" life="2500"/>
+            <p:panel
+                style=
+                "border: 2px outset;padding: 0px;
+                margin: 7px;margin-bottom: 0px"
+                >
+                <f:facet name="header">
+                    <h:outputText
+                        value="#{'hi'}"
+                        style="visibility: hidden"/>
+                </f:facet>
+
+                <h1 >Políticas de LinkUAM</h1>
+
+                <p:graphicImage value="/img/uam_logo.png"/>
+
+                <h2 style="text-align: left">No publicar información personal</h2>
+                <p style="text-align: left;font-size: 11pt">
+                    LinkUAM tiene como misión comunicar a las personas para que
+                    puedan concretar sus ideas. Principalmente está dirigido a
+                    universidades, ya que pensamos que es ahí donde existen las
+                    mayores ganas y compromiso.
+                </p>
+
+                <h2 style="text-align: left">Visión</h2>
+                <p style="text-align: left;font-size: 11pt">
+                    Lograr que las ideas dentro de las universidades sean concretadas
+                    de una manera mucho más sencilla, logrando así que todo el talento
+                    mexicano que una vez fue desperdiciado y que ha migrado a otros
+                    lugares del mundo, sea aprovechado en su país de origen
+                </p>
+
+            </p:panel>
+
+        </p:layoutUnit>
+
+    </ui:define>
+
+
+</ui:composition>
+
+

@@ -1,0 +1,112 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Estatus seguidor Details</f:facet>
+
+        <s:decorate id="idEstatusSeguidor" template="layout/display.xhtml">
+            <ui:define name="label">Id estatus seguidor</ui:define>
+            <h:outputText value="#{estatusSeguidorHome.instance.idEstatusSeguidor}"/>
+        </s:decorate>
+
+        <s:decorate id="definicionEstatusSeguidor" template="layout/display.xhtml">
+            <ui:define name="label">Definicion estatus seguidor</ui:define>
+            <h:outputText value="#{estatusSeguidorHome.instance.definicionEstatusSeguidor}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreEstatusSeguidor" template="layout/display.xhtml">
+            <ui:define name="label">Nombre estatus seguidor</ui:define>
+            <h:outputText value="#{estatusSeguidorHome.instance.nombreEstatusSeguidor}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EstatusSeguidorEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty estatusSeguidorFrom ? 'EstatusSeguidorList' : estatusSeguidorFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Seguidors</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="seguidorsChildren">
+
+        <h:outputText value="There are no seguidors associated with this estatusSeguidor."
+                   rendered="#{empty estatusSeguidorHome.seguidors}"/>
+
+        <rich:dataTable value="#{estatusSeguidorHome.seguidors}"
+                       var="_seguidor"
+                  rendered="#{not empty estatusSeguidorHome.seguidors}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="seguidorsTable">
+            <rich:column sortBy="#{_seguidor.id.ideaId}">
+                <f:facet name="header">Idea id</f:facet>
+                <h:outputText value="#{_seguidor.id.ideaId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_seguidor.id.usuarioId}">
+                <f:facet name="header">Usuario id</f:facet>
+                <h:outputText value="#{_seguidor.id.usuarioId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_seguidor.fechaFinSeguidor}">
+                <f:facet name="header">Fecha fin seguidor</f:facet>
+                <h:outputText value="#{_seguidor.fechaFinSeguidor}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_seguidor.fechaInicioSeguidor}">
+                <f:facet name="header">Fecha inicio seguidor</f:facet>
+                <h:outputText value="#{_seguidor.fechaInicioSeguidor}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectseguidor"
+                     value="Select"
+                      view="/Seguidor.xhtml">
+                    <f:param name="seguidorIdeaId"
+                            value="#{_seguidor.id.ideaId}"/>
+                    <f:param name="seguidorUsuarioId"
+                            value="#{_seguidor.id.usuarioId}"/>
+                    <f:param name="seguidorFrom" value="EstatusSeguidor"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add seguidor"
+                view="/SeguidorEdit.xhtml">
+            <f:param name="estatusSeguidorIdEstatusSeguidor"
+                    value="#{estatusSeguidorHome.instance.idEstatusSeguidor}"/>
+            <f:param name="seguidorFrom" value="EstatusSeguidor"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

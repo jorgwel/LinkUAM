@@ -1,0 +1,174 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="frase" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{fraseHome.managed ? 'Edit' : 'Add'} Frase</f:facet>
+
+
+            <s:decorate id="idFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Id frase</ui:define>
+                <h:inputText id="idFrase"
+                       required="true"
+                       disabled="#{fraseHome.managed}"
+                          value="#{fraseHome.instance.idFrase}">
+                    <a:support event="onblur" reRender="idFraseField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="autorFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Autor frase</ui:define>
+                <h:inputText id="autorFrase"
+                       required="true"
+                           size="70"
+                      maxlength="70"
+                          value="#{fraseHome.instance.autorFrase}">
+                    <a:support event="onblur" reRender="autorFraseField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="calificacionFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Calificacion frase</ui:define>
+                <h:inputText id="calificacionFrase"
+                       required="true"
+                          value="#{fraseHome.instance.calificacionFrase}">
+                    <a:support event="onblur" reRender="calificacionFraseField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="ocupacionAutorFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Ocupacion autor frase</ui:define>
+                <h:inputText id="ocupacionAutorFrase"
+                           size="100"
+                      maxlength="100"
+                          value="#{fraseHome.instance.ocupacionAutorFrase}">
+                    <a:support event="onblur" reRender="ocupacionAutorFraseField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="textoFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Texto frase</ui:define>
+                <h:inputTextarea id="textoFrase"
+                               cols="80"
+                               rows="3"
+                           required="true"
+                              value="#{fraseHome.instance.textoFrase}"/>
+            </s:decorate>
+
+
+            <s:decorate id="votosNegativosFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Votos negativos frase</ui:define>
+                <h:inputText id="votosNegativosFrase"
+                       required="true"
+                          value="#{fraseHome.instance.votosNegativosFrase}">
+                    <a:support event="onblur" reRender="votosNegativosFraseField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="votosPositivosFraseField" template="layout/edit.xhtml">
+                <ui:define name="label">Votos positivos frase</ui:define>
+                <h:inputText id="votosPositivosFrase"
+                       required="true"
+                          value="#{fraseHome.instance.votosPositivosFrase}">
+                    <a:support event="onblur" reRender="votosPositivosFraseField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{fraseHome.persist}"
+                       disabled="#{!fraseHome.wired}"
+                       rendered="#{!fraseHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{fraseHome.update}"
+                       rendered="#{fraseHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{fraseHome.remove}"
+                      immediate="true"
+                       rendered="#{fraseHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Frase.xhtml"
+                rendered="#{fraseHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty fraseFrom ? 'FraseList' : fraseFrom}.xhtml"
+                rendered="#{!fraseHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Estatus frase *" labelClass="required">
+    <div class="association" id="estatusFraseParent">
+
+        <h:outputText value="There is no estatusFrase associated with this frase."
+                   rendered="#{fraseHome.instance.estatusFrase == null}"/>
+
+        <rich:dataTable var="_estatusFrase"
+                   value="#{fraseHome.instance.estatusFrase}"
+                rendered="#{fraseHome.instance.estatusFrase != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="estatusFraseTable">
+            <h:column>
+                <f:facet name="header">Id estatus frase</f:facet>
+                <h:outputText value="#{_estatusFrase.idEstatusFrase}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion estatus frase</f:facet>
+                <h:outputText value="#{_estatusFrase.descripcionEstatusFrase}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre estatus frase</f:facet>
+                <h:outputText value="#{_estatusFrase.nombreEstatusFrase}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">            
+	    <s:button id="#{fraseHome.instance.estatusFrase != null ? 'changeParentestatusFrase' : 'selectParentestatusFrase'}" value="#{fraseHome.instance.estatusFrase != null ? 'Change' : 'Select'} estatusFrase"
+                       view="/EstatusFraseList.xhtml">
+                <f:param name="from" value="FraseEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

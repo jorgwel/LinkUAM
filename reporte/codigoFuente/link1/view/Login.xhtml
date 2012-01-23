@@ -1,0 +1,157 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoLogin.xhtml">
+
+
+    <ui:define name="body">
+
+        <!-- Growl para mensajes -->
+        <p:growl id="msg" life="6000"/>
+
+        <s:div style="position: absolute;right: 400px;top: 50px">
+            <p:panel style="background: transparent;width: 600px;height: 350px;border: 0pt !important">
+<!--                <h1>Aquí va algún texto.</h1>-->
+<!--                <p style="font-size: 10pt">As a contractor, I have now appeared at no less than six different companies beaming with pride that
+                    they have "unit testing"! And, combined with that great pride is concern that this "unit testing" is
+                    turning out to be a hassle. "Other people talk about how great unit testing is, but this is really
+                    becoming painful. The tests take 45 minutes to run, and for every little change to the code, we break
+                    about seven tests!"
+                </p>-->
+<!--                <p style="font-size: 10pt">
+                    What these folks have is a massive pile of functional tests. They fell into the popular trap of thinking
+                    that because they run the tests with JUnit, they must be unit tests. 90% of their problems could have
+                    been resolved with just a wee bit of vocabulary.
+                    
+                </p>-->
+                <hr/>
+                <h:outputText
+                    style=
+                    "font-size: 30pt;
+                    text-shadow: 7px 9px 9px #AAAAAA;
+                    
+                    color: #454545;
+                    font-style: oblique"
+                    value="&quot;#{fraseAleatoria.textoFrase}&quot;"/>
+                <br/>
+                <s:div style="text-align: right !important;margin-top: 11px">
+                    <h:outputText
+                        style=
+                        "font-size: 20pt;
+                        color: #6B6B6B;
+                        font-weight: bold;"
+                        value="#{fraseAleatoria.autorFrase}"
+                        rendered="#{fraseAleatoria.autorFrase!='null' and fraseAleatoria.autorFrase!=null}"
+                        />,
+                    <br/>
+                    <h:outputText
+                        style=
+                        "font-size: 19pt;
+                        color: #6B6B6B;"
+                        value="#{fraseAleatoria.ocupacionAutorFrase}"
+                        rendered="#{fraseAleatoria.ocupacionAutorFrase!='null' and fraseAleatoria.ocupacionAutorFrase!=null}"
+                        />
+                </s:div>
+                
+                
+                
+                <hr/>
+<!--                h:outputText value=" &#34; " -->
+                
+
+
+
+
+            </p:panel>
+        </s:div>
+
+        <p:panel
+            style=
+            "width: 250px !important;
+            height: 450px !important;
+            text-align: center !important;"
+            >
+            <f:facet name="header">
+                <h:outputText value="#{messages['login.iniciarsesion']}" style="font-size: 13pt;font-weight: bold"/>
+            </f:facet>
+            <h:form id="loginForm" style="margin-left: 23px">
+                <p:focus for="username" />
+
+                <f:facet name="header">#{messages['login.login']}</f:facet>
+
+
+                <h:panelGrid columns="1" rowClasses="prop" columnClasses="name,value" style="text-align: left !important">
+                    <h:outputLabel for="username" >#{messages['login.nombreusuario']}</h:outputLabel>
+                    <h:inputText id="username"
+                                 value="#{credentials.username}"
+                                 />
+                    <h:outputLabel for="password" >#{messages['login.contrasena']}</h:outputLabel>
+                    <h:inputSecret id="password"
+                                   value="#{credentials.password}"
+                                   />
+
+                    <h:outputText value=""/>
+                    <h:commandButton
+                        id="submit"
+                        value="#{messages['login.login']}"
+                        style=
+                        "text-align: center !important;
+                        width: 155px !important;
+                        padding: 2px;font-size: 11pt;
+                        padding-top: 5px;
+                        padding-bottom: 5px;"
+                        action="#{identity.login}"
+                        styleClass="button orange bigrounded"
+                        type="submit"
+                        />
+
+
+                    <h:outputText value=""/>
+                    <h:panelGrid style="text-align: center !important; margin-top: 7px" columns="2">
+                        <s:link
+                            value="#{messages['login.registrate']}"
+                            style=
+                            "text-align: right !important;
+                            padding: 2px;font-size: 11pt"
+                            view="/UsuarioCrear.seam"
+                            propagation="none"
+                            />
+                        <s:link
+                            value="#{messages['login.olvidastepassword']}"
+                            style=
+                            "text-align: right !important;
+                            padding: 2px;font-size: 11pt"
+                            view="/RecuperarPassword.seam"
+                            propagation="none"
+                            />
+
+                    </h:panelGrid>
+
+
+                </h:panelGrid>
+
+
+
+
+
+            </h:form>
+            <h:panelGrid style="text-align: center !important; margin-top: 170px">
+                <s:link value="#{messages['general.regresar']}"
+                        styleClass="ui-button black center"
+                        view="/Home.seam"
+                        style=
+                        "color: white;
+                        width: 150px !important;"
+                        />
+            </h:panelGrid>
+        </p:panel>
+
+    </ui:define>
+
+
+</ui:composition>

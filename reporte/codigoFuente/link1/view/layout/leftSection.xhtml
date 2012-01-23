@@ -1,0 +1,86 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:s="http://jboss.com/products/seam/taglib"
+        style="text-align: left !important">
+
+    <!--        <s:link
+                value="{messages['home.emprendeunaidea']}"
+                styleClass="button yellow buttonbold textbig"
+                style=
+                "text-align: left !important;
+                 padding: 7px !important;
+                 color: black;
+                 margin-bottom: 13px;
+                 margin-top: 7px"
+                view="/IdeaCrear.seam" propagation="none"
+                >
+                <f:param name="cameFrom" value="/Home.seam"/>
+            </s:link>-->
+
+    <p:panel
+        
+        
+        style="text-align: left !important;border: 0;"
+        >
+        <f:facet name="header">
+            <h:outputText value="#{messages['home.titulomenu.institucion']}" style="font-style: normal;font-size: 11pt !important;letter-spacing: 1px !important"/>
+        </f:facet>
+        <p:menu
+            model="#{menusDinamicos.menuInstitucionesModel}"
+            style="text-align: left !important;font-size: 11pt !important;margin-left: -29px !important;"
+            />
+    </p:panel>
+
+    <p:panel 
+
+        collapsed="false"
+        
+        style="text-align: left;border: 0;"
+        >
+
+        <f:facet name="header">
+            <h:outputText value="#{messages['home.titulomenu.tipoidea']}" style="font-style: normal;font-size: 11pt !important;letter-spacing: 1px !important"/>
+        </f:facet>
+        <p:menu
+            model="#{menusDinamicos.menuPorTipoDeIdeaModel}"
+            style="text-align: left !important;font-size: 11pt !important"
+            />
+    </p:panel>
+
+
+    <p:panel
+
+        collapsed="false"
+
+        style="text-align: left;border: 0;"
+        >
+
+        <f:facet name="header">
+            <h:outputText value="#{messages['home.titulomenu.estatusayuda']}" style="font-style: normal;font-size: 11pt !important;letter-spacing: 1px !important"/>
+        </f:facet>
+        <p:menu
+            model="#{menusDinamicos.menuPorEstatusAyudaModel}"
+            style="text-align: left !important;font-size: 11pt !important"
+            />
+    </p:panel>
+
+
+    <p:panel
+
+        collapsed="false"
+        
+        style="text-align: left;border: 0;"
+        >
+        <f:facet name="header">
+            <h:outputText value="#{messages['home.titulomenu.mayorcalificacion']}" style="font-style: normal;font-size: 11pt !important;letter-spacing: 1px !important"/>
+        </f:facet>
+        <p:menu
+            model="#{menusDinamicos.menuPorCalificacionModel}"
+            style="text-align: left !important;font-size: 11pt !important"
+            />
+    </p:panel>
+
+</h:form>

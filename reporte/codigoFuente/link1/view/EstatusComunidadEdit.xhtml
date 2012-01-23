@@ -1,0 +1,145 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="estatusComunidad" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{estatusComunidadHome.managed ? 'Edit' : 'Add'} Estatus comunidad</f:facet>
+
+
+            <s:decorate id="idEstatusComunidadField" template="layout/edit.xhtml">
+                <ui:define name="label">Id estatus comunidad</ui:define>
+                <h:inputText id="idEstatusComunidad"
+                       required="true"
+                       disabled="#{estatusComunidadHome.managed}"
+                          value="#{estatusComunidadHome.instance.idEstatusComunidad}">
+                    <a:support event="onblur" reRender="idEstatusComunidadField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="definicionEstatusComunidadField" template="layout/edit.xhtml">
+                <ui:define name="label">Definicion estatus comunidad</ui:define>
+                <h:inputText id="definicionEstatusComunidad"
+                       required="true"
+                           size="100"
+                      maxlength="150"
+                          value="#{estatusComunidadHome.instance.definicionEstatusComunidad}">
+                    <a:support event="onblur" reRender="definicionEstatusComunidadField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nombreEstatusComunidadField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre estatus comunidad</ui:define>
+                <h:inputText id="nombreEstatusComunidad"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{estatusComunidadHome.instance.nombreEstatusComunidad}">
+                    <a:support event="onblur" reRender="nombreEstatusComunidadField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{estatusComunidadHome.persist}"
+                       disabled="#{!estatusComunidadHome.wired}"
+                       rendered="#{!estatusComunidadHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{estatusComunidadHome.update}"
+                       rendered="#{estatusComunidadHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{estatusComunidadHome.remove}"
+                      immediate="true"
+                       rendered="#{estatusComunidadHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EstatusComunidad.xhtml"
+                rendered="#{estatusComunidadHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty estatusComunidadFrom ? 'EstatusComunidadList' : estatusComunidadFrom}.xhtml"
+                rendered="#{!estatusComunidadHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Comunidads">
+        <h:form styleClass="association" id="comunidadsChildren">
+
+            <h:outputText value="There are no comunidads associated with this estatusComunidad."
+                       rendered="#{empty estatusComunidadHome.comunidads}"/>
+
+            <rich:dataTable value="#{estatusComunidadHome.comunidads}"
+                           var="_comunidad"
+                      rendered="#{not empty estatusComunidadHome.comunidads}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="comunidadsTable">
+                <rich:column sortBy="#{_comunidad.idComunidad}">
+                    <f:facet name="header">Id comunidad</f:facet>
+                    <h:outputText value="#{_comunidad.idComunidad}"/>
+                </rich:column>
+                <rich:column sortBy="#{_comunidad.descripcionComunidad}">
+                    <f:facet name="header">Descripcion comunidad</f:facet>
+                    <h:outputText value="#{_comunidad.descripcionComunidad}"/>
+                </rich:column>
+                <rich:column sortBy="#{_comunidad.nombreComunidad}">
+                    <f:facet name="header">Nombre comunidad</f:facet>
+                    <h:outputText value="#{_comunidad.nombreComunidad}"/>
+                </rich:column>
+                <rich:column sortBy="#{_comunidad.tituloComunidad}">
+                    <f:facet name="header">Titulo comunidad</f:facet>
+                    <h:outputText value="#{_comunidad.tituloComunidad}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{estatusComunidadHome.managed}" id="comunidads">
+        <div class="actionButtons">
+            <s:button id="addcomunidad"
+                   value="Add comunidad"
+                    view="/ComunidadEdit.xhtml"
+             propagation="none">
+                 <f:param name="estatusComunidadIdEstatusComunidad"
+                         value="#{estatusComunidadHome.instance.idEstatusComunidad}"/>
+                 <f:param name="comunidadFrom" value="EstatusComunidad"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

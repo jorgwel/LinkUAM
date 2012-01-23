@@ -1,0 +1,78 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition     xmlns="http://www.w3.org/1999/xhtml"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    xmlns:f="http://java.sun.com/jsf/core"
+                    xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:p="http://primefaces.prime.com.tr/ui"
+                    xmlns:s="http://jboss.com/products/seam/taglib"
+                    template="layout/mcocoLogin.xhtml">
+
+
+    <ui:define name="body">
+
+        <!-- Growl para mensajes -->
+        <p:growl id="msg" life="9000"/>
+
+        <s:div style="position: absolute;right: 80px;top: 50px">
+            <p:panel style="background: transparent;width: 900px;height: 500px;border: 0pt !important">
+
+
+                <h:outputText
+                    style=
+                    "font-size: 23pt;
+                    text-shadow: 7px 9px 9px #AAAAAA;
+                    margin-bottom: 21px !important;
+                    color: #454545;
+                    font-style: oblique"
+                    value="#{messages['general.error.titulo']}"/>
+                <br/>
+                <h:panelGrid columns="2">
+                    <s:div style="text-align: left !important;margin-top: 11px">
+                        <h:outputText
+                            style=
+                            "font-size: 18pt;
+                            color: #6B6B6B;
+                            font-weight: bold;"
+                            value="#{messages['general.error.contenido']}"
+                            />,
+                        <br/>
+                    </s:div>
+                    <p:graphicImage value="/img/criticascomentarios.png" width="500"/>
+                </h:panelGrid>
+                <s:div style="text-align: right !important;margin-top: 11px;margin-bottom: 11px !important">
+                    <h:outputText
+                        style=
+                        "font-size: 19pt;
+                        color: #6B6B6B;"
+                        value="#{messages['general.error.gracias']}"
+                        
+                        />
+                </s:div>
+
+                <br/>
+                <s:div style="text-align: right !important;margin-top: 11px">
+                    <s:link
+                        style=
+                        "font-size: 15pt;"
+                        value="#{messages['general.error.volverapaginaprincipal']}"
+                        view="/Home.xhtml"
+                        />
+                </s:div>
+                
+                
+<!--                h:outputText value=" &#34; " -->
+                
+
+
+
+
+            </p:panel>
+        </s:div>
+
+        
+
+    </ui:define>
+
+
+</ui:composition>

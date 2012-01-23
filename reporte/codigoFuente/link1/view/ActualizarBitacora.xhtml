@@ -1,0 +1,98 @@
+<f:view
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    contentType="text/html">
+    <html>
+        <head>
+            <meta
+                http-equiv="Content-Type"
+                content=
+                "text/html;
+                charset=UTF-8"
+                />
+
+            <title>
+                #{messages['panelcontrol.actualizarbitacora']}: #{ideaHome.instance.tituloIdea}
+            </title>
+
+        
+        <p:resources/>
+        <ui:include src="layout/codigoJavascript.xhtml"/>
+        <ui:include src="layout/codigoCss.xhtml"/>
+        </head>
+        <body style="width: 400px !important;">
+<p:growl id="msg" life="6000"/>
+        <h:form style=
+                "margin-top: 15px !important;
+                margin-bottom: 15px !important"
+                prependId="false"
+                >
+
+
+            <h:panelGrid
+                columns="2"
+                style="margin-bottom:10px"
+                >
+                <p:message for="inputTextoBitacora">
+                    <p:effect type="pulsate" event="load">
+                        <f:param name="mode" value="'show'" />
+                    </p:effect>
+                </p:message>
+
+                <s:span id="counterTextoBitacora"
+                        style="font-size: 17pt;
+                        color: gray"
+                        >
+                    #{seamSizeColumna.bitacora}
+                    #{' '}
+                    #{messages['idea.contador.caracteresmax']}
+                </s:span>
+
+                <h:outputText
+                    value="#{messages['panelcontrol.escribetextodebitacora']}"
+                    styleClass="textodialogo"
+                    />
+                <p:outputPanel id="outputTextAreaBitacora">
+                    <h:inputTextarea
+                        required="true"
+                        rows="5"
+                        value="#{bitacoraHome.instance.descripcionBitacora}"
+                        id="inputTextoBitacora"
+                        onkeypress=
+                        "javascript:actualizarContador(this,'counterTextoBitacora')"
+                        requiredMessage="#{messages['panelcontrol.actualizarbitacora.descripcionrequired']}"
+                        >
+                        <s:validate/>
+                    </h:inputTextarea>
+                </p:outputPanel>
+
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+                <p:commandButton
+                    value="#{messages['panelcontrol.actualizarbitacora']}"
+                    action="#{bitacoraHome.actualizar(ideaHome.ideaIdIdea)}"                    
+                    styleClass=" ui-button botonnaranja"
+                    oncomplete="window.close();popupCenter('/#{valoresGlobales.nombreDeAplicacion}/ActualizarBitacoraConfirmacion.seam',430, 300);"
+                    update="msg"
+                    />
+                <p:commandButton
+                    id="botonCerrarBitacora"
+                    value="#{messages['idea.boton.cerrar']}"
+                    onclick=
+                    "window.close();"
+                    styleClass=" ui-button botonnaranja"
+                    />
+
+            </h:panelGrid>
+
+        </h:form>
+        
+        
+        </body>
+    </html>
+
+</f:view>
